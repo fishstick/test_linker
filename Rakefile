@@ -24,8 +24,6 @@ RSpec::Core::RakeTask.new
 task :test => :spec
 task :default => :spec
 
-
-require 'ore/specification'
 require 'jeweler'
 Jeweler::Tasks.new(Ore::Specification.new)
 
