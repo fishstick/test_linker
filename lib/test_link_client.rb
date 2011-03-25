@@ -67,11 +67,15 @@ class TestLinkClient
   # CAUTION: returns multiple values if test case is used more than once.
   #
   # @param [String] test_case_name Name to search across TL DB.
+  # @param [Hash] options
+  # @option options [String] test_project_name
+  # @option optoins [String] test_suite_name
   # @raise [TestLinkClient::Error] When test case name doesn't exist.
   # @return [Array<Hash>] List of all test cases in the DB matching
   # test_case_name and their associated info.
-  def test_case_id_by_name test_case_name
+  def test_case_id_by_name test_case_name, options={}
     args   = { "devKey" => @dev_key, "testcasename" => test_case_name }
+    args.merge! options
     result = @server.call("tl.getTestCaseIDByName", args)
 
     if result.first['code']
@@ -82,13 +86,25 @@ class TestLinkClient
   end
   alias_method :getTestCaseIDByName, :test_case_id_by_name
 
-  def last_execution_result(test_plan_id, test_case_id)
+  def last_execution_result(test_plan_id, test_case_id, build_id)
     args = { "devKey" => @dev_key, "testplanid" => test_plan_id,
-        "testcaseid" => test_case_id }
+        "testcaseid" => test_case_id, "buildid" => build_id }
 
     @server.call("tl.getLastExecutionResult", args)
   end
   alias_method :getLastExecutionResult, :last_execution_result
+
+  # @param [Fixnum] test_project_id
+  # @param [Fixnum] test_suite_id
+  # @param [Boolean] deep
+  # @param [String] details
+  # @return
+  def test_case_for_test_suite(test_project_id, test_suite_id, deep, details)
+    args = { "devKey" => @dev_key, "testprojectid" => test_project_id,
+      "testsuiteid" => test_suite_id, "deep" => deep, "details" => details }
+
+    @server.call("tl.getTestCaseForTestSuite", args)
+  end
 
   # Info about all projects.
   #
@@ -135,10 +151,19 @@ class TestLinkClient
   # Info about test cases within a test plan.
   #
   # @param [String] plan_id ID of the plan to get test cases for.
+  # @param [Hash] options
+  # @option options [Fixnum] testcaseid
+  # @option options [Fixnum] buildid
+  # @option options [Fixnum] keywordid
+  # @option options [String] executed
+  # @option options [String] assignedto
+  # @option options [String] executestatus
+  # @option options [String] executiontype
   # @return [Hash] List of all test cases in the plan and their associated
   # info.
-  def test_cases_for_test_plan plan_id
+  def test_cases_for_test_plan(plan_id, options={})
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
+    args.merge! options
 
     @server.call("tl.getTestCasesForTestPlan", args)
   end
