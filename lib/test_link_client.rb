@@ -1,12 +1,14 @@
 require 'xmlrpc/client'
-require_relative 'test_link_client/version'
-require_relative 'test_link_client/error'
-
+require 'test_link_client/version'
+require 'test_link_client/error'
+require 'test_link_client/helpers'
 
 class TestLinkClient
+  include TestLinkClient::Helpers
 
   DEFAULT_TIMEOUT = 30
   DEFAULT_API_PATH = "/lib/api/xmlrpc.php"
+  DEFAULT_API_VERSION = "1.0b5"
 
   # @param [String] server_url URL to access TestLink API
   # @param [String] dev_key User key to access TestLink API
@@ -79,6 +81,14 @@ class TestLinkClient
     result
   end
   alias_method :getTestCaseIDByName, :test_case_id_by_name
+
+  def last_execution_result(test_plan_id, test_case_id)
+    args = { "devKey" => @dev_key, "testplanid" => test_plan_id,
+        "testcaseid" => test_case_id }
+
+    @server.call("tl.getLastExecutionResult", args)
+  end
+  alias_method :getLastExecutionResult, :last_execution_result
 
   # Info about all projects.
   #
