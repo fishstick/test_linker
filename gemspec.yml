@@ -2,7 +2,7 @@ name: test_link_client
 summary: "An interface to the TestLink XMLRPC API"
 description: "An interface to the TestLink XMLRPC API"
 license: MIT
-authors: sloveless
+authors: sloveless, Randy Stoller, Sujin Philip, Vikram Raina
 homepage: http://rubygems.org/gems/test_link_client
 has_yard: true
 
