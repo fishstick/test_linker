@@ -1,0 +1,26 @@
+= test_link_client
+
+* {Homepage}[http://rubygems.org/gems/test_link_client]
+* {Documentation}[http://rubydoc.info/gems/test_link_client/frames]
+
+== Description
+
+TODO: Description
+
+== Features
+
+== Examples
+
+  require 'test_link_client'
+
+== Requirements
+
+== Install
+
+  $ gem install test_link_client
+
+== Copyright
+
+Copyright (c) 2011 sloveless
+
+See LICENSE.txt for details.
