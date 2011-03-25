@@ -2,24 +2,17 @@ require 'xmlrpc/client'
 require_relative 'test_link_client/version'
 require_relative 'test_link_client/error'
 
-# General notes:
-# TestLinkAPI docs:
-# http://testlink.org/api/phpdoc_generated/TestlinkAPI/TestlinkXMLRPCServer.html
-#
-# Getting it all running:
-# 1. Need to enable automation on the testlink config file:
-# config.inc.php => $tlCfg->api->enabled = TRUE;
-#
-# 2. The user that needs to run the automated tests needs to generate a API key
-# that will be used in creating the connection.  This is accomplished by logging
-# in to testlink and going to "Personal -> API Key -> Generate a new key".
+
 class TestLinkClient
+
+  DEFAULT_TIMEOUT = 30
+  DEFAULT_API_PATH = "/lib/api/xmlrpc.php"
 
   # @param [String] server_url URL to access TestLink API
   # @param [String] dev_key User key to access TestLink API
   def initialize(server_url, dev_key, options={})
-    api_path = options[:api_path] || "/lib/api/xmlrpc.php"
-    timeout = options[:timeout] || 30
+    api_path = options[:api_path] || DEFAULT_API_PATH
+    timeout = options[:timeout] || DEFAULT_TIMEOUT
     server_url = server_url + api_path
     @server  = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
     @dev_key = dev_key #'90b7941411928ae0a84d19f365a01a63'
