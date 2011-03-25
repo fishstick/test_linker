@@ -21,11 +21,10 @@ http://testlink.org/api/phpdoc_generated/TestlinkAPI/TestlinkXMLRPCServer.html
 
 Getting it all running:
 1. Need to enable automation on the testlink config file:
-config.inc.php => $tlCfg->api->enabled = TRUE;
-
+    config.inc.php => $tlCfg->api->enabled = TRUE;
 2. The user that needs to run the automated tests needs to generate a API key
-that will be used in creating the connection.  This is accomplished by logging
-in to testlink and going to "Personal -> API Key -> Generate a new key".
+  that will be used in creating the connection.  This is accomplished by logging
+  in to testlink and going to "Personal -> API Key -> Generate a new key".
 
 == Install
 
