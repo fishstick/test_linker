@@ -26,14 +26,18 @@ class TestLinkClient
   # @param [String] test_case_id ID of the test case to post results to.
   # @param [String] test_plan_id ID of the test plan to post results to.
   # @param [String] status 'p', 'f', 's', or 'b' for Pass/Fail/Skip/Block
-  # @param [String] build_id ID of the build to post results to.
+  # @param [Hash] options
+  # @option options [Fixnum] buildid ID of the build to post results to.
+  # @option options [Fixnum] bugid ID of the bug to link results to.
+  # @option options [Boolean] guess ?
+  # @option options [String] notes ?
   # @return [Hash] "status" of posting, "id" of the execution, "message"
   # giving success or failure info.
   # @raise [TestLinkClient::Error] If result fails to be posted for any reason.
-  def report_test_case_result(test_case_id, test_plan_id, status, build_id=nil)
+  def report_test_case_result(test_case_id, test_plan_id, status, options={})
     args = { "devKey" => @dev_key, "testcaseid" => test_case_id,
         "testplanid" => test_plan_id, "status" => status, "guess" => true }
-    args['build_id'] = build_id if build_id
+    args.merge! options
     result = @server.call("tl.reportTCResult", args).first
 
     unless result['message'] == 'Success!'
@@ -44,6 +48,16 @@ class TestLinkClient
   end
   alias_method :reportTCResult, :report_test_case_result
 
+  # @param [String] project_name
+  # TODO: verify that this really takes a Fixnum, not a String.
+  # @param [Fixnum] test_case_prefix
+  # @param [String] notes
+  def create_test_project(project_name, test_case_prefix, notes)
+    args = { "devKey" => @dev_key, "testprojectname" => project_name,
+      "testcaseprefix" => test_case_prefix, "notes" => notes }
+
+    @server.call("tl.createTestProject", args)
+  end
   # Basic connectivity test.
   #
   # @return [String] "Hello!"
@@ -93,6 +107,22 @@ class TestLinkClient
     @server.call("tl.getLastExecutionResult", args)
   end
   alias_method :getLastExecutionResult, :last_execution_result
+
+  # TODO: Figure out how to call this.
+  def test_case_attachments(test_plan_id, test_case_id, build_id)
+    args = { "devKey" => @dev_key, "testplanid" => test_plan_id,
+        "testcaseid" => test_case_id, "buildid" => build_id }
+
+    @server.call("tl.getTestCaseAttachments", args)
+  end
+
+  # TODO: Figure out how to call this.
+  def test_case_custom_field_design_value(test_plan_id, test_case_id, build_id)
+    args = { "devKey" => @dev_key, "testplanid" => test_plan_id,
+        "testcaseid" => test_case_id, "buildid" => build_id }
+
+    @server.call("tl.getTestCaseCustomFieldDesignValue", args)
+  end
 
   # @param [Fixnum] test_project_id
   # @param [Fixnum] test_suite_id
@@ -224,31 +254,34 @@ class TestLinkClient
   # @param [String] build_name
   # @param [String] build_notes
   # @return
-  def create_build plan_id, build_name, build_notes=''
+  def create_build(plan_id, build_name, build_notes='')
     args = { "devKey" => @dev_key, "testplanid" => plan_id,
        "buildname" => build_name, "buildnotes" => build_notes }
 
     @server.call("tl.createBuild", args)
   end
 
-  def create_test_plan(project_name, plan_name)
+  def create_test_plan(project_name, plan_name, build_notes)
     args = { 'devKey' => @dev_key, 'testplanname' => plan_name,
-        'testprojectname' => project_name }
+        'testprojectname' => project_name, 'buildnotes' => build_notes }
 
     @server.call('tl.createTestPlan', args)
   end
 
   # @param [String] project_id
   # @param [String] suite_name
-  # @param [String] parent_id
   # @param [String] details
+  # @param [Hash] options
+  # @option options [String] parentid
+  # @option options [Fixnum] order
+  # @option options [Boolean] checkduplicatedname
   # @return [Array<Hash>] Info about results of test suite creation.
-  def create_test_suite(project_id, suite_name, parent_id=nil, details='')
+  def create_test_suite(project_id, suite_name, details='', options={})
     args = { 'devKey' => @dev_key,
         'testprojectid' => project_id,
         'testsuitename' => suite_name,
         'details' => details }
-    args['parentid'] = parent_id if parent_id
+    args.merge! options
 
     @server.call('tl.createTestSuite', args)
   end
@@ -266,15 +299,21 @@ class TestLinkClient
   # TL create_test_case method:
   #
   # @param [String] login
-  # @param [String] project_id
-  # @param [String] suite_id
+  # @param [Fixnum] project_id
+  # @param [Fixnum] suite_id
   # @param [String] test_case_name
   # @param [String] test_case_summary
   # @param [String] test_case_steps
-  # @param [String] test_case_execution_results
+  # @param [String] test_case_expected_results
+  # @param [Hash] options
+  # @option options [Fixnum] internalid
+  # @option options [Fixnum] order
+  # @option options [Boolean] checkduplicatedname
+  # @option options [String] actiononduplicatedname
+  # @option options [String] executiontype
   # @return
   def create_test_case(login, project_id, suite_id, test_case_name, test_case_summary,
-      test_case_steps, test_case_execution_results)
+      test_case_steps, test_case_expected_results)
     args = { "devKey" => @dev_key,
         "authorlogin" => login,
         "testprojectid" => project_id,
@@ -282,7 +321,7 @@ class TestLinkClient
         "testcasename" => test_case_name,
         "summary" => test_case_summary,
         "steps" => test_case_steps,
-        "expectedresults" => test_case_execution_results }
+        "expectedresults" => test_case_expected_results }
 
     @server.call("tl.createTestCase", args)
   end
@@ -294,10 +333,15 @@ class TestLinkClient
   # @param [String] plan_id
   # @param [String] test_case_id
   # @param [String] test_case_version
+  # @param [Hash] options Optional parameters for the method.
+  # @option options [String] urgency
+  # @option options [Fixnum] execution_order
   # @return
-  def add_test_case_to_test_plan(project_id, plan_id, test_case_id, test_case_version)
+  def add_test_case_to_test_plan(project_id, plan_id, test_case_id, test_case_version,
+    options={})
     args = { "devKey" => @dev_key, "testprojectid" => project_id, "testplanid" => plan_id,
         "testcaseid" => test_case_id, "version" => test_case_version }
+    args.merge! options
 
     @server.call("tl.addTestCaseToTestPlan", args)
   end
