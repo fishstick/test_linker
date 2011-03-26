@@ -59,6 +59,7 @@ class TestLinkClient
 
     @server.call("tl.getProjectTestPlans", args)
   end
+  alias_method :getProjectTestPlans, :project_test_plans
 
   # Info about a test project with a given name.
   #
@@ -69,6 +70,7 @@ class TestLinkClient
 
     @server.call('tl.getTestProjectByName', args)
   end
+  alias_method :getTestProjectByName, :test_project_by_name
 
   # Info about a test plan with a given name.
   #
@@ -80,6 +82,7 @@ class TestLinkClient
 
     @server.call('tl.getTestPlanByName', args)
   end
+  alias_method :getTestPlanByName, :test_plan_by_name
 
   # TL test_suites_for_test_plan method:
   #
@@ -90,6 +93,7 @@ class TestLinkClient
 
     @server.call("tl.getTestSuitesForTestPlan", args)
   end
+  alias_method :getTestSuitesForTestPlan, :test_suites_for_test_plan
 
   # TL test_suites_for_test_plan method:
   #
@@ -100,6 +104,7 @@ class TestLinkClient
 
     @server.call("tl.getTestSuitesForTestSuite", args)
   end
+  alias_method :getTestSuitesForTestSuite, :test_suites_for_test_suite
 
   # TL first_level_test_suites_for_test_project method:
   #
@@ -110,6 +115,8 @@ class TestLinkClient
 
     @server.call("tl.getFirstLevelTestSuitesForTestProject", args)
   end
+  alias_method :getFirstLevelTestSuitesForTestProject,
+      :first_level_test_suites_for_test_project
 
   # Info about test cases within a test plan.
   #
@@ -130,6 +137,7 @@ class TestLinkClient
 
     @server.call("tl.getTestCasesForTestPlan", args)
   end
+  alias_method :getTestCasesForTestPlan, :test_cases_for_test_plan
 
   # @param [Fixnum] suite_id ID of the suite to retrieve test cases for.
   # @param [Fixnum] project_id
@@ -142,6 +150,7 @@ class TestLinkClient
 
     @server.call("tl.getTestCasesForTestSuite", args)
   end
+  alias_method :getTestCasesForTestSuite, :test_cases_for_test_suite
 
   # @param [Fixnum] test_project_id
   # @param [Fixnum] test_suite_id
@@ -154,6 +163,7 @@ class TestLinkClient
 
     @server.call("tl.getTestCaseForTestSuite", args)
   end
+  alias_method :getTestCaseForTestSuite, :test_case_for_test_suite
 
   # TODO: Figure out how to call this.
   def test_case_attachments(test_plan_id, test_case_id, build_id)
@@ -162,6 +172,7 @@ class TestLinkClient
 
     @server.call("tl.getTestCaseAttachments", args)
   end
+  alias_method :getTestCaseAttachments, :test_case_attachments
 
   # TODO: Figure out how to call this.
   def test_case_custom_field_design_value(test_plan_id, test_case_id, build_id)
@@ -170,6 +181,7 @@ class TestLinkClient
 
     @server.call("tl.getTestCaseCustomFieldDesignValue", args)
   end
+  alias_method :getTestCaseCustomFieldDesignValue, :test_case_custom_field_design_value
 
   # Info about test case by name.
   # CAUTION: returns multiple values if test case is used more than once.
@@ -181,7 +193,7 @@ class TestLinkClient
   # @raise [TestLinkClient::Error] When test case name doesn't exist.
   # @return [Array<Hash>] List of all test cases in the DB matching
   # test_case_name and their associated info.
-  def test_case_id_by_name test_case_name, options={}
+  def test_case_id_by_name(test_case_name, options={})
     args   = { "devKey" => @dev_key, "testcasename" => test_case_name }
     args.merge! options
     result = @server.call("tl.getTestCaseIDByName", args)
@@ -215,6 +227,7 @@ class TestLinkClient
 
     @server.call("tl.getBuildsForTestPlan", args)
   end
+  alias_method :getBuildsForTestPlan, :builds_for_test_plan
 
   # TL latest_build_for_test_plan method:
   #
@@ -225,6 +238,7 @@ class TestLinkClient
 
     @server.call("tl.getLatestBuildForTestPlan", args)
   end
+  alias_method :getLatestBuildForTestPlan, :latest_build_for_test_plan
 
   # @param [String] project_name
   # TODO: verify that this really takes a Fixnum, not a String.
@@ -237,6 +251,7 @@ class TestLinkClient
 
     @server.call("tl.createTestProject", args)
   end
+  alias_method :createTestProject, :create_test_project
 
   # @param [String] project_name
   # @param [String] plan_name
@@ -248,6 +263,7 @@ class TestLinkClient
 
     @server.call('tl.createTestPlan', args)
   end
+  alias_method :createTestPlan, :create_test_plan
 
   # @param [String] project_id
   # @param [String] suite_name
@@ -266,6 +282,7 @@ class TestLinkClient
 
     @server.call('tl.createTestSuite', args)
   end
+  alias_method :createTestSuite, :create_test_suite
 
   # TL create_build method:  gets info about test cases within a test plan
   #
@@ -279,6 +296,7 @@ class TestLinkClient
 
     @server.call("tl.createBuild", args)
   end
+  alias_method :createBuild, :create_build
 
   # TL create_test_case method:
   #
@@ -297,7 +315,7 @@ class TestLinkClient
   # @option options [String] executiontype
   # @return
   def create_test_case(login, project_id, suite_id, test_case_name, test_case_summary,
-      test_case_steps, test_case_expected_results)
+      test_case_steps, test_case_expected_results, options={})
     args = { "devKey" => @dev_key,
         "authorlogin" => login,
         "testprojectid" => project_id,
@@ -306,9 +324,11 @@ class TestLinkClient
         "summary" => test_case_summary,
         "steps" => test_case_steps,
         "expectedresults" => test_case_expected_results }
+    args.merge! options
 
     @server.call("tl.createTestCase", args)
   end
+  alias_method :createTestCase, :create_test_case
 
   # TL add_test_case_to_test_plan method:
   # @todo Need to know how to get version number
@@ -329,7 +349,7 @@ class TestLinkClient
 
     @server.call("tl.addTestCaseToTestPlan", args)
   end
-
+  alias_method :addTestCaseToTestPlan, :add_test_case_to_test_plan
 
   # Sets result in TestLink by test case ID and test plan ID.
   # NOTE: will guess at last build, needs to be set to guarantee accuracy.
