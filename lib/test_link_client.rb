@@ -51,7 +51,7 @@ class TestLinkClient
 
   # Info about test plans within a project.
   #
-  # @param [String] project_id ID of the project to retrieve plans.
+  # @param [Fixnum] project_id ID of the project to retrieve plans.
   # @return [Array<Hash>] Array of all plans in a project and their associated
   # info.
   def project_test_plans project_id
@@ -65,6 +65,7 @@ class TestLinkClient
   #
   # @param [String] project_name Name of the project to search for.
   # @return [Array<Hash>] Info on matching project.
+=begin
   def test_project_by_name project_name
     args = { 'devKey' => @dev_key, 'testprojectname' => project_name }
 
@@ -80,9 +81,14 @@ class TestLinkClient
     args = { 'devKey' => @dev_key, 'testplanname' => plan_name,
         'testprojectname' => project_name }
 
-    @server.call('tl.getTestPlanByName', args)
+    result = @server.call('tl.getTestPlanByName', args)
+    puts result
+    if result.first['code']
+      raise TestLinkClient::Error, "#{result.first['code']}: #{result.first['message']}"
+    end
   end
   alias_method :getTestPlanByName, :test_plan_by_name
+=end
 
   # TL test_suites_for_test_plan method:
   #
@@ -99,12 +105,14 @@ class TestLinkClient
   #
   # @param [String] plan_id ID of the plan to get suites for.
   # @return [Array<Hash>] List of all suites in plan and their associated info.
+=begin
   def test_suites_for_test_suite suite_id
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id }
 
     @server.call("tl.getTestSuitesForTestSuite", args)
   end
   alias_method :getTestSuitesForTestSuite, :test_suites_for_test_suite
+=end
 
   # TL first_level_test_suites_for_test_project method:
   #
@@ -129,8 +137,9 @@ class TestLinkClient
   # @option options [String] assignedto
   # @option options [String] executestatus
   # @option options [String] executiontype
-  # @return [Hash] List of all test cases in the plan and their associated
-  # info.
+  # @return [Hash<Array>] List of all test cases in the plan and their associated
+  # info. The first element in the Array is the test case ID, the second element
+  # is the test case info.
   def test_cases_for_test_plan(plan_id, options={})
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
     args.merge! options
@@ -144,7 +153,7 @@ class TestLinkClient
   # @param [Boolean] deep
   # @param [String] details
   # @return [Array<Hash>] List of test cases in the given suite and their associated info.
-  def test_cases_for_test_suite(suite_id, project_id, deep, details)
+  def test_cases_for_test_suite(suite_id, project_id, deep=true, details="")
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id,
         "projectid" => project_id, "deep" => deep, "details" => details }
 
@@ -157,26 +166,34 @@ class TestLinkClient
   # @param [Boolean] deep
   # @param [String] details
   # @return
-  def test_case_for_test_suite(test_project_id, test_suite_id, deep, details)
-    args = { "devKey" => @dev_key, "testprojectid" => test_project_id,
-        "testsuiteid" => test_suite_id, "deep" => deep, "details" => details }
+=begin
+  def test_case_for_test_suite(suite_id, project_id, deep, details)
+    args = { "devKey" => @dev_key, "testprojectid" => project_id,
+        "testsuiteid" => suite_id, "deep" => deep, "details" => details }
 
     @server.call("tl.getTestCaseForTestSuite", args)
   end
   alias_method :getTestCaseForTestSuite, :test_case_for_test_suite
+=end
 
-  # TODO: Figure out how to call this.
-  def test_case_attachments(test_plan_id, test_case_id, build_id)
-    args = { "devKey" => @dev_key, "testplanid" => test_plan_id,
+  # @param [Fixnum] test_plan_id
+  # @param [Fixnum] test_case_id
+  # @param [Fixnum] build_id
+  # @return [String]
+  def test_case_attachments(plan_id, test_case_id, build_id)
+    args = { "devKey" => @dev_key, "testplanid" => plan_id,
         "testcaseid" => test_case_id, "buildid" => build_id }
 
     @server.call("tl.getTestCaseAttachments", args)
   end
   alias_method :getTestCaseAttachments, :test_case_attachments
 
-  # TODO: Figure out how to call this.
-  def test_case_custom_field_design_value(test_plan_id, test_case_id, build_id)
-    args = { "devKey" => @dev_key, "testplanid" => test_plan_id,
+  # @param [Fixnum] test_plan_id
+  # @param [Fixnum] test_case_id
+  # @param [Fixnum] build_id
+  # @return [Array<Hash>]
+  def test_case_custom_field_design_value(plan_id, test_case_id, build_id)
+    args = { "devKey" => @dev_key, "testplanid" => plan_id,
         "testcaseid" => test_case_id, "buildid" => build_id }
 
     @server.call("tl.getTestCaseCustomFieldDesignValue", args)
