@@ -11,7 +11,7 @@ module TestLinkClient::Helpers
   # @param [String] project_name Name of the project to search for.
   # @return [String] ID of project matching project_name.
   # @raise [Exception] When ID cannot be found for given project_name.
-  def test_project_id_for test_project_name
+  def test_project_id project_name
     project = test_project_by_name(project_name).first
     raise TestLinkClient::Error, project['message'] if project['code']
 
@@ -24,18 +24,22 @@ module TestLinkClient::Helpers
   # @param [String] plan_name Name of the plan to search for.
   # @return [String] ID of plan matching project_name and plan_name
   # @raise [RuntimeError] When unable to find matching project and plan names.
+=begin
   def test_plan_id(project_name, plan_name)
     test_plan = test_plan_by_name(project_name, plan_name).first
     raise test_plan['message'] if test_plan['code']
 
     test_plan['id']
   end
+=end
 
+  # @param [Fixnum] project_id
+  # @param [Regexp] regex The expression to match test plan names on.
   # @return [Array] An array of test plans that match the Regexp.
-  def find_test_plans test_project_id, regex
+  def find_test_plans(project_id, regex)
     list = []
 
-    test_plan_list = project_test_plans(test_project_id).first
+    test_plan_list = project_test_plans(project_id).first
 
     test_plan_list.each_value do |test_plan_info|
       if test_plan_info["name"] =~ regex
@@ -148,7 +152,7 @@ module TestLinkClient::Helpers
   # @param [String] project_name
   # @param [String] suite_name
   # @return [String] ID of the created or existing suite.
-  def create_suite project_name, suite_name, parent_id
+  def create_suite(project_name, suite_name, parent_id)
     project_id = test_project_id(project_name)
     response = test_suites_for_test_suite(parent_id)
 
