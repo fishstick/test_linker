@@ -171,22 +171,17 @@ module TestLinkClient::Helpers
   end
 
   # Creates test in test suite within a test plan within a project.
-  # @example
-  #   create_test_case("jromo", test_prj_id, test_suite_id, "newTCName2","TC summary here",
-  #               "1. do this 2.do that", "should pass on 2")
   #
-  # @param [String] login
-  # @param [String] project_name
-  # @param [String] plan_name
-  # @param [String] suite_name
   # @param [String] test_case_name
+  # @param [String] suite_name
+  # @param [String] project_name
+  # @param [String] login
   # @param [String] summary
   # @param [String] steps
   # @param [String] expected_results
   # @return [Array] array->  array[0]=test case id, array[1]=test case version
-  # @todo NEED TO CLEAN THIS UP AND ADD ERROR CHECKING
   # @todo do we need pln_name??  Need for suiteinfo, but is it really necessary?
-  def create_test_case(login, project_name, plan_name, suite_name, test_case_name,
+  def create_test_case_by_name(test_case_name, suite_name, project_name, login,
       summary, steps, expected_results)
 
     test_project_id = self.test_project_id(project_name)
@@ -195,7 +190,7 @@ module TestLinkClient::Helpers
     test_case_version = nil
 
     # @todo Need to update for having more than one of same test name inside testplan
-    result = self.create_test_case(login, test_project_id, test_suite_id, test_case_name,
+    result = create_test_case(login, test_project_id, test_suite_id, test_case_name,
       summary, steps, expected_results)
 
     if result.any?
@@ -226,7 +221,7 @@ module TestLinkClient::Helpers
   # @return [Boolean] true on success, false on fail
   # @todo NEED TO CLEAN THIS UP AND ADD ERROR CHECKING
   # @todo Need to update for having more than one of same test name inside testplan
-  def add_test_case_to_test_plan(project_name, plan_name, test_case_id,
+  def add_test_case_to_test_plan_by_name(project_name, plan_name, test_case_id,
       test_case_version)
     test_project_id = test_project_id(project_name)
     test_plan_id =  test_plan_id(project_name, plan_name)
