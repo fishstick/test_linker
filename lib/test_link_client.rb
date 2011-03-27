@@ -1,4 +1,6 @@
 require 'xmlrpc/client'
+require 'rubygems'
+require 'versionomy'
 require 'test_link_client/version'
 require 'test_link_client/error'
 require 'test_link_client/helpers'
@@ -15,10 +17,149 @@ class TestLinkClient
   def initialize(server_url, dev_key, options={})
     api_path = options[:api_path] || DEFAULT_API_PATH
     timeout = options[:timeout] || DEFAULT_TIMEOUT
+    @version = Versionomy.parse(options[:version] || DEFAULT_API_PATH)
     server_url = server_url + api_path
     @server  = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
     @dev_key = dev_key #'90b7941411928ae0a84d19f365a01a63'
   end
+
+  # @version >=1.0
+  # @param [Hash] options
+  # @option options [Fixnum] testcaseid
+  # @option options [Fixnum] testcaseexternalid
+  # @option options [Fixnum] version The test case version. Default is most recent.
+  # @return
+  def test_case(options)
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
+    args = { "devKey" => @dev_key }
+    args.merge! options
+
+    @server.call("tl.getTestCase", args)
+  end
+  alias_method :getTestCase, :test_case
+
+  # Gets full path from the given node till the top using nodes_hierarchy_table.
+  #
+  # @version >=1.0
+  # @param [Fixnum] node_id
+  # @return 
+  def full_path node_id
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
+    args = { "devKey" => @dev_key, "nodeID" => node_id }
+
+    @server.call("tl.getFullPath", args)
+  end
+  alias_method :getFullPath, :full_path
+
+  # Return a TestSuite by ID.
+  #
+  # @version >=1.0
+  # @param [Fixnum] suite_id
+  # @return
+  def test_suite_by_id suite_id
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
+    args = { "devKey" => @dev_key, "testsuiteid" => suite_id }
+
+    @server.call("tl.getTestSuiteByID", args)
+  end
+  alias_method :getTestSuiteByID, :test_suite_by_id
+
+  # Return a TestSuite by ID.
+  #
+  # @version >=1.0
+  # @param [Fixnum] execution_id
+  # @return [Hash] "status", "id", "message"
+  def delete_execution execution_id
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
+    args = { "devKey" => @dev_key, "executionid" => execution_id }
+
+    @server.call("tl.deleteExecution", args)
+  end
+  alias_method :deleteExecution, :delete_execution
+
+  # Check if Developer Key exist.
+  #
+  # @version >=1.0
+  # @param [Fixnum] dev_key
+  # @return [Hash] "true" if it exists, otherwise error structure.
+  def check_dev_key dev_key
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
+    args = { "devKey" => dev_key }
+
+    @server.call("tl.checkDevKey", args)
+  end
+  alias_method :checkDevKey, :check_dev_key
+
+  # Uploads an attachment for an execution.
+  #
+  # @version >=1.0
+  # @param [Fixnum] execution_id
+  # @param [String] file_name
+  # @param [String] mime_type
+  # @param [String] content The Base64 encoded content of the attachment.
+  # @param [Hash] options
+  # @option options [String] title
+  # @option options [String] description
+  # @return
+  def upload_execution_attachment(execution_id, file_name, mime_type, content,
+    options={})
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
+    args = { "devKey" => @dev_key, "executionid" => execution_id,
+      "filename" => file_name, "filetype" => mime_type, "content" => content }
+    args.merge! options
+
+    @server.call("tl.uploadExecutionAttachment", args)
+  end
+  alias_method :uploadExecutionAttachment, :upload_execution_attachment
+
+  # Uploads an attachment for a Requirement Specification. The attachment
+  # content must be Base64 encoded by the client before sending it.
+  #
+  # @version >=1.0
+  # @param [Fixnum] requirement_id
+  # @param [String] file_name
+  # @param [String] mime_type
+  # @param [String] content The Base64 encoded content of the attachment.
+  # @param [Hash] options
+  # @option options [String] title
+  # @option options [String] description
+  # @return
+  def upload_requirement_attachment(requirement_id, file_name, mime_type, content,
+      options={})
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
+    args = { "devKey" => @dev_key, "requirementid" => requirement_id,
+        "filename" => file_name, "filetype" => mime_type, "content" => content }
+    args.merge! options
+
+    @server.call("tl.uploadRequirementAttachment", args)
+  end
+  alias_method :uploadRequirementAttachment, :upload_requirement_attachment
+
+  # uploadTestProjectAttachment
+  # uploadTestSuiteAttachment
+  # uploadTestCaseAttachment
+  # uploadAttachment
 
   # Basic connectivity test.
   #
@@ -63,10 +204,14 @@ class TestLinkClient
 
   # Info about a test project with a given name.
   #
+  # @version >=1.0
   # @param [String] project_name Name of the project to search for.
   # @return [Array<Hash>] Info on matching project.
-=begin
   def test_project_by_name project_name
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
     args = { 'devKey' => @dev_key, 'testprojectname' => project_name }
 
     @server.call('tl.getTestProjectByName', args)
@@ -75,20 +220,24 @@ class TestLinkClient
 
   # Info about a test plan with a given name.
   #
+  # @version >=1.0
   # @param [String] plan_name Name of the plan to search for.
   # @return [Array<Hash>] Info on matching plan.
   def test_plan_by_name(project_name, plan_name)
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
     args = { 'devKey' => @dev_key, 'testplanname' => plan_name,
         'testprojectname' => project_name }
 
     result = @server.call('tl.getTestPlanByName', args)
-    puts result
+
     if result.first['code']
       raise TestLinkClient::Error, "#{result.first['code']}: #{result.first['message']}"
     end
   end
   alias_method :getTestPlanByName, :test_plan_by_name
-=end
 
   # TL test_suites_for_test_plan method:
   #
@@ -103,16 +252,19 @@ class TestLinkClient
 
   # TL test_suites_for_test_plan method:
   #
+  # @version >=1.0
   # @param [String] plan_id ID of the plan to get suites for.
   # @return [Array<Hash>] List of all suites in plan and their associated info.
-=begin
   def test_suites_for_test_suite suite_id
+    if @version < "1.0"
+      raise TestLinkClient::Error, "Method not supported in version #{@version}."
+    end
+
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id }
 
     @server.call("tl.getTestSuitesForTestSuite", args)
   end
   alias_method :getTestSuitesForTestSuite, :test_suites_for_test_suite
-=end
 
   # TL first_level_test_suites_for_test_project method:
   #
@@ -161,20 +313,20 @@ class TestLinkClient
   end
   alias_method :getTestCasesForTestSuite, :test_cases_for_test_suite
 
-  # @param [Fixnum] test_project_id
-  # @param [Fixnum] test_suite_id
-  # @param [Boolean] deep
-  # @param [String] details
-  # @return
-=begin
-  def test_case_for_test_suite(suite_id, project_id, deep, details)
-    args = { "devKey" => @dev_key, "testprojectid" => project_id,
-        "testsuiteid" => suite_id, "deep" => deep, "details" => details }
+  # Gets the summarized results grouped by platform.
+  #
+  # @version >=1.0
+  # @return [Hash] Contains "type" => platform, "total_tc" => X, "details =>
+  # Array of counts.
+  def totals_for_test_plan plan_id
+    if @version < 1.0
+      raise TestLinkClient::Error, "Method not supported for version #{@version}."
+    end
 
-    @server.call("tl.getTestCaseForTestSuite", args)
+    args = { "devKey" => @dev_key, "testplanid" => plan_id }
+
+    @server.call("tl.getTotalsForTestPlan", args)
   end
-  alias_method :getTestCaseForTestSuite, :test_case_for_test_suite
-=end
 
   # @param [Fixnum] test_plan_id
   # @param [Fixnum] test_case_id
@@ -257,31 +409,42 @@ class TestLinkClient
   end
   alias_method :getLatestBuildForTestPlan, :latest_build_for_test_plan
 
+  # @version >=1.0b5
   # @param [String] project_name
-  # TODO: verify that this really takes a Fixnum, not a String.
-  # @param [Fixnum] test_case_prefix
-  # @param [String] notes
+  # @param [String] test_case_prefix
+  # @param [Hash] options
+  # @option options [String] notes
+  # @option options [Hash] options ALL int treated as boolean: requirementsEnabled,testPriorityEnabled,automationEnabled,inventoryEnabled
+  # @option options [Fixnum] active
+  # @option options [Fixnum] public
   # @return
-  def create_test_project(project_name, test_case_prefix, notes)
+  def create_test_project(project_name, test_case_prefix, options={})
     args = { "devKey" => @dev_key, "testprojectname" => project_name,
         "testcaseprefix" => test_case_prefix, "notes" => notes }
+    args.merge! options
 
     @server.call("tl.createTestProject", args)
   end
   alias_method :createTestProject, :create_test_project
 
+  # @version >=1.0
   # @param [String] project_name
   # @param [String] plan_name
-  # @param [String] build_notes
+  # @param [Hash] options
+  # @option options [String] notes
+  # @option options [String] active
+  # @option options [String] public
   # @return
-  def create_test_plan(project_name, plan_name, build_notes)
+  def create_test_plan(project_name, plan_name, options={})
     args = { 'devKey' => @dev_key, 'testplanname' => plan_name,
         'testprojectname' => project_name, 'buildnotes' => build_notes }
+    args.merge! options
 
     @server.call('tl.createTestPlan', args)
   end
   alias_method :createTestPlan, :create_test_plan
 
+  # @version >=1.0b5
   # @param [String] project_id
   # @param [String] suite_name
   # @param [String] details
@@ -303,6 +466,7 @@ class TestLinkClient
 
   # TL create_build method:  gets info about test cases within a test plan
   #
+  # @version >=1.0b5
   # @param [String] plan_id
   # @param [String] build_name
   # @param [String] build_notes
@@ -317,6 +481,7 @@ class TestLinkClient
 
   # TL create_test_case method:
   #
+  # @version >=1.0b5
   # @param [String] login
   # @param [Fixnum] project_id
   # @param [Fixnum] suite_id
@@ -350,6 +515,7 @@ class TestLinkClient
   # TL add_test_case_to_test_plan method:
   # @todo Need to know how to get version number
   #
+  # @version >=1.0b5
   # @param [String] project_id
   # @param [String] plan_id
   # @param [String] test_case_id
@@ -370,7 +536,9 @@ class TestLinkClient
 
   # Sets result in TestLink by test case ID and test plan ID.
   # NOTE: will guess at last build, needs to be set to guarantee accuracy.
+  # NOTE: Renamed to setTestCaseExecutionResult in version 1.0.
   #
+  # @version <1.0
   # @param [String] test_case_id ID of the test case to post results to.
   # @param [String] test_plan_id ID of the test plan to post results to.
   # @param [String] status 'p', 'f', 's', or 'b' for Pass/Fail/Skip/Block
@@ -383,6 +551,12 @@ class TestLinkClient
   # giving success or failure info.
   # @raise [TestLinkClient::Error] If result fails to be posted for any reason.
   def report_test_case_result(test_case_id, test_plan_id, status, options={})
+    unless @version >= "1.0"
+      message = "Method not supported in version #{@version}. "
+      message << "Use #test_case_execution_result="
+      raise TestLinkClient::Error, message
+    end
+
     args = { "devKey" => @dev_key, "testcaseid" => test_case_id,
         "testplanid" => test_plan_id, "status" => status, "guess" => true }
     args.merge! options
@@ -395,4 +569,44 @@ class TestLinkClient
     result
   end
   alias_method :reportTCResult, :report_test_case_result
+
+  # Sets result in TestLink by test case ID and test plan ID.
+  # NOTE: will guess at last build, needs to be set to guarantee accuracy.
+  #
+  # @version >=1.0
+  # @param [String] test_case_id ID of the test case to post results to.
+  # @param [String] test_plan_id ID of the test plan to post results to.
+  # @param [String] status 'p', 'f', 's', or 'b' for Pass/Fail/Skip/Block
+  # @param [Hash] options
+  # @option options [Fixnum] buildid ID of the build to post results to.
+  # @option options [String] buildname Name of the build to post results to.
+  # @option options [Fixnum] bugid ID of the bug to link results to.
+  # @option options [Boolean] guess Defines whether to guess optinal params or require them.
+  # @option options [String] notes ?
+  # @option options [String] platformid (version 1.0)
+  # @option options [String] platformid (version 1.0)
+  # @option options [String] customfields (version 1.0)
+  # @option options [String] overwrite (version 1.0)
+  # @return [Hash] "status" of posting, "id" of the execution, "message"
+  # giving success or failure info.
+  # @raise [TestLinkClient::Error] If result fails to be posted for any reason.
+  def test_case_execution_result=(test_case_id, test_plan_id, status, options={})
+    if @version < "1.0"
+      message = "Method not supported in version #{@version}. "
+      message << "Use #report_test_case_result"
+      raise TestLinkClient::Error, message
+    end
+
+    args = { "devKey" => @dev_key, "testcaseid" => test_case_id,
+        "testplanid" => test_plan_id, "status" => status, "guess" => true }
+    args.merge! options
+    result = @server.call("tl.setTestCaseExecutionResult", args).first
+
+    unless result['message'] == 'Success!'
+      raise TestLinkClient::Error, "#{result['code']}: #{result['message']}"
+    end
+
+    result
+  end
+  alias_method :setTestCaseExecutionResult, :test_case_execution_result=
 end
