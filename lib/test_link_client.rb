@@ -8,16 +8,24 @@ require 'test_link_client/helpers'
 class TestLinkClient
   include TestLinkClient::Helpers
 
+  # Default value for timing out after not receiving an XMLRPC response from the server.
   DEFAULT_TIMEOUT = 30
+
+  # Path the the XMLRPC interface (via the xmlrpc.php file) on the server.
   DEFAULT_API_PATH = "/lib/api/xmlrpc.php"
-  DEFAULT_API_VERSION = "1.0b5"
 
   # @param [String] server_url URL to access TestLink API
   # @param [String] dev_key User key to access TestLink API
+  # @param [Hash] options
+  # @option options [String] api_path Alternate path to the xmlrpc.php file on
+  # the server.
+  # @option options [Fixnum] timeout Seconds to timeout after not receiving a
+  # response from the server.
+  # @option options [String] version Force a different API version.
   def initialize(server_url, dev_key, options={})
     api_path = options[:api_path] || DEFAULT_API_PATH
     timeout = options[:timeout] || DEFAULT_TIMEOUT
-    @version = Versionomy.parse(options[:version] || DEFAULT_API_PATH)
+    @version = Versionomy.parse(options[:version] || api_version)
     server_url = server_url + api_path
     @server  = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
     @dev_key = dev_key #'90b7941411928ae0a84d19f365a01a63'
@@ -656,19 +664,21 @@ class TestLinkClient
   # @param [String] test_case_steps
   # @param [String] test_case_expected_results
   # @param [Hash] options
-  # @option options [Fixnum] internalid
+  # @option options [String] preconditions
+  # @option options [String] execution
   # @option options [Fixnum] order
+  # @option options [Fixnum] internalid
   # @option options [Boolean] checkduplicatedname
   # @option options [String] actiononduplicatedname
   # @option options [String] executiontype
   # @return
-  def create_test_case(login, project_id, suite_id, test_case_name, test_case_summary,
+  def create_test_case(test_case_name, suite_id, project_id, login, test_case_summary,
       test_case_steps, test_case_expected_results, options={})
     args = { "devKey" => @dev_key,
-        "authorlogin" => login,
-        "testprojectid" => project_id,
-        "testsuiteid" => suite_id,
         "testcasename" => test_case_name,
+        "testsuiteid" => suite_id,
+        "testprojectid" => project_id,
+        "authorlogin" => login,
         "summary" => test_case_summary,
         "steps" => test_case_steps,
         "expectedresults" => test_case_expected_results }
@@ -678,8 +688,7 @@ class TestLinkClient
   end
   alias_method :createTestCase, :create_test_case
 
-  # TL add_test_case_to_test_plan method:
-  # @todo Need to know how to get version number
+  # Adds a test case version to a test plan.
   #
   # @param [String] project_id
   # @param [String] plan_id
@@ -687,7 +696,8 @@ class TestLinkClient
   # @param [String] test_case_version
   # @param [Hash] options Optional parameters for the method.
   # @option options [String] urgency
-  # @option options [Fixnum] execution_order
+  # @option options [Fixnum] executionorder
+  # @option options [Fixnum] platformid (1.0) Only if test plan has no platforms.
   # @return
   def add_test_case_to_test_plan(project_id, plan_id, test_case_id,
       test_case_version, options={})
