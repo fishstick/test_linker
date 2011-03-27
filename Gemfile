@@ -1,6 +1,7 @@
 source :rubygems
 
 gemspec
+gem 'versionomy', '~> 0.4.0'
 
 group :development do
   gem 'rake',     '~> 0.8.7'
