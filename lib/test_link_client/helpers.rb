@@ -110,7 +110,7 @@ module TestLinkClient::Helpers
   # @param [String] project_name
   # @param [String] plan_name
   # @param [String] suite_name
-  # @returns [String] SuiteID
+  # @return [String] SuiteID
   # @todo NEED TO CLEAN THIS UP AND ADD ERROR CHECKING
   # @todo Need to update for having more than one of same test name inside testplan
   def suite_info(project_name, plan_name, suite_name)
