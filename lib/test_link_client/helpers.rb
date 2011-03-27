@@ -218,9 +218,6 @@ module TestLinkClient::Helpers
   end
 
   # Creates test in test suite within a test plan within a project.
-  # @example
-  #   create_test_case("jromo", test_prj_id, test_suite_id, "newTCName2","TC summary here",
-  #               "1. do this 2.do that", "should pass on 2")
   #
   # @param [String] project_name
   # @param [String] plan_name
