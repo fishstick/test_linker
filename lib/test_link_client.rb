@@ -31,7 +31,9 @@ class TestLinkClient
     @dev_key = dev_key #'90b7941411928ae0a84d19f365a01a63'
   end
 
-  # @version 1.0
+  # Gets a test case by it's internal or external ID.
+  #
+  # @since TestLink API version 1.0
   # @param [Hash] options
   # @option options [Fixnum] testcaseid
   # @option options [Fixnum] testcaseexternalid
@@ -48,7 +50,7 @@ class TestLinkClient
 
   # Gets full path from the given node till the top using nodes_hierarchy_table.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] node_id
   # @return 
   def full_path node_id
@@ -59,9 +61,9 @@ class TestLinkClient
   end
   alias_method :getFullPath, :full_path
 
-  # Return a TestSuite by ID.
+  # Gets a test suite by the given ID.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] suite_id
   # @return
   def test_suite_by_id suite_id
@@ -72,7 +74,7 @@ class TestLinkClient
   end
   alias_method :getTestSuiteByID, :test_suite_by_id
 
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] execution_id
   # @return [Hash] "status", "id", "message"
   def delete_execution execution_id
@@ -83,7 +85,7 @@ class TestLinkClient
   end
   alias_method :deleteExecution, :delete_execution
 
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [String] user_name
   # @return [Boolean,Hash] true if user exists, otherwise an error structure.
   def does_user_exist user_name
@@ -94,9 +96,9 @@ class TestLinkClient
   end
   alias_method :doesUserExist, :does_user_exist
 
-  # Check if Developer Key exist.
+  # Checks if the given Developer Key exist.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] dev_key
   # @return [Hash] "true" if it exists, otherwise error structure.
   def check_dev_key dev_key
@@ -107,9 +109,9 @@ class TestLinkClient
   end
   alias_method :checkDevKey, :check_dev_key
 
-  # Uploads an attachment for an execution.
+  # Uploads an attachment for a test case execution.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] execution_id
   # @param [String] file_name
   # @param [String] mime_type
@@ -129,10 +131,10 @@ class TestLinkClient
   end
   alias_method :uploadExecutionAttachment, :upload_execution_attachment
 
-  # Uploads an attachment for a Requirement. The attachment
-  # content must be Base64 encoded by the client before sending it.
+  # Uploads an attachment for a Requirement. The attachment content must be
+  # Base64 encoded by the client before sending it.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] requirement_id
   # @param [String] file_name
   # @param [String] mime_type
@@ -141,8 +143,8 @@ class TestLinkClient
   # @option options [String] title
   # @option options [String] description
   # @return
-  def upload_requirement_attachment(requirement_id, file_name, mime_type, content,
-      options={})
+  def upload_requirement_attachment(requirement_id, file_name, mime_type,
+      content, options={})
     ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "requirementid" => requirement_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
@@ -155,7 +157,7 @@ class TestLinkClient
   # Uploads an attachment for a Requirement Specification. The attachment
   # content must be Base64 encoded by the client before sending it.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] requirement_id
   # @param [String] file_name
   # @param [String] mime_type
@@ -194,7 +196,7 @@ class TestLinkClient
   # Uploads an attachment for a Test Project. The attachment must be Base64
   # encoded by the client before sending it.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] test_project_id
   # @param [String] file_name
   # @param [String] mime_type
@@ -217,7 +219,7 @@ class TestLinkClient
   # Uploads an attachment for a Test Suite. The attachment must be Base64
   # encoded by the client before sending it.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] suite_id
   # @param [String] file_name
   # @param [String] mime_type
@@ -240,7 +242,7 @@ class TestLinkClient
   # Uploads an attachment for a Test Case. The attachment must be Base64
   # encoded by the client before sending it.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] test_case_id
   # @param [String] file_name
   # @param [String] mime_type
@@ -265,7 +267,7 @@ class TestLinkClient
   # key id in this table The attachment must be Base64 encoded by the client
   # before sending it.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] foreign_key_id
   # @param [String] foreign_key_table
   # @param [String] file_name
@@ -296,7 +298,7 @@ class TestLinkClient
   alias_method :sayHello, :say_hello
   alias_method :ping, :say_hello
 
-  # Sends a mess  age to the server to have it repeated back.
+  # Sends a message to the server to have it repeated back.
   #
   # @param [String] message The message to get the server to repeat back.
   # @return [String] The message sent to the server.
@@ -311,7 +313,7 @@ class TestLinkClient
     @server.call("tl.about", "")
   end
 
-  # Info about all projects.
+  # Gets a list of all projects.
   #
   # @return [Array<Hash>] List of all projects in TestLink and
   # their associated info.
@@ -319,7 +321,7 @@ class TestLinkClient
     @server.call("tl.getProjects", { "devKey" => @dev_key } )
   end
 
-  # Info about test plans within a project.
+  # Gets a list of test plans within a project.
   #
   # @param [Fixnum] project_id ID of the project to retrieve plans.
   # @return [Array<Hash>] Array of all plans in a project and their associated
@@ -333,7 +335,7 @@ class TestLinkClient
 
   # Info about a test project with a given name.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [String] project_name Name of the project to search for.
   # @return [Array<Hash>] Info on matching project.
   def test_project_by_name project_name
@@ -344,9 +346,9 @@ class TestLinkClient
   end
   alias_method :getTestProjectByName, :test_project_by_name
 
-  # Info about a test plan with a given name.
+  # Gets the test plan with the given name.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [String] plan_name Name of the plan to search for.
   # @param [String] project_name Name of the project the plan is in.
   # @return [Array<Hash>] Info on matching plan.
@@ -374,6 +376,11 @@ class TestLinkClient
   end
   alias_method :getTestSuitesForTestPlan, :test_suites_for_test_plan
 
+  # List test suites within a test plan alphabetically.
+  #
+  # @since API version 1.0
+  # @param [String] plan_id ID of the plan to get suites for.
+  # @return [Array<Hash>] List of all suites in plan and their associated info.
   def test_plan_platforms plan_id
     ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
@@ -383,7 +390,7 @@ class TestLinkClient
 
   # Gets a list of test suites that are direct children of the given test suite.
   #
-  # @version 1.0
+  # @since API version 1.0
   # @param [String] suite_id ID of the suite to get suites for.
   # @return [Array<Hash>] List of all suites in plan and their associated info.
   def test_suites_for_test_suite suite_id
@@ -448,7 +455,7 @@ class TestLinkClient
 
   # Gets the summarized results grouped by platform.
   #
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [Fixnum] plan_id
   # @return [Hash] Contains "type" => platform, "total_tc" => X, "details =>
   # Array of counts.
@@ -569,7 +576,7 @@ class TestLinkClient
   end
   alias_method :createTestProject, :create_test_project
 
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [String] plan_name
   # @param [String] project_name
   # @param [Hash] options
@@ -621,8 +628,6 @@ class TestLinkClient
   end
   alias_method :createBuild, :create_build
 
-  # Create a test case.
-  #
   # @param [String] login
   # @param [Fixnum] project_id
   # @param [Fixnum] suite_id
@@ -682,7 +687,7 @@ class TestLinkClient
   # NOTE: Renamed to setTestCaseExecutionResult in version 1.0.
   #
   # @see #test_case_execution_result=
-  # @version <1.0
+  # @version TestLink API version 1.0 Beta 5
   # @param [String] test_case_id ID of the test case to post results to.
   # @param [String] test_plan_id ID of the test plan to post results to.
   # @param [String] status 'p', 'f', 's', or 'b' for Pass/Fail/Skip/Block
@@ -722,7 +727,7 @@ class TestLinkClient
   # NOTE: will guess at last build, needs to be set to guarantee accuracy.
   #
   # @see #report_test_case_result
-  # @version 1.0
+  # @since TestLink API version 1.0
   # @param [String] test_case_id ID of the test case to post results to.
   # @param [String] test_plan_id ID of the test plan to post results to.
   # @param [String] status 'p', 'f', 's', or 'b' for Pass/Fail/Skip/Block
