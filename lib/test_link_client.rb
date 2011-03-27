@@ -38,10 +38,7 @@ class TestLinkClient
   # @option options [Fixnum] version The test case version. Default is most recent.
   # @return
   def test_case(options)
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key }
     args.merge! options
 
@@ -55,10 +52,7 @@ class TestLinkClient
   # @param [Fixnum] node_id
   # @return 
   def full_path node_id
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "nodeID" => node_id }
 
     @server.call("tl.getFullPath", args)
@@ -71,10 +65,7 @@ class TestLinkClient
   # @param [Fixnum] suite_id
   # @return
   def test_suite_by_id suite_id
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id }
 
     @server.call("tl.getTestSuiteByID", args)
@@ -85,10 +76,7 @@ class TestLinkClient
   # @param [Fixnum] execution_id
   # @return [Hash] "status", "id", "message"
   def delete_execution execution_id
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "executionid" => execution_id }
 
     @server.call("tl.deleteExecution", args)
@@ -99,10 +87,7 @@ class TestLinkClient
   # @param [String] user_name
   # @return [Boolean,Hash] true if user exists, otherwise an error structure.
   def does_user_exist user_name
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "user" => user_name }
 
     @server.call("tl.doesUserExist", args)
@@ -115,10 +100,7 @@ class TestLinkClient
   # @param [Fixnum] dev_key
   # @return [Hash] "true" if it exists, otherwise error structure.
   def check_dev_key dev_key
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => dev_key }
 
     @server.call("tl.checkDevKey", args)
@@ -138,10 +120,7 @@ class TestLinkClient
   # @return
   def upload_execution_attachment(execution_id, file_name, mime_type, content,
     options={})
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "executionid" => execution_id,
       "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
@@ -164,10 +143,7 @@ class TestLinkClient
   # @return
   def upload_requirement_attachment(requirement_id, file_name, mime_type, content,
       options={})
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "requirementid" => requirement_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
@@ -190,17 +166,13 @@ class TestLinkClient
   # @return
   def upload_requirement_specification_attachment(requirement_specification_id, file_name, mime_type, content,
       options={})
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "reqspecid" => requirement_specification_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
 
     @server.call("tl.uploadRequirementSpecificationAttachment", args)
   end
-
   alias_method :uploadRequirementSpecificationAttachment,
       :upload_requirement_specification_attachment
 
@@ -233,10 +205,7 @@ class TestLinkClient
   # @return
   def upload_test_project_attachment(project_id, file_name, mime_type, content,
       options={})
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testprojectid" => project_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
@@ -259,10 +228,7 @@ class TestLinkClient
   # @return
   def upload_test_suite_attachment(suite_id, file_name, mime_type, content,
       options={})
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
@@ -285,10 +251,7 @@ class TestLinkClient
   # @return
   def upload_test_case_attachment(test_case_id, file_name, mime_type, content,
       options={})
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testcaseid" => test_case_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
@@ -314,10 +277,7 @@ class TestLinkClient
   # @return
   def upload_attachment(foreign_key_id, foreign_key_table, file_name, mime_type,
       content, options={})
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "fkid" => foreign_key_id,
         "fktable" => foreign_key_table, "filename" => file_name,
         "filetype" => mime_type, "content" => content }
@@ -336,23 +296,19 @@ class TestLinkClient
   alias_method :sayHello, :say_hello
   alias_method :ping, :say_hello
 
-  # Sends a message to the server to have it repeated back.
+  # Sends a mess  age to the server to have it repeated back.
   #
   # @param [String] message The message to get the server to repeat back.
   # @return [String] The message sent to the server.
   def repeat message
-    args = { "str" => message }
-
-    @server.call("tl.repeat", args)
+    @server.call("tl.repeat", { "str" => message } )
   end
 
   # Repeats a message back.
   #
   # @return [String] Info about TestLink API version
   def about
-    args = ""
-
-    @server.call("tl.about", args)
+    @server.call("tl.about", "")
   end
 
   # Info about all projects.
@@ -360,9 +316,7 @@ class TestLinkClient
   # @return [Array<Hash>] List of all projects in TestLink and
   # their associated info.
   def projects
-    args = { "devKey" => @dev_key }
-
-    @server.call("tl.getProjects", args)
+    @server.call("tl.getProjects", { "devKey" => @dev_key } )
   end
 
   # Info about test plans within a project.
@@ -383,10 +337,7 @@ class TestLinkClient
   # @param [String] project_name Name of the project to search for.
   # @return [Array<Hash>] Info on matching project.
   def test_project_by_name project_name
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { 'devKey' => @dev_key, 'testprojectname' => project_name }
 
     @server.call('tl.getTestProjectByName', args)
@@ -397,12 +348,10 @@ class TestLinkClient
   #
   # @version 1.0
   # @param [String] plan_name Name of the plan to search for.
+  # @param [String] project_name Name of the project the plan is in.
   # @return [Array<Hash>] Info on matching plan.
-  def test_plan_by_name(project_name, plan_name)
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+  def test_plan_by_name(plan_name, project_name)
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { 'devKey' => @dev_key, 'testplanname' => plan_name,
         'testprojectname' => project_name }
 
@@ -414,7 +363,7 @@ class TestLinkClient
   end
   alias_method :getTestPlanByName, :test_plan_by_name
 
-  # TL test_suites_for_test_plan method:
+  # List test suites within a test plan alphabetically.
   #
   # @param [String] plan_id ID of the plan to get suites for.
   # @return [Array<Hash>] List of all suites in plan and their associated info.
@@ -425,23 +374,27 @@ class TestLinkClient
   end
   alias_method :getTestSuitesForTestPlan, :test_suites_for_test_plan
 
-  # TL test_suites_for_test_plan method:
+  def test_plan_platforms plan_id
+    ensure_version_is :greater_than_or_equal_to, "1.0"
+    args = { "devKey" => @dev_key, "testplanid" => plan_id }
+
+    @server.call("tl.getTestPlanPlatforms", args)
+  end
+
+  # Gets a list of test suites that are direct children of the given test suite.
   #
   # @version 1.0
-  # @param [String] plan_id ID of the plan to get suites for.
+  # @param [String] suite_id ID of the suite to get suites for.
   # @return [Array<Hash>] List of all suites in plan and their associated info.
   def test_suites_for_test_suite suite_id
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id }
 
     @server.call("tl.getTestSuitesForTestSuite", args)
   end
   alias_method :getTestSuitesForTestSuite, :test_suites_for_test_suite
 
-  # TL first_level_test_suites_for_test_project method:
+  # Gets the set of test suites from the top level of the test project tree.
   #
   # @param [String] project_id ID of the project to get suites for.
   # @return [Array<Hash>] List of first level suites in project and their associated info.
@@ -459,11 +412,13 @@ class TestLinkClient
   # @param [Hash] options
   # @option options [Fixnum] testcaseid
   # @option options [Fixnum] buildid
-  # @option options [Fixnum] keywordid
+  # @option options [Fixnum] keywordid (mutually exclusive with keywords)
+  # @option options [Fixnum] keywords (1.0) (mutually exclusive with keywordid)
   # @option options [String] executed
   # @option options [String] assignedto
   # @option options [String] executestatus
   # @option options [String] executiontype
+  # @option options [String] getstepinfo Defaults to false
   # @return [Hash<Array>] List of all test cases in the plan and their associated
   # info. The first element in the Array is the test case ID, the second element
   # is the test case info.
@@ -477,9 +432,12 @@ class TestLinkClient
 
   # @param [Fixnum] suite_id ID of the suite to retrieve test cases for.
   # @param [Fixnum] project_id
-  # @param [Boolean] deep
-  # @param [String] details
-  # @return [Array<Hash>] List of test cases in the given suite and their associated info.
+  # @param [Hash] options
+  # @option options [Boolean] deep
+  # @option options [String] details Default is "simple"; use "full" to get
+  # summary, steps & expected results.
+  # @return [Array<Hash>] List of test cases in the given suite and their
+  # associated info.
   def test_cases_for_test_suite(suite_id, project_id, deep=true, details="")
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id,
         "projectid" => project_id, "deep" => deep, "details" => details }
@@ -491,38 +449,46 @@ class TestLinkClient
   # Gets the summarized results grouped by platform.
   #
   # @version 1.0
+  # @param [Fixnum] plan_id
   # @return [Hash] Contains "type" => platform, "total_tc" => X, "details =>
   # Array of counts.
   def totals_for_test_plan plan_id
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported for version #{@version}."
-    end
-
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
 
     @server.call("tl.getTotalsForTestPlan", args)
   end
   alias_method :getTotalsForTestPlan, :totals_for_test_plan
 
-  # @param [Fixnum] test_plan_id
-  # @param [Fixnum] test_case_id
-  # @param [Fixnum] build_id
+  # Gets attachments for specified test case.
+  #
+  # @param [Hash] options
+  # @param [Fixnum] testcaseid If not present, testcaseexternalid must be called.
+  # @param [Fixnum] testcaseexternalid If not present, testcaseid must be called.
   # @return [String]
-  def test_case_attachments(plan_id, test_case_id, build_id)
-    args = { "devKey" => @dev_key, "testplanid" => plan_id,
-        "testcaseid" => test_case_id, "buildid" => build_id }
+  def test_case_attachments(options)
+    args = { "devKey" => @dev_key }
+    args.merge! options
 
     @server.call("tl.getTestCaseAttachments", args)
   end
   alias_method :getTestCaseAttachments, :test_case_attachments
 
-  # @param [Fixnum] test_plan_id
-  # @param [Fixnum] test_case_id
-  # @param [Fixnum] build_id
+  # @param [Fixnum] test_case_external_id
+  # @param [Fixnum] project_id
+  # @param [Fixnum] custom_field_name
+  # @param [Hash] options
+  # @option options [String] details Changes output information. If null or 'value',
+  # returns just a value; if 'full', returns a hash with all custom field definition,
+  # plus value and internal test case id; if 'simple', returns value plus custom
+  # field name, label, and type (as code).
   # @return [Array<Hash>]
-  def test_case_custom_field_design_value(plan_id, test_case_id, build_id)
-    args = { "devKey" => @dev_key, "testplanid" => plan_id,
-        "testcaseid" => test_case_id, "buildid" => build_id }
+  def test_case_custom_field_design_value(test_case_external_id, project_id,
+      custom_field_name, options={})
+    args = { "devKey" => @dev_key, "testprojectid" => project_id,
+        "testcaseexternalid" => test_case_external_id,
+        "customfieldname" => custom_field_name }
+    args.merge! options
 
     @server.call("tl.getTestCaseCustomFieldDesignValue", args)
   end
@@ -533,8 +499,9 @@ class TestLinkClient
   #
   # @param [String] test_case_name Name to search across TL DB.
   # @param [Hash] options
-  # @option options [String] test_project_name
-  # @option optoins [String] test_suite_name
+  # @option options [String] testprojectname
+  # @option options [String] testsuitename
+  # @option options [String] testcasepathname
   # @raise [TestLinkClient::Error] When test case name doesn't exist.
   # @return [Array<Hash>] List of all test cases in the DB matching
   # test_case_name and their associated info.
@@ -563,7 +530,7 @@ class TestLinkClient
   end
   alias_method :getLastExecutionResult, :last_execution_result
 
-  # TL builds_for_test_plan method:
+  # Gets a list of builds within a test plan.
   #
   # @param [String] plan_id ID of the plan to get builds for.
   # @return [Array<Hash>] List of all builds for the plan and their associated info.
@@ -603,18 +570,15 @@ class TestLinkClient
   alias_method :createTestProject, :create_test_project
 
   # @version 1.0
-  # @param [String] project_name
   # @param [String] plan_name
+  # @param [String] project_name
   # @param [Hash] options
   # @option options [String] notes
-  # @option options [String] active
-  # @option options [String] public
+  # @option options [String] active Defaults to 1.
+  # @option options [String] public Defaults to 1.
   # @return
-  def create_test_plan(project_name, plan_name, options={})
-    if @version < "1.0"
-      raise TestLinkClient::Error, "Method not supported in version #{@version}."
-    end
-
+  def create_test_plan(plan_name, project_name, options={})
+    ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { 'devKey' => @dev_key, 'testplanname' => plan_name,
         'testprojectname' => project_name, 'buildnotes' => build_notes }
     args.merge! options
@@ -627,9 +591,12 @@ class TestLinkClient
   # @param [String] suite_name
   # @param [String] details
   # @param [Hash] options
-  # @option options [String] parentid
-  # @option options [Fixnum] order
-  # @option options [Boolean] checkduplicatedname
+  # @option options [String] parentid Defaults to top level.
+  # @option options [Fixnum] order Order inside parent container.
+  # @option options [Boolean] checkduplicatedname Check if there siblings with
+  # the same name. Defaults to true.
+  # @option options [Boolean] actiononduplicatedname Applicable only if
+  # checkduplicatedname = true.
   # @return [Array<Hash>] Info about results of test suite creation.
   def create_test_suite(project_id, suite_name, details='', options={})
     args = { 'devKey' => @dev_key, 'testprojectid' => project_id,
@@ -640,7 +607,7 @@ class TestLinkClient
   end
   alias_method :createTestSuite, :create_test_suite
 
-  # TL create_build method:  gets info about test cases within a test plan
+  # Creates a new build for a specific test plan.
   #
   # @param [String] plan_id
   # @param [String] build_name
@@ -654,7 +621,7 @@ class TestLinkClient
   end
   alias_method :createBuild, :create_build
 
-  # TL create_test_case method:
+  # Create a test case.
   #
   # @param [String] login
   # @param [Fixnum] project_id
@@ -699,10 +666,11 @@ class TestLinkClient
   # @option options [Fixnum] executionorder
   # @option options [Fixnum] platformid (1.0) Only if test plan has no platforms.
   # @return
-  def add_test_case_to_test_plan(project_id, plan_id, test_case_id,
+  def add_test_case_to_test_plan(project_id, plan_id, test_case_external_id,
       test_case_version, options={})
-    args = { "devKey" => @dev_key, "testprojectid" => project_id, "testplanid" => plan_id,
-        "testcaseid" => test_case_id, "version" => test_case_version }
+    args = { "devKey" => @dev_key, "testprojectid" => project_id,
+        "testplanid" => plan_id, "testcaseexternalid" => test_case_external_id,
+        "version" => test_case_version }
     args.merge! options
 
     @server.call("tl.addTestCaseToTestPlan", args)
@@ -720,8 +688,12 @@ class TestLinkClient
   # @param [String] status 'p', 'f', 's', or 'b' for Pass/Fail/Skip/Block
   # @param [Hash] options
   # @option options [Fixnum] buildid ID of the build to post results to.
+  # @option options [Fixnum] buildname Name of the build to post results to.
   # @option options [Fixnum] bugid ID of the bug to link results to.
-  # @option options [Boolean] guess ?
+  # @option options [Boolean] guess Defines whether to guess optional params
+  # or require them explicitly.  Defaults to true.
+  # @option options [String] platformid (1.0)
+  # @option options [String] customfields (1.0) i.e. "NAME: Steve Loveless\n"
   # @option options [String] notes ?
   # @return [Hash] "status" of posting, "id" of the execution, "message"
   # giving success or failure info.
@@ -786,4 +758,16 @@ class TestLinkClient
     result
   end
   alias_method :setTestCaseExecutionResult, :test_case_execution_result=
+
+  # @param [Symbol] comparison
+  # @param [String] version
+  def ensure_version_is(comparison, version)
+    message = "Method not supported in version #{@version}."
+
+    if comparison == :less_than && @version >= version
+      raise TestLinkClient::Error, message
+    elsif comparison == :greater_than_or_equal_to && @version < version
+      raise TestLinkClient::Error, message
+    end
+  end
 end
