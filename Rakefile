@@ -1,5 +1,16 @@
 require 'rubygems'
+require 'rake'
 
+begin
+  gem 'ore-tasks', '~> 0.4'
+  require 'ore/tasks'
+
+  Ore::Tasks.new
+rescue LoadError => e
+  STDERR.puts e.message
+  STDERR.puts "Run `gem install ore-tasks` to install 'ore/tasks'."
+end
+=begin
 begin
   require 'bundler'
 rescue LoadError => e
@@ -15,15 +26,22 @@ rescue Bundler::BundlerError => e
   STDERR.puts "Run `bundle install` to install missing gems."
   exit e.status_code
 end
+=end
 
-require 'rake'
+begin
+  gem 'rspec', '~> 2.5'
+  require 'rspec/core/rake_task'
 
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new
+  RSpec::Core::RakeTask.new
+  task :test => :spec
+  task :default => :spec
+rescue LoadError => e
+  task :spec do
+    abort "Please run `gem install rspec` to install RSpec."
+  end
+end
 
-task :test => :spec
-task :default => :spec
-
+require 'ore/specification'
 require 'jeweler'
 Jeweler::Tasks.new(Ore::Specification.new)
 
