@@ -9,8 +9,9 @@ module TestLinkClient::Helpers
   # Gets ID of project matching the given project_name.
   #
   # @param [String] project_name Name of the project to search for.
-  # @return [String] ID of project matching project_name.
-  # @raise [Exception] When ID cannot be found for given project_name.
+  # @return [Fixnum] ID of project matching project_name.
+  # @raise [TestLinkClient::Error] When ID cannot be found for given
+  #   project_name.
   def test_project_id project_name
     if @version < "1.0"
       project = projects.find { |project| project["name"] == project_name }
@@ -19,23 +20,31 @@ module TestLinkClient::Helpers
       raise TestLinkClient::Error, project['message'] if project['code']
     end
 
-    project['id']
+    project['id'].to_i
   end
 
   # Gets info about test plans within a project
   #
   # @param [String] project_name Name of the project to search for.
   # @param [String] plan_name Name of the plan to search for.
-  # @return [String] ID of plan matching project_name and plan_name
+  # @return [Fixnum] ID of plan matching project_name and plan_name. 0 if the
+  #   test plan wasn't found.
   # @raise [RuntimeError] When unable to find matching project and plan names.
-=begin
   def test_plan_id(project_name, plan_name)
-    test_plan = test_plan_by_name(project_name, plan_name).first
-    raise test_plan['message'] if test_plan['code']
+    if @version < "1.0"
+      project_id = test_project_id project_name
+      test_plans = project_test_plans(project_id)
 
-    test_plan['id']
+      test_plan = test_plans.first.values.find do |project_test_plan|
+        project_test_plan["name"] == plan_name
+      end
+    else
+      test_plan = test_plan_by_name(project_name, plan_name).first
+      raise TestLinkClient::Error, test_plan['message'] if test_plan['code']
+    end
+
+    test_plan.nil? ? 0 : test_plan['id'].to_i
   end
-=end
 
   # @param [Fixnum] project_id
   # @param [Regexp] regex The expression to match test plan names on.
@@ -72,7 +81,8 @@ module TestLinkClient::Helpers
   # @param [String] plan_name Name of the plan to search for.
   # @param [String] build_name Name of the build to search for.
   # @return [String] ID of plan matching project_name and plan_name
-  # @raise [RuntimeError] When unable to find matching project/plan/build names.
+  # @raise [TestLinkClient::Error] When unable to find matching
+  #   project/plan/build names.
   def build_id(project_name, plan_name, build_name)
     plan_id = test_plan_id(project_name, plan_name)
     builds = builds_for_test_plan plan_id
@@ -93,7 +103,8 @@ module TestLinkClient::Helpers
   # @param [String] plan_name Name of the plan to search for.
   # @param [String] test_case_name Name of the test case to search for.
   # @return [Hash] Info on the first matching test case.
-  # @raise [RuntimeError] When unable to find matching project/plan/test case names.
+  # @raise [TestLinkClient::Error] When unable to find matching
+  #   project/plan/test case names.
   # @todo Need to update for having more than one of same test name inside test plan.
   def test_info(project_name, plan_name, test_case_name)
     test_plan_id = test_plan_id(project_name, plan_name)
@@ -115,6 +126,8 @@ module TestLinkClient::Helpers
   # @param [String] plan_name
   # @param [String] suite_name
   # @return [String] SuiteID
+  # @raise [TestLinkClient::Error] When unable to find matching
+  #   project/plan/test case names.
   # @todo NEED TO CLEAN THIS UP AND ADD ERROR CHECKING
   # @todo Need to update for having more than one of same test name inside testplan
   def suite_info(project_name, plan_name, suite_name)
@@ -156,12 +169,14 @@ module TestLinkClient::Helpers
   # @param [String] suite_name
   # @param [String] project_name
   # @return [String] ID of the created or existing suite.
+  # @raise [TestLinkClient::Error] When unable to find matching
+  #   project/plan/test case names.
   def create_suite(suite_name, project_name, parent_id)
     project_id = test_project_id(project_name)
     response = test_suites_for_test_suite(parent_id)
 
     if response.class == Array
-      raise response.first['message']
+      raise TestLinkClient::Error, response.first['message']
     elsif response.class == Hash
       return response['id'] if response['name'] == suite_name
 
