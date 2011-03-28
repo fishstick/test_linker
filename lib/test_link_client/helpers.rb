@@ -149,10 +149,10 @@ module TestLinkClient::Helpers
   # Get the ID of a suite with the given parent, creating it if it does not
   # exist.
   #
-  # @param [String] project_name
   # @param [String] suite_name
+  # @param [String] project_name
   # @return [String] ID of the created or existing suite.
-  def create_suite(project_name, suite_name, parent_id)
+  def create_suite(suite_name, project_name, parent_id)
     project_id = test_project_id(project_name)
     response = test_suites_for_test_suite(parent_id)
 

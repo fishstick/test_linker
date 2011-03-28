@@ -5,6 +5,7 @@ require 'test_link_client/version'
 require 'test_link_client/error'
 require 'test_link_client/helpers'
 
+# TODO: Check parameter order; make sure most relevant is first.
 class TestLinkClient
   include TestLinkClient::Helpers
 
