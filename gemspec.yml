@@ -5,6 +5,8 @@ license: MIT
 authors: sloveless, Randy Stoller, Sujin Philip, Vikram Raina
 homepage: http://rubygems.org/gems/test_link_client
 has_yard: true
+dependencies:
+  versionomy: ~> 0.4.0
 
 development_dependencies:
   bundler: ~> 1.0.0
