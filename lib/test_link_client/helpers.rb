@@ -75,12 +75,12 @@ module TestLinkClient::Helpers
     raise TestLinkClient::Error, "Suite #{suite_name} not found."
   end
 
-  # Gets info about test plans within a project
+  # Gets the ID for the given build name.
   #
   # @param [String] project_name Name of the project to search for.
   # @param [String] plan_name Name of the plan to search for.
   # @param [String] build_name Name of the build to search for.
-  # @return [String] ID of plan matching project_name and plan_name
+  # @return [Fixnum] ID of plan matching project_name and plan_name
   # @raise [TestLinkClient::Error] When unable to find matching
   #   project/plan/build names.
   def build_id(project_name, plan_name, build_name)
@@ -89,7 +89,7 @@ module TestLinkClient::Helpers
 
     builds.each do |build|
       if build['name'] == build_name
-        return build['id']
+        return build['id'].to_i
       end
     end
 
