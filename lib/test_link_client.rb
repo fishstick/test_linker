@@ -27,10 +27,10 @@ class TestLinkClient
   def initialize(server_url, dev_key, options={})
     api_path = options[:api_path] || DEFAULT_API_PATH
     timeout = options[:timeout] || DEFAULT_TIMEOUT
-    @version = Versionomy.parse(options[:version] || api_version)
+    @dev_key = dev_key #'90b7941411928ae0a84d19f365a01a63'
     server_url = server_url + api_path
     @server  = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
-    @dev_key = dev_key #'90b7941411928ae0a84d19f365a01a63'
+    @version = Versionomy.parse(options[:version] || api_version)
   end
 
   # Gets a test case by it's internal or external ID.
