@@ -19,7 +19,7 @@ TODO: Description
   
   tl = TestLinkClient.new(server, dev_key)
   project_id = tl.test_project_id "My Project"            # => "172"
-  test_plans = tl.find_test_plans(project_id, /Hello/)    # => 
+  test_plans = tl.find_test_plans(project_id, /Hello/)    # => (potentially huge Hash)
   
   builds_for_test_plans = test_plans.collect do |test_plan|
     t.builds_for_test_plan(test_plan["id"])
@@ -31,8 +31,7 @@ TODO: Description
     results[:pass] = 0
     results[:failed] = 0
     results[:blocked] = 0
-    results[:skipped] = 0
-    
+
     # get test cases from a build, by build id
     # for each test case, call #last_execution_result
     puts "Build: #{build["name"]} (#{build["id"]})"
@@ -49,22 +48,20 @@ TODO: Description
         results[:failed] += 1
       when "b"
         results[:blocked] += 1
-      when "s"
-        results[:skipped] += 1
       end
     end
     
     overall[:pass] += results[:pass]
     overall[:failed] += results[:failed]
     overall[:blocked] += results[:blocked]
-    build_total = results[:pass] + results[:failed] + results[:blocked] + results[:skipped]
+    build_total = results[:pass] + results[:failed] + results[:blocked]
     overall_rate = "%2.2f" % (overall[:pass] * 100 / (overall[:pass] + overall[:failed]).to_f)
     overall_rate_plus_blocked = "%2.2f" % (overall[:pass] * 100 / (overall[:pass] + overall[:failed] + overall[:blocked]).to_f)
     
     result_array = [
-      ['Passed', 'Failed', 'Blocked', 'Skipped', 'TOTAL', 'Overall %', 'Overall % (+B)'],
-      [results[:pass], results[:failed], results[:blocked], results[:skipped],
-        build_total, overall_rate, overall_rate_plus_blocked]
+      ['Passed', 'Failed', 'Blocked', 'TOTAL', 'Overall %', 'Overall % (+B)'],
+      [results[:pass], results[:failed], results[:blocked], build_total,
+        overall_rate, overall_rate_plus_blocked]
     ]
     puts result_array.to_table(:first_row_is_head => true)
     puts "(#{overall[:pass]}/#{overall[:failed]}/#{overall[:blocked]})"
