@@ -13,7 +13,7 @@ module TestLinkClient::Helpers
   # @raise [Exception] When ID cannot be found for given project_name.
   def test_project_id project_name
     if @version < "1.0"
-      project = projects.find { |project| project["name"] == test_project_name }
+      project = projects.find { |project| project["name"] == project_name }
     else
       project = test_project_by_name(project_name).first
       raise TestLinkClient::Error, project['message'] if project['code']
