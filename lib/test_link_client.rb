@@ -341,7 +341,7 @@ class TestLinkClient
   # @param [String] project_name Name of the project to search for.
   # @return [Array<Hash>] Info on matching project.
   def test_project_by_name project_name
-    ensure_version_is :greater_than_or_equal_to, "1.0"
+    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { 'devKey' => @dev_key, 'testprojectname' => project_name }
 
     @server.call('tl.getTestProjectByName', args)
