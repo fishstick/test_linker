@@ -328,10 +328,16 @@ class TestLinkClient
   # @param [Fixnum] project_id ID of the project to retrieve plans.
   # @return [Array<Hash>] Array of all plans in a project and their associated
   #   info.
+  # @raise [TestLinkClient::Error] If a project by the given ID doesn't exist.
   def project_test_plans project_id
     args = { "devKey" => @dev_key, "testprojectid" => project_id }
+    test_plan_list = @server.call("tl.getProjectTestPlans", args)
 
-    @server.call("tl.getProjectTestPlans", args)
+    if test_plan_list.first["code"]
+      raise TestLinkClient::Error, test_plan_list.first["message"]
+    end
+
+    test_plan_list
   end
   alias_method :getProjectTestPlans, :project_test_plans
 

@@ -46,12 +46,33 @@ module TestLinkClient::Helpers
     test_plan.nil? ? 0 : test_plan['id'].to_i
   end
 
+  # Gets the ID for the given build name.
+  #
+  # @param [String] project_name Name of the project to search for.
+  # @param [String] plan_name Name of the plan to search for.
+  # @param [String] build_name Name of the build to search for.
+  # @return [Fixnum] ID of plan matching project_name and plan_name
+  # @raise [TestLinkClient::Error] When unable to find matching
+  #   project/plan/build names.
+  def build_id(project_name, plan_name, build_name)
+    plan_id = test_plan_id(project_name, plan_name)
+    builds = builds_for_test_plan plan_id
+
+    builds.each do |build|
+      if build['name'] == build_name
+        return build['id'].to_i
+      end
+    end
+
+    raise TestLinkClient::Error,
+        "Unable to find build named #{build_name} for #{plan_name} in #{project_name}"
+  end
+
   # @param [Fixnum] project_id
   # @param [Regexp] regex The expression to match test plan names on.
   # @return [Array] An array of test plans that match the Regexp.
   def find_test_plans(project_id, regex)
     list = []
-
     test_plan_list = project_test_plans(project_id).first
 
     test_plan_list.each_value do |test_plan_info|
@@ -73,28 +94,6 @@ module TestLinkClient::Helpers
     end
 
     raise TestLinkClient::Error, "Suite #{suite_name} not found."
-  end
-
-  # Gets the ID for the given build name.
-  #
-  # @param [String] project_name Name of the project to search for.
-  # @param [String] plan_name Name of the plan to search for.
-  # @param [String] build_name Name of the build to search for.
-  # @return [Fixnum] ID of plan matching project_name and plan_name
-  # @raise [TestLinkClient::Error] When unable to find matching
-  #   project/plan/build names.
-  def build_id(project_name, plan_name, build_name)
-    plan_id = test_plan_id(project_name, plan_name)
-    builds = builds_for_test_plan plan_id
-
-    builds.each do |build|
-      if build['name'] == build_name
-        return build['id'].to_i
-      end
-    end
-
-    raise TestLinkClient::Error,
-        "Unable to find build named #{build_name} for #{plan_name} in #{project_name}"
   end
 
   # Gets info about test case within a test plan within a project.
