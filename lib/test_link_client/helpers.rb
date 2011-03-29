@@ -84,12 +84,16 @@ module TestLinkClient::Helpers
     list
   end
 
+  # @param [String] project_name
+  # @param [String] suite_name
+  # @return [Fixnum] ID of the requested test suite.
+  # @raise [TestLinkClient::Error] If no test suite was found by the given name.
   def first_level_test_suite_id(project_name, suite_name)
     test_suites = first_level_test_suites_for_test_project(test_project_id(project_name))
 
     test_suites.each do |test_suite|
       if test_suite['name'] == suite_name
-        return test_suite['id']
+        return test_suite['id'].to_i
       end
     end
 
