@@ -755,13 +755,15 @@ class TestLinkClient
   # @return The return type depends on the method call.
   def make_call(method_name, arguments, api_version)
     ensure_version_is :greater_than_or_equal_to, api_version
-    result = @server.call(method_name, arguments)
+    response = @server.call(method_name, arguments)
 
-    if result.first['code']
-      raise TestLinkClient::Error, "#{result.first['code']}: #{result.first['message']}"
+    if @version.nil?
+      return response
+    elsif response.is_a?(Array) && response.first['code']
+      raise TestLinkClient::Error, "#{response.first['code']}: #{response.first['message']}"
     end
 
-    result
+    response
   end
 
   # Sets result in TestLink by test case ID and test plan ID.
@@ -859,7 +861,9 @@ class TestLinkClient
   def ensure_version_is(comparison, version)
     message = "Method not supported in version #{@version}."
 
-    if comparison == :less_than && @version >= version
+    if @version.nil?
+      return
+    elsif comparison == :less_than && @version >= version
       raise TestLinkClient::Error, message
     elsif comparison == :greater_than_or_equal_to && @version < version
       raise TestLinkClient::Error, message
