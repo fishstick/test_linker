@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.email = []
   s.extra_rdoc_files = [
     "ChangeLog.rdoc",
-    "LICENSE.txt",
+    "LICENSE.rdoc",
     "README.rdoc"
   ]
   s.files = [
@@ -24,17 +24,19 @@ Gem::Specification.new do |s|
     ".yardopts",
     "ChangeLog.rdoc",
     "Gemfile",
-    "LICENSE.txt",
+    "LICENSE.rdoc",
     "README.rdoc",
     "Rakefile",
     "features/get_info.feature",
     "features/step_definitions/get_info_steps.rb",
+    "features/support/common.rb",
     "features/support/env.rb",
     "gemspec.yml",
     "lib/test_link_client.rb",
     "lib/test_link_client/error.rb",
     "lib/test_link_client/helpers.rb",
     "lib/test_link_client/version.rb",
+    "lib/test_link_client/wrapper.rb",
     "spec/spec_helper.rb",
     "spec/test_link_client_spec.rb",
     "test_link_client.gemspec"
@@ -66,6 +68,8 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_development_dependency(%q<ore-core>, ["~> 0.1"])
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
@@ -88,12 +92,21 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
+      s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
+      s.add_development_dependency(%q<ore>, ["~> 0.7.2"])
+      s.add_development_dependency(%q<ore-core>, ["~> 0.1"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.5"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
     else
       s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<test_link_client>, [">= 0"])
       s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
+      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -124,6 +137,13 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.5"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
+      s.add_dependency(%q<rake>, ["~> 0.8.7"])
+      s.add_dependency(%q<ore>, ["~> 0.7.2"])
+      s.add_dependency(%q<ore-core>, ["~> 0.1"])
+      s.add_dependency(%q<rspec>, ["~> 2.5"])
+      s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_dependency(%q<yard>, ["~> 0.6.0"])
     end
   else
     s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
@@ -139,6 +159,13 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
+    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+    s.add_dependency(%q<yard>, ["~> 0.6.0"])
+    s.add_dependency(%q<rake>, ["~> 0.8.7"])
+    s.add_dependency(%q<ore-core>, ["~> 0.1"])
+    s.add_dependency(%q<rspec>, ["~> 2.5"])
+    s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+    s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
     s.add_dependency(%q<ore-core>, ["~> 0.1"])
     s.add_dependency(%q<rspec>, ["~> 2.5"])
@@ -149,7 +176,9 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, ["~> 2.5"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
+    s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
+    s.add_dependency(%q<ore>, ["~> 0.7.2"])
     s.add_dependency(%q<ore-core>, ["~> 0.1"])
     s.add_dependency(%q<rspec>, ["~> 2.5"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
