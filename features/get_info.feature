@@ -16,7 +16,7 @@ Feature: Get info from TestLink
   Scenario Outline: Get a list of test plans
     Given I have a TestLink server with API version <version>
     When I ask for the list of projects
-    And I ask for a list of test plans
+    And I ask for the list of test plans
     Then I get a list of test plans
 
   Scenarios: Known API versions
@@ -30,4 +30,9 @@ Feature: Get info from TestLink
     When I ask for that project by name
     Then I get that project
 
+  Scenario: Get a test plan by its name
+    Given I have a TestLink server with API version 1.0
+    And I know the name of a test plan
+    When I ask for that test plan by name
+    Then I get that test plan
 

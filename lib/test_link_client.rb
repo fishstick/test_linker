@@ -42,11 +42,8 @@ class TestLinkClient
   # @option options [Fixnum] version The test case version. Default is most recent.
   # @return
   def test_case(options)
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key }
     args.merge! options
-
-    #@server.call("tl.getTestCase", args)
     make_call("tl.getTestCase", args, "1.0")
   end
   alias_method :getTestCase, :test_case
@@ -57,10 +54,7 @@ class TestLinkClient
   # @param [Fixnum] node_id
   # @return 
   def full_path node_id
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "nodeID" => node_id }
-
-    #@server.call("tl.getFullPath", args)
     make_call("tl.getFullPath", args, "1.0")
   end
   alias_method :getFullPath, :full_path
@@ -71,10 +65,7 @@ class TestLinkClient
   # @param [Fixnum] suite_id
   # @return
   def test_suite_by_id suite_id
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id }
-
-    #@server.call("tl.getTestSuiteByID", args)
     make_call("tl.getTestSuiteByID", args, "1.0")
   end
   alias_method :getTestSuiteByID, :test_suite_by_id
@@ -83,10 +74,7 @@ class TestLinkClient
   # @param [Fixnum] execution_id
   # @return [Hash] "status", "id", "message"
   def delete_execution execution_id
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "executionid" => execution_id }
-
-    #@server.call("tl.deleteExecution", args)
     make_call("tl.deleteExecution", args, "1.0")
   end
   alias_method :deleteExecution, :delete_execution
@@ -95,10 +83,7 @@ class TestLinkClient
   # @param [String] user_name
   # @return [Boolean,Hash] true if user exists, otherwise an error structure.
   def does_user_exist user_name
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "user" => user_name }
-
-    #@server.call("tl.doesUserExist", args)
     make_call("tl.doesUserExist", args, "1.0")
   end
   alias_method :doesUserExist, :does_user_exist
@@ -109,10 +94,7 @@ class TestLinkClient
   # @param [Fixnum] dev_key
   # @return [Hash] "true" if it exists, otherwise error structure.
   def check_dev_key dev_key
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => dev_key }
-
-    #@server.call("tl.checkDevKey", args)
     make_call("tl.checkDevKey", args, "1.0")
   end
   alias_method :checkDevKey, :check_dev_key
@@ -130,12 +112,9 @@ class TestLinkClient
   # @return
   def upload_execution_attachment(execution_id, file_name, mime_type, content,
     options={})
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "executionid" => execution_id,
       "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
-
-    #@server.call("tl.uploadExecutionAttachment", args)
     make_call("tl.uploadExecutionAttachment", args, "1.0")
   end
   alias_method :uploadExecutionAttachment, :upload_execution_attachment
@@ -154,12 +133,9 @@ class TestLinkClient
   # @return
   def upload_requirement_attachment(requirement_id, file_name, mime_type,
       content, options={})
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "requirementid" => requirement_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
-
-    #@server.call("tl.uploadRequirementAttachment", args)
     make_call("tl.uploadRequirementAttachment", args, "1.0")
   end
   alias_method :uploadRequirementAttachment, :upload_requirement_attachment
@@ -178,12 +154,9 @@ class TestLinkClient
   # @return
   def upload_requirement_specification_attachment(requirement_specification_id, file_name, mime_type, content,
       options={})
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "reqspecid" => requirement_specification_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
-
-    #@server.call("tl.uploadRequirementSpecificationAttachment", args)
     make_call("tl.uploadRequirementSpecificationAttachment", args, "1.0")
   end
   alias_method :uploadRequirementSpecificationAttachment,
@@ -199,8 +172,6 @@ class TestLinkClient
   def assign_requirements(test_case_external_id, project_id, requirements)
     args = { "devKey" => @dev_key, "testcaseexternalid" => test_case_external_id,
         "testprojectid" => project_id, "requirements" => requirements }
-
-    #@server.call("tl.assignRequirements", args)
     make_call("tl.assignRequirements", args, "1.0b5")
   end
   alias_method :assignRequirements, :assign_requirements
@@ -219,12 +190,9 @@ class TestLinkClient
   # @return
   def upload_test_project_attachment(project_id, file_name, mime_type, content,
       options={})
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testprojectid" => project_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
-
-    #@server.call("tl.uploadTestProjectAttachment", args)
     make_call("tl.uploadTestProjectAttachment", args, "1.0")
   end
   alias_method :uploadTestProjectAttachment, :upload_test_project_attachment
@@ -243,12 +211,9 @@ class TestLinkClient
   # @return
   def upload_test_suite_attachment(suite_id, file_name, mime_type, content,
       options={})
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
-
-    #@server.call("tl.uploadTestSuiteAttachment", args)
     make_call("tl.uploadTestSuiteAttachment", args, "1.0")
   end
   alias_method :uploadTestSuiteAttachment, :upload_test_suite_attachment
@@ -267,12 +232,9 @@ class TestLinkClient
   # @return
   def upload_test_case_attachment(test_case_id, file_name, mime_type, content,
       options={})
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testcaseid" => test_case_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
     args.merge! options
-
-    #@server.call("tl.uploadTestCaseAttachment", args)
     make_call("tl.uploadTestCaseAttachment", args, "1.0")
   end
   alias_method :uploadTestCaseAttachment, :upload_test_case_attachment
@@ -294,13 +256,10 @@ class TestLinkClient
   # @return
   def upload_attachment(foreign_key_id, foreign_key_table, file_name, mime_type,
       content, options={})
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "fkid" => foreign_key_id,
         "fktable" => foreign_key_table, "filename" => file_name,
         "filetype" => mime_type, "content" => content }
     args.merge! options
-
-    #@server.call("tl.uploadAttachment", args)
     make_call("tl.uploadAttachment", args, "1.0")
   end
   alias_method :uploadAttachment, :upload_attachment
@@ -309,7 +268,6 @@ class TestLinkClient
   #
   # @return [String] "Hello!"
   def say_hello
-    #@server.call("tl.sayHello", "")
     make_call("tl.sayHello", "", "1.0b5")
   end
   alias_method :sayHello, :say_hello
@@ -320,7 +278,6 @@ class TestLinkClient
   # @param [String] message The message to get the server to repeat back.
   # @return [String] The message sent to the server.
   def repeat message
-    #@server.call("tl.repeat", { "str" => message } )
     make_call("tl.repeat", { "str" => message }, "1.0b5")
   end
 
@@ -359,10 +316,7 @@ class TestLinkClient
   # @param [String] project_name Name of the project to search for.
   # @return [Array<Hash>] Info on matching project.
   def test_project_by_name project_name
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { 'devKey' => @dev_key, 'testprojectname' => project_name }
-
-    #@server.call('tl.getTestProjectByName', args)
     make_call('tl.getTestProjectByName', args, "1.0")
   end
   alias_method :getTestProjectByName, :test_project_by_name
@@ -374,17 +328,8 @@ class TestLinkClient
   # @param [String] project_name Name of the project the plan is in.
   # @return [Array<Hash>] Info on matching plan.
   def test_plan_by_name(plan_name, project_name)
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { 'devKey' => @dev_key, 'testplanname' => plan_name,
         'testprojectname' => project_name }
-
-=begin
-    result = @server.call('tl.getTestPlanByName', args)
-
-    if result.first['code']
-      raise TestLinkClient::Error, "#{result.first['code']}: #{result.first['message']}"
-    end
-=end
     make_call('tl.getTestPlanByName', args, "1.0")
   end
   alias_method :getTestPlanByName, :test_plan_by_name
@@ -395,8 +340,6 @@ class TestLinkClient
   # @return [Array<Hash>] List of all suites in plan and their associated info.
   def test_suites_for_test_plan plan_id
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
-
-    #@server.call("tl.getTestSuitesForTestPlan", args)
     make_call("tl.getTestSuitesForTestPlan", args, "1.0b5")
   end
   alias_method :getTestSuitesForTestPlan, :test_suites_for_test_plan
@@ -407,10 +350,7 @@ class TestLinkClient
   # @param [String] plan_id ID of the plan to get suites for.
   # @return [Array<Hash>] List of all suites in plan and their associated info.
   def test_plan_platforms plan_id
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
-
-    #@server.call("tl.getTestPlanPlatforms", args)
     make_call("tl.getTestPlanPlatforms", args, "1.0")
   end
   alias_method :getTestPlanPlatforms, :test_plan_platforms
@@ -421,10 +361,7 @@ class TestLinkClient
   # @param [String] suite_id ID of the suite to get suites for.
   # @return [Array<Hash>] List of all suites in plan and their associated info.
   def test_suites_for_test_suite suite_id
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id }
-
-    #@server.call("tl.getTestSuitesForTestSuite", args)
     make_call("tl.getTestSuitesForTestSuite", args, "1.0")
   end
   alias_method :getTestSuitesForTestSuite, :test_suites_for_test_suite
@@ -436,8 +373,6 @@ class TestLinkClient
   #   associated info.
   def first_level_test_suites_for_test_project project_id
     args = { "devKey" => @dev_key, "testprojectid" => project_id }
-
-    #@server.call("tl.getFirstLevelTestSuitesForTestProject", args)
     make_call("tl.getFirstLevelTestSuitesForTestProject", args, "1.0b5")
   end
   alias_method :getFirstLevelTestSuitesForTestProject,
@@ -463,8 +398,6 @@ class TestLinkClient
   def test_cases_for_test_plan(plan_id, options={})
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
     args.merge! options
-
-    #@server.call("tl.getTestCasesForTestPlan", args)
     make_call("tl.getTestCasesForTestPlan", args, "1.0b5")
   end
   alias_method :getTestCasesForTestPlan, :test_cases_for_test_plan
@@ -480,8 +413,6 @@ class TestLinkClient
   def test_cases_for_test_suite(suite_id, project_id, deep=true, details="")
     args = { "devKey" => @dev_key, "testsuiteid" => suite_id,
         "projectid" => project_id, "deep" => deep, "details" => details }
-
-    #@server.call("tl.getTestCasesForTestSuite", args)
     make_call("tl.getTestCasesForTestSuite", args, "1.0b5")
   end
   alias_method :getTestCasesForTestSuite, :test_cases_for_test_suite
@@ -493,10 +424,7 @@ class TestLinkClient
   # @return [Hash] Contains "type" => platform, "total_tc" => X, "details =>
   #   Array of counts.
   def totals_for_test_plan plan_id
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
-
-    #@server.call("tl.getTotalsForTestPlan", args)
     make_call("tl.getTotalsForTestPlan", args, "1.0")
   end
   alias_method :getTotalsForTestPlan, :totals_for_test_plan
@@ -510,8 +438,6 @@ class TestLinkClient
   def test_case_attachments(options)
     args = { "devKey" => @dev_key }
     args.merge! options
-
-    #@server.call("tl.getTestCaseAttachments", args)
     make_call("tl.getTestCaseAttachments", args, "1.0b5")
   end
   alias_method :getTestCaseAttachments, :test_case_attachments
@@ -531,8 +457,6 @@ class TestLinkClient
         "testcaseexternalid" => test_case_external_id,
         "customfieldname" => custom_field_name }
     args.merge! options
-
-    #@server.call("tl.getTestCaseCustomFieldDesignValue", args)
     make_call("tl.getTestCaseCustomFieldDesignValue", args, "1.0b5")
   end
   alias_method :getTestCaseCustomFieldDesignValue, :test_case_custom_field_design_value
@@ -551,15 +475,6 @@ class TestLinkClient
   def test_case_id_by_name(test_case_name, options={})
     args   = { "devKey" => @dev_key, "testcasename" => test_case_name }
     args.merge! options
-=begin
-    result = @server.call("tl.getTestCaseIDByName", args)
-
-    if result.first['code']
-      raise TestLinkClient::Error, "#{result.first['code']}: #{result.first['message']}"
-    end
-
-    result
-=end
     make_call("tl.getTestCaseIDByName", args, "1.0b5")
   end
   alias_method :getTestCaseIDByName, :test_case_id_by_name
@@ -571,8 +486,6 @@ class TestLinkClient
   def last_execution_result(plan_id, test_case_id, build_id)
     args = { "devKey" => @dev_key, "testplanid" => plan_id,
         "testcaseid" => test_case_id, "buildid" => build_id }
-
-    #@server.call("tl.getLastExecutionResult", args)
     make_call("tl.getLastExecutionResult", args, "1.0b5")
   end
   alias_method :getLastExecutionResult, :last_execution_result
@@ -584,8 +497,6 @@ class TestLinkClient
   #   info.
   def builds_for_test_plan plan_id
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
-
-    #@server.call("tl.getBuildsForTestPlan", args)
     make_call("tl.getBuildsForTestPlan", args, "1.0b5")
   end
   alias_method :getBuildsForTestPlan, :builds_for_test_plan
@@ -594,8 +505,6 @@ class TestLinkClient
   # @return [Hash] Info for the latest build for the given test plan.
   def latest_build_for_test_plan plan_id
     args = { "devKey" => @dev_key, "testplanid" => plan_id }
-
-    #@server.call("tl.getLatestBuildForTestPlan", args)
     make_call("tl.getLatestBuildForTestPlan", args, "1.0b5")
   end
   alias_method :getLatestBuildForTestPlan, :latest_build_for_test_plan
@@ -614,8 +523,6 @@ class TestLinkClient
     args = { "devKey" => @dev_key, "testprojectname" => project_name,
         "testcaseprefix" => test_case_prefix, "notes" => notes }
     args.merge! options
-
-    #@server.call("tl.createTestProject", args)
     make_call("tl.createTestProject", args, "1.0b5")
   end
   alias_method :createTestProject, :create_test_project
@@ -629,12 +536,9 @@ class TestLinkClient
   # @option options [String] public Defaults to 1.
   # @return
   def create_test_plan(plan_name, project_name, options={})
-    #ensure_version_is :greater_than_or_equal_to, "1.0"
     args = { 'devKey' => @dev_key, 'testplanname' => plan_name,
         'testprojectname' => project_name, 'buildnotes' => build_notes }
     args.merge! options
-
-    #@server.call('tl.createTestPlan', args)
     make_call('tl.createTestPlan', args, "1.0")
   end
   alias_method :createTestPlan, :create_test_plan
@@ -654,8 +558,6 @@ class TestLinkClient
     args = { 'devKey' => @dev_key, 'testprojectid' => project_id,
         'testsuitename' => suite_name, 'details' => details }
     args.merge! options
-
-    #@server.call('tl.createTestSuite', args)
     make_call('tl.createTestSuite', args, "1.0b5")
   end
   alias_method :createTestSuite, :create_test_suite
@@ -669,8 +571,6 @@ class TestLinkClient
   def create_build(plan_id, build_name, build_notes='')
     args = { "devKey" => @dev_key, "testplanid" => plan_id,
        "buildname" => build_name, "buildnotes" => build_notes }
-
-    #@server.call("tl.createBuild", args)
     make_call("tl.createBuild", args, "1.0b5")
   end
   alias_method :createBuild, :create_build
@@ -702,8 +602,6 @@ class TestLinkClient
         "steps" => test_case_steps,
         "expectedresults" => test_case_expected_results }
     args.merge! options
-
-    #@server.call("tl.createTestCase", args)
     make_call("tl.createTestCase", args, "1.0b5")
   end
   alias_method :createTestCase, :create_test_case
@@ -726,8 +624,6 @@ class TestLinkClient
         "testplanid" => plan_id, "testcaseexternalid" => test_case_external_id,
         "version" => test_case_version }
     args.merge! options
-
-    #@server.call("tl.addTestCaseToTestPlan", args)
     make_call("tl.addTestCaseToTestPlan", args, "1.0b5")
   end
   alias_method :addTestCaseToTestPlan, :add_test_case_to_test_plan
@@ -844,7 +740,8 @@ class TestLinkClient
   private
 
   # Raises if the version set in @version doesn't meet the comparison with the
-  # passed-in version.
+  # passed-in version.  Returns nil if @version isn't set, since there's
+  # nothing to do (and something might have called to set @version).
   #
   # @private
   # @param [Symbol] comparison
