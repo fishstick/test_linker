@@ -1,9 +1,10 @@
 source :rubygems
 
-#gemspec
+gemspec
 gem 'versionomy', '~> 0.4.0'
 
 group :development do
+  gem 'cucumber', '~> 0.10.0'
   gem 'rake',     '~> 0.8.7'
   gem 'ore', '~> 0.7.2'
   gem 'ore-core',  '~> 0.1'

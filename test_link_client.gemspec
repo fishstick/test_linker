@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.3.6") if s.respond_to? :required_rubygems_version=
   s.authors = ["sloveless, Randy Stoller, Sujin Philip, Vikram Raina"]
-  s.date = %q{2011-03-28}
+  s.date = %q{2011-03-29}
   s.description = %q{An interface to the TestLink XMLRPC API}
   s.email = []
   s.extra_rdoc_files = [
@@ -27,6 +27,9 @@ Gem::Specification.new do |s|
     "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
+    "features/get_info.feature",
+    "features/step_definitions/get_info_steps.rb",
+    "features/support/env.rb",
     "gemspec.yml",
     "lib/test_link_client.rb",
     "lib/test_link_client/error.rb",
@@ -50,6 +53,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<versionomy>, ["~> 0.4.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_runtime_dependency(%q<test_link_client>, [">= 0"])
@@ -60,6 +64,13 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
+      s.add_development_dependency(%q<ore-core>, ["~> 0.1"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.5"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_development_dependency(%q<ore-core>, ["~> 0.1"])
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
@@ -70,12 +81,15 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
+      s.add_development_dependency(%q<ore>, ["~> 0.7.2"])
       s.add_development_dependency(%q<ore-core>, ["~> 0.1"])
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
     else
+      s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<test_link_client>, [">= 0"])
@@ -86,6 +100,13 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_dependency(%q<rake>, ["~> 0.8.7"])
+      s.add_dependency(%q<ore-core>, ["~> 0.1"])
+      s.add_dependency(%q<rspec>, ["~> 2.5"])
+      s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_dependency(%q<ore-core>, ["~> 0.1"])
       s.add_dependency(%q<rspec>, ["~> 2.5"])
@@ -96,13 +117,16 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.5"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
+      s.add_dependency(%q<ore>, ["~> 0.7.2"])
       s.add_dependency(%q<ore-core>, ["~> 0.1"])
       s.add_dependency(%q<rspec>, ["~> 2.5"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
     end
   else
+    s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<test_link_client>, [">= 0"])
@@ -113,6 +137,13 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
+    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+    s.add_dependency(%q<yard>, ["~> 0.6.0"])
+    s.add_dependency(%q<rake>, ["~> 0.8.7"])
+    s.add_dependency(%q<ore-core>, ["~> 0.1"])
+    s.add_dependency(%q<rspec>, ["~> 2.5"])
+    s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+    s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
     s.add_dependency(%q<ore-core>, ["~> 0.1"])
     s.add_dependency(%q<rspec>, ["~> 2.5"])
@@ -123,7 +154,9 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, ["~> 2.5"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
+    s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
+    s.add_dependency(%q<ore>, ["~> 0.7.2"])
     s.add_dependency(%q<ore-core>, ["~> 0.1"])
     s.add_dependency(%q<rspec>, ["~> 2.5"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
