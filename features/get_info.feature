@@ -8,7 +8,7 @@ Feature: Get info from TestLink
     When I ask for the list of projects
     Then I get a list of projects
 
-  Scenarios:
+  Scenarios: Known API versions
     | version    |
     | 1.0 Beta 5 |
     | 1.0        |
@@ -19,8 +19,15 @@ Feature: Get info from TestLink
     And I ask for a list of test plans
     Then I get a list of test plans
 
-  Scenarios:
+  Scenarios: Known API versions
     | version    |
     | 1.0 Beta 5 |
     | 1.0        |
+
+  Scenario: Get a test project by its name
+    Given I have a TestLink server with API version 1.0
+    And I know the name of a project
+    When I ask for that project by name
+    Then I get that project
+
 
