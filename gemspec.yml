@@ -10,4 +10,9 @@ dependencies:
 
 development_dependencies:
   bundler: ~> 1.0.0
+  cucumber: ~> 0.10.0
+  jeweler: ~> 1.5.0
+  ore: ~> 0.7.2
+  ore-core: ~> 0.1.4
+  rspec: ~> 2.5.0
   yard: ~> 0.6.0

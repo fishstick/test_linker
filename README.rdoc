@@ -2,12 +2,23 @@
 
 * {Homepage}[http://rubygems.org/gems/test_link_client]
 * {Documentation}[http://rubydoc.info/gems/test_link_client/frames]
+* {TestLink API Documentation}[http://testlink.org/api/phpdoc_generated/TestlinkAPI/TestlinkXMLRPCServer.html]
 
 == Description
 
-TODO: Description
+This is a Ruby wrapper around the TestLink XMLRPC API, thus allowing access to
+your TestLink test projects, plans, cases, and results using Ruby.  We've added
+a few helper methods as well to allow for getting at more of your data a little
+easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
+(from TestLink 1.9.x).
 
 == Features
+
+  * Basic wrapper around existing XMLRPC functions.
+  * Allow for calling methods via Ruby style (#projects) or XMLRPC style (#getProjects)
+  * Support for TestLink API versions 1.0 Beta 5 and 1.0
+  * Only one error/exception type: TestLinkClient::Error
+  * Limited set of helper methods, attempting to fill in gaps from the API
 
 == Examples
 
@@ -70,16 +81,26 @@ TODO: Description
 
 == Requirements
 
-General notes:
-TestLinkAPI docs:
-http://testlink.org/api/phpdoc_generated/TestlinkAPI/TestlinkXMLRPCServer.html
+* Rubies (tested)
+  * 1.8.7
+  * 1.9.2
+* Gems
+  * versionomy, ~> 0.4.0
+* Gems (development)
+  * bundler, ~> 1.0.0
+  * cucumber, ~> 0.10.0
+  * jeweler, ~> 1.5.0
+  * ore, ~> 0.7.2
+  * ore-core, ~> 0.1.4
+  * rspec, ~> 2.5.0
+  * yard, ~> 0.6.0
 
-Getting it all running:
-1. Need to enable automation on the testlink config file:
+Getting it all running (on the TestLink side):
+# Enable automation in the TestLink config file:
     config.inc.php => $tlCfg->api->enabled = TRUE;
-2. The user that needs to run the automated tests needs to generate a API key
+# The user that needs to run the automated tests needs to generate a API key
 that will be used in creating the connection.  This is accomplished by logging
-in to testlink and going to "Personal -> API Key -> Generate a new key".
+in to TestLink and going to "Personal -> API Key -> Generate a new key".
 
 == Install
 
@@ -89,4 +110,4 @@ in to testlink and going to "Personal -> API Key -> Generate a new key".
 
 Copyright (c) 2011 sloveless
 
-See LICENSE.txt for details.
+See LICENSE.rdoc for details.

@@ -1,4 +1,8 @@
 === 0.1.0 / 2011-03-24
 
 * Initial release:
-
+  * Basic wrapper around existing XMLRPC functions.
+  * Allow for calling methods via Ruby style (#projects) or XMLRPC style (#getProjects)
+  * Support for TestLink API versions 1.0 Beta 5 and 1.0
+  * Only one error/exception type: TestLinkClient::Error
+  * Limited set of helper methods, attempting to fill in gaps from the API
