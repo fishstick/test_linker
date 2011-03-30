@@ -1,6 +1,11 @@
 name: test_link_client
 summary: "An interface to the TestLink XMLRPC API"
-description: "An interface to the TestLink XMLRPC API"
+description:
+  This is a Ruby wrapper around the TestLink XMLRPC API, thus allowing access to
+  your TestLink test projects, plans, cases, and results using Ruby.  We've added
+  a few helper methods as well to allow for getting at more of your data a little
+  easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
+  (from TestLink 1.9.x).
 license: MIT
 authors: sloveless, Randy Stoller, Sujin Philip, Vikram Raina
 homepage: http://rubygems.org/gems/test_link_client
