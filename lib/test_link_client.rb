@@ -348,16 +348,8 @@ class TestLinkClient
   # @raise [TestLinkClient::Error] If a project by the given ID doesn't exist.
   def project_test_plans project_id
     args = { "devKey" => @dev_key, "testprojectid" => project_id }
-=begin
-    test_plan_list = @server.call("tl.getProjectTestPlans", args)
-
-    if test_plan_list.first["code"]
-      raise TestLinkClient::Error, test_plan_list.first["message"]
-    end
-
-    test_plan_list
-=end
-    make_call("tl.getProjectTestPlans", args, "1.0b5")
+    response = make_call("tl.getProjectTestPlans", args, "1.0b5")
+    response == "" ? [{}] : response
   end
   alias_method :getProjectTestPlans, :project_test_plans
 
