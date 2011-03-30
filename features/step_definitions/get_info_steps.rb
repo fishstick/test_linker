@@ -1,10 +1,17 @@
-Given /^I have a TestLink server with API version (.+)$/ do |api_version|
-  if api_version == "1.0"
-    url = "http://ubuntu-desktop/testlink/"
-    dev_key = "b8c144a536f8233d24b04b8268bfac34"
-  else
-    url = "http://testlink/"
-    dev_key = "90b7941411928ae0a84d19f365a01a63"
+Given /^I have a TestLink server with API version/ do |api_version_table|
+  url = ""
+  dev_key = ""
+  api_version = ""
+  api_version_table.hashes.each do |api_version_hash|
+    if api_version_hash["version"] == "1.0"
+      api_version = "1.0"
+      url = "http://ubuntu-desktop/testlink/"
+      dev_key = "b8c144a536f8233d24b04b8268bfac34"
+    else
+      api_version = "1.0 Beta 5"
+      url = "http://testlink/"
+      dev_key = "90b7941411928ae0a84d19f365a01a63"
+    end
   end
   @server = TestLinkClient.new(url, dev_key)
   @server.api_version.should == api_version

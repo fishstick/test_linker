@@ -328,7 +328,6 @@ class TestLinkClient
   #
   # @return [String] Info about TestLink API version
   def about
-    #@server.call("tl.about", "")
     make_call("tl.about", "", "1.0b5")
   end
 
