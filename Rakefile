@@ -10,7 +10,6 @@ rescue LoadError => e
   STDERR.puts e.message
   STDERR.puts "Run `gem install ore-tasks` to install 'ore/tasks'."
 end
-=begin
 begin
   require 'bundler'
 rescue LoadError => e
@@ -26,7 +25,6 @@ rescue Bundler::BundlerError => e
   STDERR.puts "Run `bundle install` to install missing gems."
   exit e.status_code
 end
-=end
 
 begin
   gem 'rspec', '~> 2.5'
