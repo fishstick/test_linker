@@ -98,6 +98,7 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
 Getting it all running (on the TestLink side):
 # Enable automation in the TestLink config file:
     config.inc.php => $tlCfg->api->enabled = TRUE;
+
 # The user that needs to run the automated tests needs to generate a API key
 that will be used in creating the connection.  This is accomplished by logging
 in to TestLink and going to "Personal -> API Key -> Generate a new key".
