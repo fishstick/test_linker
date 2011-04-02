@@ -44,5 +44,9 @@ require 'jeweler'
 Jeweler::Tasks.new(Ore::Specification.new)
 
 require 'yard'
-YARD::Rake::YardocTask.new  
+YARD::Rake::YardocTask.new do |t|
+  t.files   = ['features/**/*.feature', 'features/**/*.rb']
+  #t.options = ['--any', '--extra', '--opts'] # optional
+end
 task :doc => :yard
+

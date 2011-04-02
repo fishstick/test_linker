@@ -19,5 +19,6 @@ development_dependencies:
   jeweler: ~> 1.5.0
   ore: ~> 0.7.2
   ore-core: ~> 0.1.4
-  rspec: ~> 2.5.0
+  rspec: ~> 2.5
+  simplecov: >= 0.4.0
   yard: ~> 0.6.0
