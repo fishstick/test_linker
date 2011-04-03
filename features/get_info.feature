@@ -32,7 +32,10 @@ Feature: Get info from TestLink
 
   Scenario: Get a test plan by its name
     Given I have a TestLink server with API version 1.0
-    And I know the name of a test plan
+    And I have the list of projects
+    And I know the name of a project
+    And I have a list of test plans
+    And I know the name of a test plan in that project
     When I ask for that test plan by name
     Then I get that test plan
 
