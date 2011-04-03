@@ -12,9 +12,37 @@ class TestLinkClient
   include TestLinkClient::Wrapper
   include TestLinkClient::Helpers
 
-  attr_writer :log
-  attr_writer :logger
-  attr_writer :log_level
+  class << self
+    attr_writer :log
+    attr_writer :logger
+    attr_writer :log_level
+
+    # @return [Boolean] Returns if logging is enabled or not.
+    def log?
+      @log != false
+    end
+
+    # @return [Logger,?] Returns a Logger unless you use a different type of
+    #   logging object.
+    def logger
+      @logger ||= Logger.new STDOUT
+    end
+
+    # @return [Symbol] The method name to send to the logging object in order to
+    #   log messages.
+    def log_level
+      @log_level ||= :debug
+    end
+
+    def log=(on)
+      @log = on
+    end
+
+    # @param [String] message The string to log.
+    def log message
+      logger.send(log_level, message) if log?
+    end
+  end
 
   # Default value for timing out after not receiving an XMLRPC response from
   #   the server.
@@ -31,13 +59,13 @@ class TestLinkClient
   # @option options [Fixnum] timeout Seconds to timeout after not receiving a
   #   response from the server.
   # @option options [String] version Force a different API version.
-  def initialize(server_url, dev_key, options={})
-    api_path = options[:api_path] || DEFAULT_API_PATH
-    timeout = options[:timeout] || DEFAULT_TIMEOUT
-    @dev_key = dev_key
+  def initialize(server_url, dev_key, options={ })
+    api_path   = options[:api_path] || DEFAULT_API_PATH
+    timeout    = options[:timeout] || DEFAULT_TIMEOUT
+    @dev_key   = dev_key
     server_url = server_url + api_path
-    @server  = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
-    @version = Versionomy.parse(options[:version] || api_version)
+    @server    = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
+    @version   = Versionomy.parse(api_version)
   end
 
   # Makes the call to the server with the given arguments.  Note that this also
@@ -50,15 +78,16 @@ class TestLinkClient
   #   return result
   # @param [String] method_name The XMLRPC method to call.
   # @param [Hash] arguments The arguments to send to the server.
-  # @param [String] api_version The version of the API the method was added.
+  # @param [String] method_supported_in_version The version of the API the
+  #   method was added.
   # @return The return type depends on the method call.
-  def make_call(method_name, arguments, api_version)
-    ensure_version_is :greater_than_or_equal_to, api_version
-    log "API Version: #{api_version}"
-    log "Calling method: '#{method_name}' with args '#{arguments}'"
+  def make_call(method_name, arguments, method_supported_in_version)
+    ensure_version_is :greater_than_or_equal_to, method_supported_in_version
+    TestLinkClient.log "API Version: #{method_supported_in_version}"
+    TestLinkClient.log "Calling method: '#{method_name}' with args '#{arguments}'"
     response = @server.call(method_name, arguments)
-    log "Received response:"
-    log response
+    TestLinkClient.log "Received response:"
+    TestLinkClient.log response
 
     if @version.nil?
       return response
@@ -67,28 +96,6 @@ class TestLinkClient
     end
 
     response
-  end
-
-  # @return [Boolean] Returns if logging is enabled or not.
-  def log?
-    @log != false
-  end
-
-  # @return [Logger,?] Returns a Logger unless you use a different type of
-  #   logging object.
-  def logger
-    @logger ||= Logger.new STDOUT
-  end
-
-  # @return [Symbol] The method name to send to the logging object in order to
-  #   log messages.
-  def log_level
-    @log_level ||= :debug
-  end
-
-  # @param [String] message The string to log.
-  def log message
-    logger.send(log_level, message) if log?
   end
 
   private
