@@ -65,7 +65,7 @@ class TestLinkClient
     @dev_key   = dev_key
     server_url = server_url + api_path
     @server    = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
-    @version   = Versionomy.parse(api_version)
+    @version   = Versionomy.parse(options[:version] || api_version)
   end
 
   # Makes the call to the server with the given arguments.  Note that this also
