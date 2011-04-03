@@ -5,11 +5,16 @@ require File.expand_path(File.dirname(__FILE__) + '/test_link_client/helpers')
 require 'xmlrpc/client'
 require 'rubygems'
 require 'versionomy'
+require 'logger'
 
 # TODO: Check parameter order; make sure most relevant is first.
 class TestLinkClient
   include TestLinkClient::Wrapper
   include TestLinkClient::Helpers
+
+  attr_writer :log
+  attr_writer :logger
+  attr_writer :log_level
 
   # Default value for timing out after not receiving an XMLRPC response from
   #   the server.
@@ -49,7 +54,11 @@ class TestLinkClient
   # @return The return type depends on the method call.
   def make_call(method_name, arguments, api_version)
     ensure_version_is :greater_than_or_equal_to, api_version
+    log "API Version: #{api_version}"
+    log "Calling method: '#{method_name}' with args '#{arguments}"
     response = @server.call(method_name, arguments)
+    log "Received response:"
+    log response
 
     if @version.nil?
       return response
@@ -58,6 +67,28 @@ class TestLinkClient
     end
 
     response
+  end
+
+  # @return [Boolean] Returns if logging is enabled or not.
+  def log?
+    @log != false
+  end
+
+  # @return [Logger,?] Returns a Logger unless you use a different type of
+  #   logging object.
+  def logger
+    @logger ||= Logger.new STDOUT
+  end
+
+  # @return [Symbol] The method name to send to the logging object in order to
+  #   log messages.
+  def log_level
+    @log_level ||= :debug
+  end
+
+  # @param [String] message The string to log.
+  def log message
+    logger.send(log_level, message) if log?
   end
 
   private
