@@ -8,5 +8,5 @@ Given /^I have a TestLink server with API version (.+)$/ do |api_version|
   end
   @server = TestLinkClient.new(url, dev_key)
   @server.api_version.should == api_version
-  @server.about.should match /#{api_version}/
+  @server.about.should match /#{api_version} /
 end
