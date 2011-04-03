@@ -55,7 +55,7 @@ class TestLinkClient
   def make_call(method_name, arguments, api_version)
     ensure_version_is :greater_than_or_equal_to, api_version
     log "API Version: #{api_version}"
-    log "Calling method: '#{method_name}' with args '#{arguments}"
+    log "Calling method: '#{method_name}' with args '#{arguments}'"
     response = @server.call(method_name, arguments)
     log "Received response:"
     log response
