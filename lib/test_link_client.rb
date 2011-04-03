@@ -34,10 +34,6 @@ class TestLinkClient
       @log_level ||= :debug
     end
 
-    def log=(on)
-      @log = on
-    end
-
     # @param [String] message The string to log.
     def log message
       logger.send(log_level, message) if log?

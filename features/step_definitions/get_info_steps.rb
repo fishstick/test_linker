@@ -52,3 +52,27 @@ end
 Then /^I get that test plan$/ do
   @requested_test_plan_name.first["name"].should == @original_test_plan_name
 end
+
+Given /^I know the ID of a test case in that project$/ do
+  pending
+  @test_cases = @server.test_cases_for_test_plan(@test_plans.last["id"])
+end
+
+When /^I ask for that test case by ID$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^I get that test case$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I ask for the list of test cases in that test plan$/ do
+  @test_cases = @server.test_cases_for_test_plan(
+      @test_plans.first.values.first["id"])
+end
+
+Then /^I get a list of test cases in that test plan$/ do
+  @test_cases.should_not be_nil
+  @test_cases.class.should == Hash
+  @test_cases.last["name"].class.should == String
+end

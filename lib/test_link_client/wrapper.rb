@@ -359,9 +359,8 @@ class TestLinkClient
     # @option options [String] executestatus
     # @option options [String] executiontype
     # @option options [String] getstepinfo Defaults to false
-    # @return [Hash<Array>] List of all test cases in the plan and their
-    #   associated info. The first element in the Array is the test case ID, the
-    #   second element is the test case info.
+    # @return [Hash] List of all test cases in the plan and their
+    #   associated info.
     def test_cases_for_test_plan(plan_id, options={})
       args = { "devKey" => @dev_key, "testplanid" => plan_id }
       args.merge! options
@@ -446,11 +445,11 @@ class TestLinkClient
     end
     alias_method :getTestCaseIDByName, :test_case_id_by_name
 
-    # @param [Fixnum] plan_id
     # @param [Fixnum] test_case_id
     # @param [Fixnum] build_id
-    # @return
-    def last_execution_result(plan_id, test_case_id, build_id)
+    # @param [Fixnum] plan_id
+    # @return [Array<Hash>] Single element Array containing the result Hash.
+    def last_execution_result(test_case_id, build_id, plan_id)
       args = { "devKey" => @dev_key, "testplanid" => plan_id,
           "testcaseid" => test_case_id, "buildid" => build_id }
       make_call("tl.getLastExecutionResult", args, "1.0b5")
