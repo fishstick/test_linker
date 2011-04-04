@@ -1,6 +1,6 @@
 source :rubygems
 
-gemspec
+#gemspec
 gem 'versionomy', '~> 0.4.0'
 
 group :development do
