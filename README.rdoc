@@ -33,12 +33,12 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
   test_plans = tl.find_test_plans(project_id, /Hello/)
   
   builds_for_test_plans = test_plans.collect do |test_plan|
-    t.builds_for_test_plan(test_plan["id"])
+    tl.builds_for_test_plan(test_plan["id"])
   end
   builds_for_test_plans.flatten!
   
   results = {}
-  builds.each do |build|
+  builds_for_test_plans.each do |build|
     results[:pass] = 0
     results[:failed] = 0
     results[:blocked] = 0
