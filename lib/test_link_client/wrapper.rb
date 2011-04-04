@@ -4,9 +4,9 @@ class TestLinkClient
     #
     # @since TestLink API version 1.0
     # @param [Hash] options
-    # @option options [Fixnum] testcaseid
-    # @option options [Fixnum] testcaseexternalid
-    # @option options [Fixnum] version The test case version. Default is most recent.
+    # @option options [Fixnum,String] testcaseid
+    # @option options [Fixnum,String] testcaseexternalid
+    # @option options [Fixnum,String] version The test case version. Default is most recent.
     # @return
     def test_case(options)
       args = { "devKey" => @dev_key }
@@ -18,7 +18,7 @@ class TestLinkClient
     # Gets full path from the given node till the top using nodes_hierarchy_table.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] node_id
+    # @param [Fixnum,String] node_id
     # @return
     def full_path node_id
       args = { "devKey" => @dev_key, "nodeID" => node_id }
@@ -29,7 +29,7 @@ class TestLinkClient
     # Gets a test suite by the given ID.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] suite_id
+    # @param [Fixnum,String] suite_id
     # @return
     def test_suite_by_id suite_id
       args = { "devKey" => @dev_key, "testsuiteid" => suite_id }
@@ -38,7 +38,7 @@ class TestLinkClient
     alias_method :getTestSuiteByID, :test_suite_by_id
 
     # @since TestLink API version 1.0
-    # @param [Fixnum] execution_id
+    # @param [Fixnum,String] execution_id
     # @return [Hash] "status", "id", "message"
     def delete_execution execution_id
       args = { "devKey" => @dev_key, "executionid" => execution_id }
@@ -58,7 +58,7 @@ class TestLinkClient
     # Checks if the given Developer Key exist.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] dev_key
+    # @param [String] dev_key
     # @return [Hash] "true" if it exists, otherwise error structure.
     def check_dev_key dev_key
       args = { "devKey" => dev_key }
@@ -69,15 +69,15 @@ class TestLinkClient
     # Uploads an attachment for a test case execution.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] execution_id
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
+    # @param [Fixnum,String] execution_id
     # @param [Hash] options
     # @option options [String] title
     # @option options [String] description
     # @return
-    def upload_execution_attachment(execution_id, file_name, mime_type, content,
+    def upload_execution_attachment(file_name, mime_type, content, execution_id,
       options={})
       args = { "devKey" => @dev_key, "executionid" => execution_id,
         "filename" => file_name, "filetype" => mime_type, "content" => content }
@@ -90,7 +90,7 @@ class TestLinkClient
     # Base64 encoded by the client before sending it.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] requirement_id
+    # @param [Fixnum,String] requirement_id
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
@@ -98,8 +98,8 @@ class TestLinkClient
     # @option options [String] title
     # @option options [String] description
     # @return
-    def upload_requirement_attachment(requirement_id, file_name, mime_type,
-        content, options={})
+    def upload_requirement_attachment(file_name, mime_type, content,
+        requirement_id, options={})
       args = { "devKey" => @dev_key, "requirementid" => requirement_id,
           "filename" => file_name, "filetype" => mime_type, "content" => content }
       args.merge! options
@@ -111,16 +111,16 @@ class TestLinkClient
     # content must be Base64 encoded by the client before sending it.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] requirement_id
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
+    # @param [Fixnum,String] requirement_id
     # @param [Hash] options
     # @option options [String] title
     # @option options [String] description
     # @return
-    def upload_requirement_specification_attachment(requirement_specification_id, file_name, mime_type, content,
-        options={})
+    def upload_requirement_specification_attachment(file_name, mime_type, content,
+        requirement_specification_id, options={})
       args = { "devKey" => @dev_key, "reqspecid" => requirement_specification_id,
           "filename" => file_name, "filetype" => mime_type, "content" => content }
       args.merge! options
@@ -132,11 +132,11 @@ class TestLinkClient
     # Assign Requirements to a test case.  Capable of assigning multiple
     # requirements. Requirements can belong to different Requirement Specs.
     #
-    # @param [Fixnum] test_case_external_id
-    # @param [Fixnum] project_id
     # @param [String] requirements
+    # @param [Fixnum,String] test_case_external_id
+    # @param [Fixnum,String] project_id
     # @return
-    def assign_requirements(test_case_external_id, project_id, requirements)
+    def assign_requirements(requirements, test_case_external_id, project_id)
       args = { "devKey" => @dev_key, "testcaseexternalid" => test_case_external_id,
           "testprojectid" => project_id, "requirements" => requirements }
       make_call("tl.assignRequirements", args, "1.0b5")
@@ -147,15 +147,15 @@ class TestLinkClient
     # encoded by the client before sending it.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] project_id
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
+    # @param [Fixnum,String] project_id
     # @param [Hash] options
     # @option options [String] title
     # @option options [String] description
     # @return
-    def upload_test_project_attachment(project_id, file_name, mime_type, content,
+    def upload_test_project_attachment(file_name, mime_type, content, project_id,
         options={})
       args = { "devKey" => @dev_key, "testprojectid" => project_id,
           "filename" => file_name, "filetype" => mime_type, "content" => content }
@@ -168,15 +168,15 @@ class TestLinkClient
     # encoded by the client before sending it.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] suite_id
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
+    # @param [Fixnum,String] suite_id
     # @param [Hash] options
     # @option options [String] title
     # @option options [String] description
     # @return
-    def upload_test_suite_attachment(suite_id, file_name, mime_type, content,
+    def upload_test_suite_attachment(file_name, mime_type, content, suite_id,
         options={})
       args = { "devKey" => @dev_key, "testsuiteid" => suite_id,
           "filename" => file_name, "filetype" => mime_type, "content" => content }
@@ -189,15 +189,15 @@ class TestLinkClient
     # encoded by the client before sending it.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] test_case_id
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
+    # @param [Fixnum,String] test_case_id
     # @param [Hash] options
     # @option options [String] title
     # @option options [String] description
     # @return
-    def upload_test_case_attachment(test_case_id, file_name, mime_type, content,
+    def upload_test_case_attachment(file_name, mime_type, content, test_case_id,
         options={})
       args = { "devKey" => @dev_key, "testcaseid" => test_case_id,
           "filename" => file_name, "filetype" => mime_type, "content" => content }
@@ -212,17 +212,17 @@ class TestLinkClient
     # before sending it.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] foreign_key_id
-    # @param [String] foreign_key_table
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
+    # @param [Fixnum,String] foreign_key_id
+    # @param [String] foreign_key_table
     # @param [Hash] options
     # @option options [String] title
     # @option options [String] description
     # @return
-    def upload_attachment(foreign_key_id, foreign_key_table, file_name, mime_type,
-        content, options={})
+    def upload_attachment(file_name, mime_type, content, foreign_key_id,
+         foreign_key_table, options={})
       args = { "devKey" => @dev_key, "fkid" => foreign_key_id,
           "fktable" => foreign_key_table, "filename" => file_name,
           "filetype" => mime_type, "content" => content }
@@ -266,7 +266,7 @@ class TestLinkClient
 
     # Gets a list of test plans within a project.
     #
-    # @param [Fixnum] project_id ID of the project to retrieve plans.
+    # @param [Fixnum,String] project_id ID of the project to retrieve plans.
     # @return [Array<Hash>] Array of all plans in a project and their associated
     #   info.
     # @raise [TestLinkClient::Error] If a project by the given ID doesn't exist.
@@ -303,7 +303,7 @@ class TestLinkClient
 
     # List test suites within a test plan alphabetically.
     #
-    # @param [String] plan_id ID of the plan to get suites for.
+    # @param [Fixnum,String] plan_id ID of the plan to get suites for.
     # @return [Array<Hash>] List of all suites in plan and their associated info.
     def test_suites_for_test_plan plan_id
       args = { "devKey" => @dev_key, "testplanid" => plan_id }
@@ -314,7 +314,7 @@ class TestLinkClient
     # List test suites within a test plan alphabetically.
     #
     # @since API version 1.0
-    # @param [String] plan_id ID of the plan to get suites for.
+    # @param [Fixnum,String] plan_id ID of the plan to get suites for.
     # @return [Array<Hash>] List of all suites in plan and their associated info.
     def test_plan_platforms plan_id
       args = { "devKey" => @dev_key, "testplanid" => plan_id }
@@ -325,7 +325,7 @@ class TestLinkClient
     # Gets a list of test suites that are direct children of the given test suite.
     #
     # @since API version 1.0
-    # @param [String] suite_id ID of the suite to get suites for.
+    # @param [Fixnum,String] suite_id ID of the suite to get suites for.
     # @return [Array<Hash>] List of all suites in plan and their associated info.
     def test_suites_for_test_suite suite_id
       args = { "devKey" => @dev_key, "testsuiteid" => suite_id }
@@ -335,7 +335,7 @@ class TestLinkClient
 
     # Gets the set of test suites from the top level of the test project tree.
     #
-    # @param [String] project_id ID of the project to get suites for.
+    # @param [Fixnum,String] project_id ID of the project to get suites for.
     # @return [Array<Hash>] List of first level suites in project and their
     #   associated info.
     def first_level_test_suites_for_test_project project_id
@@ -347,11 +347,11 @@ class TestLinkClient
 
     # Info about test cases within a test plan.
     #
-    # @param [String] plan_id ID of the plan to get test cases for.
+    # @param [Fixnum,String] plan_id ID of the plan to get test cases for.
     # @param [Hash] options
-    # @option options [Fixnum] testcaseid
-    # @option options [Fixnum] buildid
-    # @option options [Fixnum] keywordid (mutually exclusive with keywords)
+    # @option options [Fixnum,String] testcaseid
+    # @option options [Fixnum,String] buildid
+    # @option options [Fixnum,String] keywordid (mutually exclusive with keywords)
     # @option options [Fixnum] keywords (mutually exclusive with keywordid)
     #   (TestLink API >=1.0)
     # @option options [String] executed
@@ -368,8 +368,8 @@ class TestLinkClient
     end
     alias_method :getTestCasesForTestPlan, :test_cases_for_test_plan
 
-    # @param [Fixnum] suite_id ID of the suite to retrieve test cases for.
-    # @param [Fixnum] project_id
+    # @param [Fixnum,String] suite_id ID of the suite to retrieve test cases for.
+    # @param [Fixnum,String] project_id
     # @param [Hash] options
     # @option options [Boolean] deep
     # @option options [String] details Default is "simple"; use "full" to get
@@ -386,7 +386,7 @@ class TestLinkClient
     # Gets the summarized results grouped by platform.
     #
     # @since TestLink API version 1.0
-    # @param [Fixnum] plan_id
+    # @param [Fixnum,String] plan_id
     # @return [Hash] Contains "type" => platform, "total_tc" => X, "details =>
     #   Array of counts.
     def totals_for_test_plan plan_id
@@ -398,27 +398,27 @@ class TestLinkClient
     # Gets attachments for specified test case.
     #
     # @param [Hash] options
-    # @param [Fixnum] testcaseid If not present, testcaseexternalid must be called.
-    # @param [Fixnum] testcaseexternalid If not present, testcaseid must be called.
+    # @param [Fixnum,String] testcaseid If not present, testcaseexternalid must be called.
+    # @param [Fixnum,String] testcaseexternalid If not present, testcaseid must be called.
     # @return [String]
-    def test_case_attachments(options)
+    def test_case_attachments options
       args = { "devKey" => @dev_key }
       args.merge! options
       make_call("tl.getTestCaseAttachments", args, "1.0b5")
     end
     alias_method :getTestCaseAttachments, :test_case_attachments
 
-    # @param [Fixnum] test_case_external_id
-    # @param [Fixnum] project_id
+    # @param [Fixnum,String] test_case_external_id
+    # @param [Fixnum,String] project_id
     # @param [Fixnum] custom_field_name
     # @param [Hash] options
     # @option options [String] details Changes output information. If null or 'value',
     #   returns just a value; if 'full', returns a hash with all custom field definition,
     #   plus value and internal test case id; if 'simple', returns value plus custom
     #   field name, label, and type (as code).
-    #   @return [Array<Hash>]
-    def test_case_custom_field_design_value(test_case_external_id, project_id,
-        custom_field_name, options={})
+    # @return [Array<Hash>]
+    def test_case_custom_field_design_value(custom_field_name,
+        test_case_external_id, project_id, options={})
       args = { "devKey" => @dev_key, "testprojectid" => project_id,
           "testcaseexternalid" => test_case_external_id,
           "customfieldname" => custom_field_name }
@@ -445,9 +445,9 @@ class TestLinkClient
     end
     alias_method :getTestCaseIDByName, :test_case_id_by_name
 
-    # @param [Fixnum] test_case_id
-    # @param [Fixnum] build_id
-    # @param [Fixnum] plan_id
+    # @param [Fixnum,String] test_case_id
+    # @param [Fixnum,String] build_id
+    # @param [Fixnum,String] plan_id
     # @return [Array<Hash>] Single element Array containing the result Hash.
     def last_execution_result(test_case_id, build_id, plan_id)
       args = { "devKey" => @dev_key, "testplanid" => plan_id,
@@ -458,7 +458,7 @@ class TestLinkClient
 
     # Gets a list of builds within a test plan.
     #
-    # @param [String] plan_id ID of the plan to get builds for.
+    # @param [Fixnum,String] plan_id ID of the plan to get builds for.
     # @return [Array<Hash>] List of all builds for the plan and their associated
     #   info.
     def builds_for_test_plan plan_id
@@ -467,7 +467,7 @@ class TestLinkClient
     end
     alias_method :getBuildsForTestPlan, :builds_for_test_plan
 
-    # @param [String] plan_id ID of the plan to get build for.
+    # @param [Fixnum,String] plan_id ID of the plan to get build for.
     # @return [Hash] Info for the latest build for the given test plan.
     def latest_build_for_test_plan plan_id
       args = { "devKey" => @dev_key, "testplanid" => plan_id }
@@ -509,18 +509,18 @@ class TestLinkClient
     end
     alias_method :createTestPlan, :create_test_plan
 
-    # @param [String] project_id
     # @param [String] suite_name
     # @param [String] details
+    # @param [Fixnum,String] project_id
     # @param [Hash] options
-    # @option options [String] parentid Defaults to top level.
+    # @option options [Fixnum,String] parentid Defaults to top level.
     # @option options [Fixnum] order Order inside parent container.
     # @option options [Boolean] checkduplicatedname Check if there siblings with
     #   the same name. Defaults to true.
     # @option options [Boolean] actiononduplicatedname Applicable only if
     #   checkduplicatedname = true.
     # @return [Array<Hash>] Info about results of test suite creation.
-    def create_test_suite(project_id, suite_name, details='', options={})
+    def create_test_suite(suite_name, details='', project_id, options={})
       args = { 'devKey' => @dev_key, 'testprojectid' => project_id,
           'testsuitename' => suite_name, 'details' => details }
       args.merge! options
@@ -530,35 +530,35 @@ class TestLinkClient
 
     # Creates a new build for a specific test plan.
     #
-    # @param [String] plan_id
     # @param [String] build_name
     # @param [String] build_notes
+    # @param [Fixnum,String] plan_id
     # @return
-    def create_build(plan_id, build_name, build_notes='')
+    def create_build(build_name, build_notes='', plan_id)
       args = { "devKey" => @dev_key, "testplanid" => plan_id,
          "buildname" => build_name, "buildnotes" => build_notes }
       make_call("tl.createBuild", args, "1.0b5")
     end
     alias_method :createBuild, :create_build
 
-    # @param [String] login
-    # @param [Fixnum] project_id
-    # @param [Fixnum] suite_id
     # @param [String] test_case_name
     # @param [String] test_case_summary
     # @param [String] test_case_steps
     # @param [String] test_case_expected_results
+    # @param [Fixnum,String] suite_id
+    # @param [Fixnum,String] project_id
+    # @param [String] login
     # @param [Hash] options
     # @option options [String] preconditions
     # @option options [String] execution
     # @option options [Fixnum] order
-    # @option options [Fixnum] internalid
+    # @option options [Fixnum,String] internalid
     # @option options [Boolean] checkduplicatedname
     # @option options [String] actiononduplicatedname
     # @option options [String] executiontype
     # @return
-    def create_test_case(test_case_name, suite_id, project_id, login,
-        test_case_summary, test_case_steps, test_case_expected_results, options={})
+    def create_test_case(test_case_name, test_case_summary, test_case_steps,
+         test_case_expected_results, suite_id, project_id, login, options={})
       args = { "devKey" => @dev_key,
           "testcasename" => test_case_name,
           "testsuiteid" => suite_id,
@@ -574,18 +574,18 @@ class TestLinkClient
 
     # Adds a test case version to a test plan.
     #
-    # @param [String] project_id
-    # @param [String] plan_id
-    # @param [String] test_case_id
-    # @param [String] test_case_version
+    # @param [Fixnum,String] test_case_external_id
+    # @param [Fixnum,String] test_case_version
+    # @param [Fixnum,String] plan_id
+    # @param [Fixnum,String] project_id
     # @param [Hash] options Optional parameters for the method.
     # @option options [String] urgency
     # @option options [Fixnum] executionorder
     # @option options [Fixnum] platformid Only if test plan has no platforms.
     #   (TestLink API >=1.0)
     # @return
-    def add_test_case_to_test_plan(project_id, plan_id, test_case_external_id,
-        test_case_version, options={})
+    def add_test_case_to_test_plan(test_case_external_id, test_case_version,
+         plan_id, project_id, options={})
       args = { "devKey" => @dev_key, "testprojectid" => project_id,
           "testplanid" => plan_id, "testcaseexternalid" => test_case_external_id,
           "version" => test_case_version }
@@ -600,16 +600,16 @@ class TestLinkClient
     #
     # @see #test_case_execution_result=
     # @version TestLink API version 1.0 Beta 5
-    # @param [String] test_case_id ID of the test case to post results to.
-    # @param [String] plan_id ID of the test plan to post results to.
+    # @param [Fixnum,String] test_case_id ID of the test case to post results to.
     # @param [String] status 'p', 'f', 's', or 'b' for Pass/Fail/Skip/Block
+    # @param [Fixnum,String] plan_id ID of the test plan to post results to.
     # @param [Hash] options
-    # @option options [Fixnum] buildid ID of the build to post results to.
-    # @option options [Fixnum] buildname Name of the build to post results to.
-    # @option options [Fixnum] bugid ID of the bug to link results to.
+    # @option options [Fixnum,String] buildid ID of the build to post results to.
+    # @option options [Fixnum,String] buildname Name of the build to post results to.
+    # @option options [Fixnum,String] bugid ID of the bug to link results to.
     # @option options [Boolean] guess Defines whether to guess optional params
     #   or require them explicitly.  Defaults to true.
-    # @option options [String] platformid ID of the platform to associate with the
+    # @option options [Fixnum,String] platformid ID of the platform to associate with the
     #   result. (TestLink API >=1.0)
     # @option options [String] customfields i.e. "NAME: Steve Loveless\n"
     #   (TestLink API >=1.0)
@@ -617,7 +617,7 @@ class TestLinkClient
     # @return [Hash] "status" of posting, "id" of the execution, "message"
     #   giving success or failure info.
     # @raise [TestLinkClient::Error] If result fails to be posted for any reason.
-    def report_test_case_result(test_case_id, plan_id, status, options={})
+    def report_test_case_result(test_case_id, status, plan_id, options={})
       if @version >= "1.0"
         message = "Method not supported in version #{@version}. "
         message << "Use #test_case_execution_result="
@@ -643,8 +643,8 @@ class TestLinkClient
     # @see #report_test_case_result
     # @since TestLink API version 1.0
     # @param [String] test_case_id ID of the test case to post results to.
-    # @param [String] plan_id ID of the test plan to post results to.
     # @param [String] status 'p', 'f', 's', or 'b' for Pass/Fail/Skip/Block
+    # @param [String] plan_id ID of the test plan to post results to.
     # @param [Hash] options
     # @option options [Fixnum] buildid ID of the build to post results to.
     # @option options [String] buildname Name of the build to post results to.
@@ -658,7 +658,7 @@ class TestLinkClient
     # @return [Hash] "status" of posting, "id" of the execution, "message"
     #   giving success or failure info.
     # @raise [TestLinkClient::Error] If result fails to be posted for any reason.
-    def test_case_execution_result=(test_case_id, plan_id, status, options={})
+    def test_case_execution_result=(test_case_id, status, plan_id, options={})
       if @version < "1.0"
         message = "Method not supported in version #{@version}. "
         message << "Use #report_test_case_result"
