@@ -201,20 +201,17 @@ module TestLinker::Helpers
   # @param [String] steps
   # @param [String] expected_results
   # @return [Array] array->  array[0]=test case id, array[1]=test case version
+  # @todo Need to update for having more than one of same test name inside test plan.
   def create_test_case_by_name(test_case_name, suite_name, project_name, login,
       summary, steps, expected_results)
 
     test_project_id = self.test_project_id(project_name)
     test_suite_id = self.suite_info(project_name, plan_name, suite_name)
-    test_case_id = nil
-    test_case_version = nil
 
-    # @todo Need to update for having more than one of same test name inside testplan
     result = create_test_case(login, test_project_id, test_suite_id, test_case_name,
       summary, steps, expected_results)
 
     if result.any?
-      #probably need more error checking.  Will return reason if fail.
       result.each do |result_ptr|
         if result_ptr["message"].eql? "Success!"
           if result_ptr.has_key? "additionalInfo"
