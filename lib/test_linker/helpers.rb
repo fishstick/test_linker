@@ -24,7 +24,7 @@ module TestLinker::Helpers
       raise TestLinker::Error, project['message'] if project['code']
     end
 
-    project['id'].to_i
+    project.nil? ? nil : project['id'].to_i
   end
 
   # Gets info about test plans within a project
