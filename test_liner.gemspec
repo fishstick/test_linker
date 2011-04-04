@@ -4,7 +4,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{test_link_client}
+  s.name = %q{test_linker}
   s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.3.6") if s.respond_to? :required_rubygems_version=
@@ -32,23 +32,23 @@ Gem::Specification.new do |s|
     "features/support/common.rb",
     "features/support/env.rb",
     "gemspec.yml",
-    "lib/test_link_client.rb",
-    "lib/test_link_client/error.rb",
-    "lib/test_link_client/helpers.rb",
-    "lib/test_link_client/version.rb",
-    "lib/test_link_client/wrapper.rb",
+    "lib/test_linker.rb",
+    "lib/test_linker/error.rb",
+    "lib/test_linker/helpers.rb",
+    "lib/test_linker/version.rb",
+    "lib/test_linker/wrapper.rb",
     "spec/spec_helper.rb",
-    "spec/test_link_client_spec.rb",
-    "test_link_client.gemspec"
+    "spec/test_linker.rb",
+    "test_linker.gemspec"
   ]
-  s.homepage = %q{http://rubygems.org/gems/test_link_client}
+  s.homepage = %q{http://rubygems.org/gems/test_linker}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubyforge_project = %q{test_link_client}
+  s.rubyforge_project = %q{test_linker}
   s.rubygems_version = %q{1.6.2}
   s.summary = %q{An interface to the TestLink XMLRPC API}
   s.test_files = [
-    "spec/test_link_client_spec.rb"
+    "spec/test_linker.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -64,7 +64,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
       s.add_development_dependency(%q<simplecov>, [">= 0.4.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
-      s.add_runtime_dependency(%q<test_link_client>, [">= 0"])
+      s.add_runtime_dependency(%q<test_linker>, [">= 0"])
       s.add_runtime_dependency(%q<versionomy>, ["~> 0.4.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
@@ -113,7 +113,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.5"])
       s.add_dependency(%q<simplecov>, [">= 0.4.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
-      s.add_dependency(%q<test_link_client>, [">= 0"])
+      s.add_dependency(%q<test_linker>, [">= 0"])
       s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
@@ -163,7 +163,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, ["~> 2.5"])
     s.add_dependency(%q<simplecov>, [">= 0.4.0"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
-    s.add_dependency(%q<test_link_client>, [">= 0"])
+    s.add_dependency(%q<test_linker>, [">= 0"])
     s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<cucumber>, ["~> 0.10.0"])

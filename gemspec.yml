@@ -1,4 +1,4 @@
-name: test_link_client
+name: test_linker
 summary: "An interface to the TestLink XMLRPC API"
 description:
   This is a Ruby wrapper around the TestLink XMLRPC API, thus allowing access to
@@ -8,7 +8,7 @@ description:
   (from TestLink 1.9.x).
 license: MIT
 authors: sloveless, Randy Stoller, Sujin Philip, Vikram Raina
-homepage: http://rubygems.org/gems/test_link_client
+homepage: http://rubygems.org/gems/test_linker
 has_yard: true
 dependencies:
   versionomy: ~> 0.4.0

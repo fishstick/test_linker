@@ -1,4 +1,4 @@
-class TestLinkClient
+class TestLinker
   class Error < RuntimeError
   end
 end

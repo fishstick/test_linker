@@ -1,16 +1,15 @@
-require File.expand_path(File.dirname(__FILE__) + '/test_link_client/wrapper')
-require File.expand_path(File.dirname(__FILE__) + '/test_link_client/version')
-require File.expand_path(File.dirname(__FILE__) + '/test_link_client/error')
-require File.expand_path(File.dirname(__FILE__) + '/test_link_client/helpers')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/wrapper')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/version')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/error')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/helpers')
 require 'xmlrpc/client'
 require 'rubygems'
 require 'versionomy'
 require 'logger'
 
-# TODO: Check parameter order; make sure most relevant is first.
-class TestLinkClient
-  include TestLinkClient::Wrapper
-  include TestLinkClient::Helpers
+class TestLinker
+  include TestLinker::Wrapper
+  include TestLinker::Helpers
 
   class << self
     attr_writer :log
@@ -70,7 +69,7 @@ class TestLinkClient
   #
   # @example Call a new method
   #   result = make_call("tl.getWidgets", { "testplanid" => 123 }, "1.5")
-  #   raise TestLinkClient::Error, result["message"] if result["code"]
+  #   raise TestLinker::Error, result["message"] if result["code"]
   #   return result
   # @param [String] method_name The XMLRPC method to call.
   # @param [Hash] arguments The arguments to send to the server.
@@ -79,16 +78,16 @@ class TestLinkClient
   # @return The return type depends on the method call.
   def make_call(method_name, arguments, method_supported_in_version)
     ensure_version_is :greater_than_or_equal_to, method_supported_in_version
-    TestLinkClient.log "API Version: #{method_supported_in_version}"
-    TestLinkClient.log "Calling method: '#{method_name}' with args '#{arguments}'"
+    TestLinker.log "API Version: #{method_supported_in_version}"
+    TestLinker.log "Calling method: '#{method_name}' with args '#{arguments}'"
     response = @server.call(method_name, arguments)
-    TestLinkClient.log "Received response:"
-    TestLinkClient.log response
+    TestLinker.log "Received response:"
+    TestLinker.log response
 
     if @version.nil?
       return response
     elsif response.is_a?(Array) && response.first['code']
-      raise TestLinkClient::Error, "#{response.first['code']}: #{response.first['message']}"
+      raise TestLinker::Error, "#{response.first['code']}: #{response.first['message']}"
     end
 
     response
@@ -109,9 +108,9 @@ class TestLinkClient
     if @version.nil?
       return
     elsif comparison == :less_than && @version >= version
-      raise TestLinkClient::Error, message
+      raise TestLinker::Error, message
     elsif comparison == :greater_than_or_equal_to && @version < version
-      raise TestLinkClient::Error, message
+      raise TestLinker::Error, message
     end
   end
 end

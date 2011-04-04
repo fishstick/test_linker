@@ -1,7 +1,7 @@
-= test_link_client
+= test_linker
 
-* {Homepage}[http://rubygems.org/gems/test_link_client]
-* {Documentation}[http://rubydoc.info/gems/test_link_client/frames]
+* {Homepage}[http://rubygems.org/gems/test_linker]
+* {Documentation}[http://rubydoc.info/gems/test_linker/frames]
 * {TestLink API Documentation}[http://testlink.org/api/phpdoc_generated/TestlinkAPI/TestlinkXMLRPCServer.html]
 
 == Description
@@ -17,18 +17,18 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
 * Basic wrapper around existing XMLRPC functions.
 * Allow for calling methods via Ruby style (#projects) or XMLRPC style (#getProjects)
 * Support for TestLink API versions 1.0 Beta 5 and 1.0
-* Only one error/exception type: TestLinkClient::Error
+* Only one error/exception type: TestLinker::Error
 * Limited set of helper methods, attempting to fill in gaps from the API
 
 == Examples
 
-  require 'test_link_client'
+  require 'test_linker'
   require 'text-table'
   
   server = "http://testlink"
   dev_key = "90b7941411928ae0a84d19f365a01a63"
   
-  tl = TestLinkClient.new(server, dev_key)
+  tl = TestLinker.new(server, dev_key)
   project_id = tl.test_project_id "My Project"
   test_plans = tl.find_test_plans(project_id, /Hello/)
   
@@ -104,7 +104,7 @@ in to TestLink and going to "Personal -> API Key -> Generate a new key".
 
 == Install
 
-  $ gem install test_link_client
+  $ gem install test_linker
 
 == Copyright
 

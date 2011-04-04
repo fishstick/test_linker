@@ -3,4 +3,4 @@ require 'simplecov'
 SimpleCov.start do
   add_group "Library", "lib/"
 end
-require 'test_link_client'
+require 'test_linker'

@@ -1,6 +1,6 @@
-require 'test_link_client/error'
+require File.expand_path(File.dirname(__FILE__) + '/error')
 
-module TestLinkClient::Helpers
+module TestLinker::Helpers
   def api_version
     about =~ /Testlink API Version: (.+) initially/
     $1
@@ -10,14 +10,14 @@ module TestLinkClient::Helpers
   #
   # @param [String] project_name Name of the project to search for.
   # @return [Fixnum] ID of project matching project_name.
-  # @raise [TestLinkClient::Error] When ID cannot be found for given
+  # @raise [TestLinker::Error] When ID cannot be found for given
   #   project_name.
   def test_project_id project_name
     if @version < "1.0"
       project = projects.find { |project| project["name"] == project_name }
     else
       project = test_project_by_name(project_name).first
-      raise TestLinkClient::Error, project['message'] if project['code']
+      raise TestLinker::Error, project['message'] if project['code']
     end
 
     project['id'].to_i
@@ -40,7 +40,7 @@ module TestLinkClient::Helpers
       end
     else
       test_plan = test_plan_by_name(project_name, plan_name).first
-      raise TestLinkClient::Error, test_plan['message'] if test_plan['code']
+      raise TestLinker::Error, test_plan['message'] if test_plan['code']
     end
 
     test_plan.nil? ? 0 : test_plan['id'].to_i
@@ -52,7 +52,7 @@ module TestLinkClient::Helpers
   # @param [String] plan_name Name of the plan to search for.
   # @param [String] build_name Name of the build to search for.
   # @return [Fixnum] ID of plan matching project_name and plan_name
-  # @raise [TestLinkClient::Error] When unable to find matching
+  # @raise [TestLinker::Error] When unable to find matching
   #   project/plan/build names.
   def build_id(project_name, plan_name, build_name)
     plan_id = test_plan_id(project_name, plan_name)
@@ -64,7 +64,7 @@ module TestLinkClient::Helpers
       end
     end
 
-    raise TestLinkClient::Error,
+    raise TestLinker::Error,
         "Unable to find build named #{build_name} for #{plan_name} in #{project_name}"
   end
 
@@ -87,7 +87,7 @@ module TestLinkClient::Helpers
   # @param [String] project_name
   # @param [String] suite_name
   # @return [Fixnum] ID of the requested test suite.
-  # @raise [TestLinkClient::Error] If no test suite was found by the given name.
+  # @raise [TestLinker::Error] If no test suite was found by the given name.
   def first_level_test_suite_id(project_name, suite_name)
     test_suites = first_level_test_suites_for_test_project(test_project_id(project_name))
 
@@ -97,7 +97,7 @@ module TestLinkClient::Helpers
       end
     end
 
-    raise TestLinkClient::Error, "Suite #{suite_name} not found."
+    raise TestLinker::Error, "Suite #{suite_name} not found."
   end
 
   # Gets info about test case within a test plan within a project.
@@ -106,7 +106,7 @@ module TestLinkClient::Helpers
   # @param [String] plan_name Name of the plan to search for.
   # @param [String] test_case_name Name of the test case to search for.
   # @return [Hash] Info on the first matching test case.
-  # @raise [TestLinkClient::Error] When unable to find matching
+  # @raise [TestLinker::Error] When unable to find matching
   #   project/plan/test case names.
   # @todo Need to update for having more than one of same test name inside test plan.
   def test_info(project_name, plan_name, test_case_name)
@@ -119,7 +119,7 @@ module TestLinkClient::Helpers
       end
     end
 
-    raise TestLinkClient::Error,
+    raise TestLinker::Error,
         "Unable to find test named #{test_case_name} for #{plan_name} in #{project_name}"
   end
 
@@ -129,7 +129,7 @@ module TestLinkClient::Helpers
   # @param [String] plan_name
   # @param [String] suite_name
   # @return [String] SuiteID
-  # @raise [TestLinkClient::Error] When unable to find matching
+  # @raise [TestLinker::Error] When unable to find matching
   #   project/plan/test case names.
   # @todo NEED TO CLEAN THIS UP AND ADD ERROR CHECKING
   # @todo Need to update for having more than one of same test name inside testplan
@@ -147,7 +147,7 @@ module TestLinkClient::Helpers
       end
     end
 
-    raise TestLinkClient::Error,
+    raise TestLinker::Error,
         "Unable to find suite named #{suite_name} for #{plan_name} in #{project_name}"
   end
 
@@ -172,14 +172,14 @@ module TestLinkClient::Helpers
   # @param [String] suite_name
   # @param [String] project_name
   # @return [String] ID of the created or existing suite.
-  # @raise [TestLinkClient::Error] When unable to find matching
+  # @raise [TestLinker::Error] When unable to find matching
   #   project/plan/test case names.
   def create_suite(suite_name, project_name, parent_id)
     project_id = test_project_id(project_name)
     response = test_suites_for_test_suite(parent_id)
 
     if response.class == Array
-      raise TestLinkClient::Error, response.first['message']
+      raise TestLinker::Error, response.first['message']
     elsif response.class == Hash
       return response['id'] if response['name'] == suite_name
 

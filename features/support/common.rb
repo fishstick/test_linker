@@ -6,7 +6,7 @@ Given /^I have a TestLink server with API version (.+)$/ do |api_version|
     url = "http://testlink/"
     dev_key = "90b7941411928ae0a84d19f365a01a63"
   end
-  #TestLinkClient.log = false
+  #TestLinker.log = false
   TestLinkClient.log = true
   @server = TestLinkClient.new(url, dev_key)
   @server.api_version.should == api_version

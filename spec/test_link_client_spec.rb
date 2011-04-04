@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'test_link_client'
+require 'test_linker'
 
-describe TestLinkClient do
+describe TestLinkerdo
   it "should have a VERSION constant" do
     subject.const_get('VERSION').should_not be_empty
   end

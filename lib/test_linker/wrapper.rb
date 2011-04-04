@@ -1,4 +1,6 @@
-class TestLinkClient
+require File.expand_path(File.dirname(__FILE__) + '/error')
+
+class TestLinker
   module Wrapper
     # Gets a test case by it's internal or external ID.
     #
@@ -269,7 +271,7 @@ class TestLinkClient
     # @param [Fixnum,String] project_id ID of the project to retrieve plans.
     # @return [Array<Hash>] Array of all plans in a project and their associated
     #   info.
-    # @raise [TestLinkClient::Error] If a project by the given ID doesn't exist.
+    # @raise [TestLinker::Error] If a project by the given ID doesn't exist.
     def project_test_plans project_id
       args = { "devKey" => @dev_key, "testprojectid" => project_id }
       response = make_call("tl.getProjectTestPlans", args, "1.0b5")
@@ -435,7 +437,7 @@ class TestLinkClient
     # @option options [String] testprojectname
     # @option options [String] testsuitename
     # @option options [String] testcasepathname
-    # @raise [TestLinkClient::Error] When test case name doesn't exist.
+    # @raise [TestLinker::Error] When test case name doesn't exist.
     # @return [Array<Hash>] List of all test cases in the DB matching
     #   test_case_name and their associated info.
     def test_case_id_by_name(test_case_name, options={})
@@ -616,12 +618,12 @@ class TestLinkClient
     # @option options [String] notes ?
     # @return [Hash] "status" of posting, "id" of the execution, "message"
     #   giving success or failure info.
-    # @raise [TestLinkClient::Error] If result fails to be posted for any reason.
+    # @raise [TestLinker::Error] If result fails to be posted for any reason.
     def report_test_case_result(test_case_id, status, plan_id, options={})
       if @version >= "1.0"
         message = "Method not supported in version #{@version}. "
         message << "Use #test_case_execution_result="
-        raise TestLinkClient::Error, message
+        raise TestLinker::Error, message
       end
 
       args = { "devKey" => @dev_key, "testcaseid" => test_case_id,
@@ -630,7 +632,7 @@ class TestLinkClient
       result = @server.call("tl.reportTCResult", args).first
 
       unless result['message'] == 'Success!'
-        raise TestLinkClient::Error, "#{result['code']}: #{result['message']}"
+        raise TestLinker::Error, "#{result['code']}: #{result['message']}"
       end
 
       result
@@ -657,12 +659,12 @@ class TestLinkClient
     # @option options [String] overwrite (version 1.0)
     # @return [Hash] "status" of posting, "id" of the execution, "message"
     #   giving success or failure info.
-    # @raise [TestLinkClient::Error] If result fails to be posted for any reason.
+    # @raise [TestLinker::Error] If result fails to be posted for any reason.
     def test_case_execution_result=(test_case_id, status, plan_id, options={})
       if @version < "1.0"
         message = "Method not supported in version #{@version}. "
         message << "Use #report_test_case_result"
-        raise TestLinkClient::Error, message
+        raise TestLinker::Error, message
       end
 
       args = { "devKey" => @dev_key, "testcaseid" => test_case_id,
@@ -671,7 +673,7 @@ class TestLinkClient
       result = @server.call("tl.setTestCaseExecutionResult", args).first
 
       unless result['message'] == 'Success!'
-        raise TestLinkClient::Error, "#{result['code']}: #{result['message']}"
+        raise TestLinker::Error, "#{result['code']}: #{result['message']}"
       end
 
       result
