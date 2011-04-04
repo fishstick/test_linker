@@ -540,7 +540,7 @@ class TestLinker
     # @param [String] build_notes
     # @param [Fixnum,String] plan_id
     # @return
-    def create_build(build_name, build_notes='', plan_id)
+    def create_build(build_name, build_notes, plan_id)
       args = { "devKey" => @dev_key, "testplanid" => plan_id,
          "buildname" => build_name, "buildnotes" => build_notes }
       make_call("tl.createBuild", args, "1.0b5")
