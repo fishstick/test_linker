@@ -12,8 +12,14 @@ class TestLinker
   include TestLinker::Helpers
 
   class << self
+
+    # @param [Boolean] false to turn logging off; true to turn it back on.
     attr_writer :log
+
+    # @param [?] Call this to use a different type of logger than Logger.
     attr_writer :logger
+
+    # @param [Symbol] Use to change the log level for all log messages.
     attr_writer :log_level
 
     # @return [Boolean] Returns if logging is enabled or not.
