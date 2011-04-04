@@ -7,7 +7,8 @@ description:
   easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
   (from TestLink 1.9.x).
 license: MIT
-authors: sloveless, Randy Stoller, Sujin Philip, Vikram Raina
+authors: Steve Loveless, Randy Stoller, Sujin Philip, Vikram Raina
+email: steve.loveless@gmail.com
 homepage: http://rubygems.org/gems/test_linker
 has_yard: true
 dependencies:
