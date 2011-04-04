@@ -72,7 +72,7 @@ module TestLinker::Helpers
         "Unable to find build named #{build_name} for #{plan_name} in #{project_name}"
   end
 
-  # @param [Fixnum] project_id
+  # @param [Fixnum,String] project_id
   # @param [Regexp] regex The expression to match test plan names on.
   # @return [Array] An array of test plans that match the Regexp.
   def find_test_plans(project_id, regex)
@@ -132,7 +132,7 @@ module TestLinker::Helpers
   # @param [String] project_name
   # @param [String] plan_name
   # @param [String] suite_name
-  # @return [String] SuiteID
+  # @return [Fixnum,String] SuiteID
   # @raise [TestLinker::Error] When unable to find matching
   #   project/plan/test case names.
   # @todo Need to update for having more than one of same test name inside test plan.
@@ -191,8 +191,7 @@ module TestLinker::Helpers
       end
     end
 
-    create_test_suite(project_id, suite_name, parent_id).
-      first['id']
+    create_test_suite(project_id, suite_name, parent_id).first['id']
   end
 
   # Creates test in test suite within a test plan within a project.
@@ -237,7 +236,7 @@ module TestLinker::Helpers
   #
   # @param [String] project_name
   # @param [String] plan_name
-  # @param [String] test_case_id
+  # @param [Fixnum,String] test_case_id
   # @param [String] test_case_version
   # @return [Boolean] true on success, false on fail
   # @todo NEED TO CLEAN THIS UP AND ADD ERROR CHECKING
@@ -247,8 +246,8 @@ module TestLinker::Helpers
     test_project_id = test_project_id(project_name)
     test_plan_id =  test_plan_id(project_name, plan_name)
 
-    result = add_test_case_to_test_plan(test_project_id,
-      test_plan_id, test_case_id, test_case_version)
+    result = add_test_case_to_test_plan(test_project_id, test_plan_id,
+        test_case_id, test_case_version)
 
     if result.any?
       #Only way to tell if success if with the key "feature_id"

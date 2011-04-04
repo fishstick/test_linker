@@ -1,7 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/error')
 
 class TestLinker
+
+  # This module contains all methods that directly wrap TestLink's XMLRPC
+  # functions.
   module Wrapper
+
     # Gets a test case by it's internal or external ID.
     #
     # @since TestLink API version 1.0
