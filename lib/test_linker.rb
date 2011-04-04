@@ -13,31 +13,37 @@ class TestLinker
 
   class << self
 
-    # @param [Boolean] false to turn logging off; true to turn it back on.
-    attr_writer :log
-
-    # @param [?] Call this to use a different type of logger than Logger.
-    attr_writer :logger
-
-    # @param [Symbol] Use to change the log level for all log messages.
-    attr_writer :log_level
-
     # @return [Boolean] Returns if logging is enabled or not.
     def log?
-      #@@log != false
-      @@log ||= false
+      @log ||= false
+    end
+
+    # @param [Boolean] do_logging false to turn logging off; true to turn it
+    #   back on.
+    def log=(do_logging)
+      @log = do_logging
     end
 
     # @return [Logger,?] Returns a Logger unless you use a different type of
     #   logging object.
     def logger
-      @@logger ||= Logger.new STDOUT
+      @logger ||= Logger.new STDOUT
+    end
+
+    # @param [?] logging_object Call this to use a different type of logger
+    #   than Logger.
+    def logger=(logging_object)
+      @logger = logging_object
     end
 
     # @return [Symbol] The method name to send to the logging object in order to
     #   log messages.
     def log_level
-      @@log_level ||= :debug
+      @log_level ||= :debug
+    end
+
+    def log_level=(level)
+      @log_level = level
     end
 
     # @param [String] message The string to log.
