@@ -526,7 +526,7 @@ class TestLinker
     # @option options [Boolean] actiononduplicatedname Applicable only if
     #   checkduplicatedname = true.
     # @return [Array<Hash>] Info about results of test suite creation.
-    def create_test_suite(suite_name, details="", project_id, options={})
+    def create_test_suite(suite_name, details, project_id, options={})
       args = { 'devKey' => @dev_key, 'testprojectid' => project_id,
           'testsuitename' => suite_name, 'details' => details }
       args.merge! options
