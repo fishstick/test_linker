@@ -1,6 +1,7 @@
 coverage/
 doc/
 pkg/
+.bundle/
 .idea/
 .yard/
 .yardoc/
