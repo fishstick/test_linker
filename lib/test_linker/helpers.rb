@@ -47,7 +47,7 @@ module TestLinker::Helpers
       raise TestLinker::Error, test_plan['message'] if test_plan['code']
     end
 
-    test_plan.nil? ? 0 : test_plan['id'].to_i
+    test_plan.nil? ? nil : test_plan['id'].to_i
   end
 
   # Gets the ID for the given build name.
