@@ -24,19 +24,20 @@ class TestLinker
 
     # @return [Boolean] Returns if logging is enabled or not.
     def log?
-      @log != false
+      #@@log != false
+      @@log ||= false
     end
 
     # @return [Logger,?] Returns a Logger unless you use a different type of
     #   logging object.
     def logger
-      @logger ||= Logger.new STDOUT
+      @@logger ||= Logger.new STDOUT
     end
 
     # @return [Symbol] The method name to send to the logging object in order to
     #   log messages.
     def log_level
-      @log_level ||= :debug
+      @@log_level ||= :debug
     end
 
     # @param [String] message The string to log.

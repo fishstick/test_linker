@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
     "lib/test_linker/version.rb",
     "lib/test_linker/wrapper.rb",
     "spec/spec_helper.rb",
-    "spec/test_linker.rb",
+    "spec/test_linker_spec.rb",
     "test_linker.gemspec"
   ]
   s.homepage = %q{http://rubygems.org/gems/test_linker}
@@ -48,8 +48,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.7.1}
   s.summary = %q{An interface to the TestLink XMLRPC API}
   s.test_files = [
-    "spec/spec_helper.rb",
-    "spec/test_linker.rb"
+    "spec/test_linker_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -74,6 +73,23 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<ore-core>, ["~> 0.1.4"])
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
       s.add_development_dependency(%q<simplecov>, [">= 0.4.0"])
+      s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_development_dependency(%q<ore>, ["~> 0.7.2"])
+      s.add_development_dependency(%q<ore-core>, ["~> 0.1.4"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.5"])
+      s.add_development_dependency(%q<simplecov>, [">= 0.4.0"])
+      s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
+      s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
+      s.add_development_dependency(%q<ore>, ["~> 0.7.2"])
+      s.add_development_dependency(%q<ore-core>, ["~> 0.1.4"])
+      s.add_development_dependency(%q<ore-tasks>, ["~> 0.5.0"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.5"])
+      s.add_development_dependency(%q<simplecov>, [">= 0.4.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
@@ -113,6 +129,23 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.5"])
       s.add_dependency(%q<simplecov>, [">= 0.4.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_dependency(%q<ore>, ["~> 0.7.2"])
+      s.add_dependency(%q<ore-core>, ["~> 0.1.4"])
+      s.add_dependency(%q<rspec>, ["~> 2.5"])
+      s.add_dependency(%q<simplecov>, [">= 0.4.0"])
+      s.add_dependency(%q<yard>, ["~> 0.6.0"])
+      s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
+      s.add_dependency(%q<rake>, ["~> 0.8.7"])
+      s.add_dependency(%q<ore>, ["~> 0.7.2"])
+      s.add_dependency(%q<ore-core>, ["~> 0.1.4"])
+      s.add_dependency(%q<ore-tasks>, ["~> 0.5.0"])
+      s.add_dependency(%q<rspec>, ["~> 2.5"])
+      s.add_dependency(%q<simplecov>, [">= 0.4.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_dependency(%q<ore>, ["~> 0.7.2"])
@@ -151,6 +184,23 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<ore-core>, ["~> 0.1.4"])
     s.add_dependency(%q<rspec>, ["~> 2.5"])
     s.add_dependency(%q<simplecov>, [">= 0.4.0"])
+    s.add_dependency(%q<yard>, ["~> 0.6.0"])
+    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+    s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+    s.add_dependency(%q<ore>, ["~> 0.7.2"])
+    s.add_dependency(%q<ore-core>, ["~> 0.1.4"])
+    s.add_dependency(%q<rspec>, ["~> 2.5"])
+    s.add_dependency(%q<simplecov>, [">= 0.4.0"])
+    s.add_dependency(%q<yard>, ["~> 0.6.0"])
+    s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
+    s.add_dependency(%q<rake>, ["~> 0.8.7"])
+    s.add_dependency(%q<ore>, ["~> 0.7.2"])
+    s.add_dependency(%q<ore-core>, ["~> 0.1.4"])
+    s.add_dependency(%q<ore-tasks>, ["~> 0.5.0"])
+    s.add_dependency(%q<rspec>, ["~> 2.5"])
+    s.add_dependency(%q<simplecov>, [">= 0.4.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
