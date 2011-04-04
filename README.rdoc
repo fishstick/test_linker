@@ -23,34 +23,43 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
 == Examples
 
   require 'test_linker'
-  require 'text-table'
-  
-  server = "http://testlink"
+
+  server = 'http://testlink.pelco.org'
   dev_key = "90b7941411928ae0a84d19f365a01a63"
-  
+  tl_project = "!SSW Auto-Smoke Testing"
+
+  csv_file_name = "mtrx_report.csv"
+  csv_file = File.new(csv_file_name, "w")
+  csv_file.write "Build,Passed,Failed,Blocked,Skipped,TOTAL,Overall %,Overall % (+B)\n"
+
   tl = TestLinker.new(server, dev_key)
-  project_id = tl.test_project_id "My Project"
-  test_plans = tl.find_test_plans(project_id, /Hello/)
-  
-  builds_for_test_plans = test_plans.collect do |test_plan|
+
+  project_id = tl.test_project_id tl_project
+  test_plans = tl.find_test_plans(project_id, /NSM5200.+ISC West/)
+  puts "All test plans for project #{project_id}"
+  puts test_plans
+
+  builds = test_plans.collect do |test_plan|
     tl.builds_for_test_plan(test_plan["id"])
   end
-  builds_for_test_plans.flatten!
-  
+  builds.flatten!
+
+  overall = {}
+  overall[:pass] = 0
+  overall[:failed] = 0
+  overall[:blocked] = 0
+  overall[:pass_rates] =
   results = {}
-  builds_for_test_plans.each do |build|
+
+  builds.each do |build|
     results[:pass] = 0
     results[:failed] = 0
     results[:blocked] = 0
+    results[:skipped] = 0
 
-    # get test cases from a build, by build id
-    # for each test case, call #last_execution_result
-    puts "Build: #{build["name"]} (#{build["id"]})"
-    puts "TestPlan ID: #{build["testplan_id"]}"
-    
     test_cases = tl.test_cases_for_test_plan(build["testplan_id"],
-        { "buildid" => build["id"] })
-    
+      { "buildid" => build["id"] })
+
     test_cases.each_value do |test_case|
       case test_case["exec_status"]
       when "p"
@@ -59,25 +68,32 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
         results[:failed] += 1
       when "b"
         results[:blocked] += 1
+      when "s"
+        results[:skipped] += 1
       end
     end
-    
+
     overall[:pass] += results[:pass]
     overall[:failed] += results[:failed]
     overall[:blocked] += results[:blocked]
-    build_total = results[:pass] + results[:failed] + results[:blocked]
-    overall_rate = "%2.2f" % (overall[:pass] * 100 / (overall[:pass] + overall[:failed]).to_f)
-    overall_rate_plus_blocked = "%2.2f" % (overall[:pass] * 100 / (overall[:pass] + overall[:failed] + overall[:blocked]).to_f)
-    
+    build_total = results[:pass] + results[:failed] + results[:blocked] +
+        results[:skipped]
+    overall_rate = "%2.2f" % (overall[:pass] * 100 / (overall[:pass] +
+        overall[:failed]).to_f)
+    overall[:pass_rates] << overall_rate.to_f
+    overall_rate_plus_blocked = "%2.2f" % (overall[:pass] * 100 / (overall[:pass] +
+        overall[:failed] + overall[:blocked]).to_f)
+
     result_array = [
-      ['Passed', 'Failed', 'Blocked', 'TOTAL', 'Overall %', 'Overall % (+B)'],
-      [results[:pass], results[:failed], results[:blocked], build_total,
-        overall_rate, overall_rate_plus_blocked]
+      ['Passed', 'Failed', 'Blocked', 'Skipped', 'TOTAL', 'Overall %', 'Overall % (+B)'],
+      [results[:pass], results[:failed], results[:blocked], results[:skipped],
+        build_total, overall_rate, overall_rate_plus_blocked]
     ]
-    puts result_array.to_table(:first_row_is_head => true)
-    puts "(#{overall[:pass]}/#{overall[:failed]}/#{overall[:blocked]})"
+
+    csv_line = "#{build["name"]},#{results[:pass]},#{results[:failed]},#{results[:blocked]},"
+    csv_line << "#{results[:skipped]},#{build_total},#{overall_rate},#{overall_rate_plus_blocked}\n"
+    csv_file.write csv_line
   end
-  
 
 == Requirements
 
