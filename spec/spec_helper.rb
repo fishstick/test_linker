@@ -5,6 +5,5 @@ SimpleCov.start do
 end
 
 require 'rspec'
-$:.unshift File.expand_path(File.dirname(__FILE__) + '../lib')
-require 'test_linker'
-require 'test_linker/version'
+require_relative '../lib/test_linker'
+require_relative '../lib/test_linker/version'

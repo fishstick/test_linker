@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/error')
+require_relative 'error'
 
 class TestLinker
 

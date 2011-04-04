@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/error')
+require_relative 'error'
 
 # This module contains methods that aren't a part of the TestLink API.  They
 # intend to make accessing TestLink database info easier.
@@ -6,8 +6,12 @@ module TestLinker::Helpers
 
   # @return [String] The version of TestLink's API.
   def api_version
-    about =~ /Testlink API Version: (.+) initially/
-    $1
+    if @api_version
+      @api_version
+    else
+      about =~ /Testlink API Version: (.+) initially/
+      $1
+    end
   end
 
   # Gets ID of project matching the given project_name.

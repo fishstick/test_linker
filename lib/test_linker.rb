@@ -1,10 +1,9 @@
-require File.expand_path(File.dirname(__FILE__) + '/test_linker/wrapper')
-require File.expand_path(File.dirname(__FILE__) + '/test_linker/version')
-require File.expand_path(File.dirname(__FILE__) + '/test_linker/error')
-require File.expand_path(File.dirname(__FILE__) + '/test_linker/helpers')
+require_relative 'test_linker/wrapper'
+require_relative 'test_linker/version'
+require_relative 'test_linker/error'
+require_relative 'test_linker/helpers'
 require 'xmlrpc/client'
 require 'logger'
-require 'rubygems'
 require 'versionomy'
 
 class TestLinker
@@ -42,6 +41,8 @@ class TestLinker
       @log_level ||= :debug
     end
 
+    # @param [Symbol] The method name to send to the logging object in order to
+    #   log messages.
     def log_level=(level)
       @log_level = level
     end

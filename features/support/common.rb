@@ -7,8 +7,8 @@ Given /^I have a TestLink server with API version (.+)$/ do |api_version|
     dev_key = "90b7941411928ae0a84d19f365a01a63"
   end
   #TestLinker.log = false
-  TestLinkClient.log = true
-  @server = TestLinkClient.new(url, dev_key)
+  TestLinker.log = true
+  @server = TestLinker.new(url, dev_key)
   @server.api_version.should == api_version
   @server.about.should match /#{api_version} /
 end
