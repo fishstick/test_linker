@@ -3,9 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + '/test_linker/version')
 require File.expand_path(File.dirname(__FILE__) + '/test_linker/error')
 require File.expand_path(File.dirname(__FILE__) + '/test_linker/helpers')
 require 'xmlrpc/client'
+require 'logger'
 require 'rubygems'
 require 'versionomy'
-require 'logger'
 
 class TestLinker
   include TestLinker::Wrapper
@@ -40,7 +40,7 @@ class TestLinker
   end
 
   # Default value for timing out after not receiving an XMLRPC response from
-  #   the server.
+  # the server.
   DEFAULT_TIMEOUT = 30
 
   # Path the the XMLRPC interface (via the xmlrpc.php file) on the server.
@@ -54,7 +54,7 @@ class TestLinker
   # @option options [Fixnum] timeout Seconds to timeout after not receiving a
   #   response from the server.
   # @option options [String] version Force a different API version.
-  def initialize(server_url, dev_key, options={ })
+  def initialize(server_url, dev_key, options={})
     api_path   = options[:api_path] || DEFAULT_API_PATH
     timeout    = options[:timeout] || DEFAULT_TIMEOUT
     @dev_key   = dev_key
