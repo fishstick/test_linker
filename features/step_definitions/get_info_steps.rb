@@ -68,11 +68,11 @@ end
 
 When /^I ask for the list of test cases in that test plan$/ do
   @test_cases = @server.test_cases_for_test_plan(
-      @test_plans.first.values.first["id"])
+      @test_plans.last.values.last["id"])
 end
 
 Then /^I get a list of test cases in that test plan$/ do
   @test_cases.should_not be_nil
   @test_cases.class.should == Hash
-  @test_cases.last["name"].class.should == String
+  @test_cases.each_value {|v| v["name"].class.should == String }
 end

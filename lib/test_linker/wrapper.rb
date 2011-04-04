@@ -384,7 +384,7 @@ class TestLinker
     #   associated info.
     def test_cases_for_test_suite(suite_id, project_id, deep=true, details="")
       args = { devKey: @dev_key, testsuiteid: suite_id,
-          projectid: project_id, deep; deep, details: details }
+          projectid: project_id, deep: deep, details: details }
       make_call("tl.getTestCasesForTestSuite", args, "1.0b5")
     end
     alias_method :getTestCasesForTestSuite, :test_cases_for_test_suite
