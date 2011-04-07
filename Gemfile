@@ -2,6 +2,7 @@ source :rubygems
 
 #gemspec
 gem 'versionomy', '~> 0.4.0'
+gem 'roxml', '~> 3.1.6'
 
 group :development do
   gem 'cucumber', '~> 0.10.0'
