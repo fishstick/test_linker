@@ -8,7 +8,7 @@ class TestLinker
 
     # Gets a test case by it's internal or external ID.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [Hash] options
     # @option options [Fixnum,String] testcaseid
     # @option options [Fixnum,String] testcaseexternalid
@@ -23,7 +23,7 @@ class TestLinker
 
     # Gets full path from the given node till the top using nodes_hierarchy_table.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [Fixnum,String] node_id
     # @return
     def full_path node_id
@@ -34,7 +34,7 @@ class TestLinker
 
     # Gets a test suite by the given ID.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [Fixnum,String] suite_id
     # @return
     def test_suite_by_id suite_id
@@ -43,7 +43,7 @@ class TestLinker
     end
     alias_method :getTestSuiteByID, :test_suite_by_id
 
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [Fixnum,String] execution_id
     # @return [Hash] "status", "id", "message"
     def delete_execution execution_id
@@ -52,7 +52,7 @@ class TestLinker
     end
     alias_method :deleteExecution, :delete_execution
 
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] user_name
     # @return [Boolean,Hash] true if user exists, otherwise an error structure.
     def does_user_exist user_name
@@ -63,7 +63,7 @@ class TestLinker
 
     # Checks if the given Developer Key exist.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] dev_key
     # @return [Hash] "true" if it exists, otherwise error structure.
     def check_dev_key dev_key
@@ -74,7 +74,7 @@ class TestLinker
 
     # Uploads an attachment for a test case execution.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
@@ -95,7 +95,7 @@ class TestLinker
     # Uploads an attachment for a Requirement. The attachment content must be
     # Base64 encoded by the client before sending it.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [Fixnum,String] requirement_id
     # @param [String] file_name
     # @param [String] mime_type
@@ -116,7 +116,7 @@ class TestLinker
     # Uploads an attachment for a Requirement Specification. The attachment
     # content must be Base64 encoded by the client before sending it.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
@@ -152,7 +152,7 @@ class TestLinker
     # Uploads an attachment for a Test Project. The attachment must be Base64
     # encoded by the client before sending it.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
@@ -173,7 +173,7 @@ class TestLinker
     # Uploads an attachment for a Test Suite. The attachment must be Base64
     # encoded by the client before sending it.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
@@ -194,7 +194,7 @@ class TestLinker
     # Uploads an attachment for a Test Case. The attachment must be Base64
     # encoded by the client before sending it.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
@@ -217,7 +217,7 @@ class TestLinker
     # key id in this table The attachment must be Base64 encoded by the client
     # before sending it.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] file_name
     # @param [String] mime_type
     # @param [String] content The Base64 encoded content of the attachment.
@@ -285,7 +285,7 @@ class TestLinker
 
     # Info about a test project with a given name.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] project_name Name of the project to search for.
     # @return [Array<Hash>] Info on matching project.
     def test_project_by_name project_name
@@ -296,7 +296,7 @@ class TestLinker
 
     # Gets the test plan with the given name.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] plan_name Name of the plan to search for.
     # @param [String] project_name Name of the project the plan is in.
     # @return [Array<Hash>] Info on matching plan.
@@ -319,7 +319,7 @@ class TestLinker
 
     # List test suites within a test plan alphabetically.
     #
-    # @since API version 1.0
+    # @api TestLink API version 1.0
     # @param [Fixnum,String] plan_id ID of the plan to get suites for.
     # @return [Array<Hash>] List of all suites in plan and their associated info.
     def test_plan_platforms plan_id
@@ -330,7 +330,7 @@ class TestLinker
 
     # Gets a list of test suites that are direct children of the given test suite.
     #
-    # @since API version 1.0
+    # @api TestLink API version 1.0
     # @param [Fixnum,String] suite_id ID of the suite to get suites for.
     # @return [Array<Hash>] List of all suites in plan and their associated info.
     def test_suites_for_test_suite suite_id
@@ -391,7 +391,7 @@ class TestLinker
 
     # Gets the summarized results grouped by platform.
     #
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [Fixnum,String] plan_id
     # @return [Hash] Contains "type" => platform, "total_tc" => X, "details =>
     #   Array of counts.
@@ -499,7 +499,7 @@ class TestLinker
     end
     alias_method :createTestProject, :create_test_project
 
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] plan_name
     # @param [String] project_name
     # @param [Hash] options
@@ -647,7 +647,7 @@ class TestLinker
     # NOTE: will guess at last build, needs to be set to guarantee accuracy.
     #
     # @see #report_test_case_result
-    # @since TestLink API version 1.0
+    # @api TestLink API version 1.0
     # @param [String] test_case_id ID of the test case to post results to.
     # @param [String] status 'p', 'f', 's', or 'b' for Pass/Fail/Skip/Block
     # @param [String] plan_id ID of the test plan to post results to.
