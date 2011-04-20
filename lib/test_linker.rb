@@ -3,15 +3,37 @@ require_relative 'test_linker/version'
 require_relative 'test_linker/error'
 require_relative 'test_linker/helpers'
 
+=begin
 require 'roxml'
+class Param
+  include ROXML
+
+  xml_reader :string
+end
+
 class MethodResponse
   include ROXML
 
-  xml_reader :params
+  xml_reader :params, :as => [Param]
+end
+require 'happymapper'
+class Param
+  include HappyMapper
+
+  element :string, String, :deep => true
+end
+class MethodResponse
+  include HappyMapper
+
+  tag 'methodResponse'
+  #has_many :params, Param
+  element :value
 end
 
+=end
+
 require 'xmlrpc/client'
-require_relative 'ext/xmlrpc_client_patch'
+require_relative 'core_ext/xmlrpc_client_patch'
 require 'logger'
 require 'versionomy'
 
@@ -95,8 +117,7 @@ class TestLinker
     @dev_key   = dev_key
     server_url = server_url + api_path
     @server    = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
-    #@version   = Versionomy.parse(options[:version] || api_version)
-    @version = "1.0b5"
+    @version   = Versionomy.parse(options[:version] || api_version)
   end
 
   # Makes the call to the server with the given arguments.  Note that this also
