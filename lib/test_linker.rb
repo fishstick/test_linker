@@ -116,17 +116,18 @@ class TestLinker
     ensure_version_is :greater_than_or_equal_to, method_supported_in_version
     TestLinker.log "API Version: #{method_supported_in_version}"
     TestLinker.log "Calling method: '#{method_name}' with args '#{arguments}'"
-    response = @server.call(method_name, arguments)
+    parsed_response = @server.call(method_name, arguments)
     TestLinker.log "Received response:"
-    response.params.each { |p| TestLinker.log p}
+    parsed_response.params.each { |p| TestLinker.log p}
+    the_data = parsed_response.params.first
 
     if @version.nil?
-      return response
-    elsif response.is_a?(Array) && response.first['code']
-      raise TestLinker::Error, "#{response.first['code']}: #{response.first['message']}"
+      return the_data
+    #elsif response.is_a?(Array) && response.first['code']
+    #  raise TestLinker::Error, "#{response.first['code']}: #{response.first['message']}"
     end
 
-    response.params.first
+    the_data
   end
 
   private
