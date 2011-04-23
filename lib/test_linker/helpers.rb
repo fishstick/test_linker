@@ -10,7 +10,6 @@ module TestLinker::Helpers
       @api_version
     else
       about =~ /Testlink API Version: (.+) initially/
-      puts $1
       @api_version = $1
     end
   end
