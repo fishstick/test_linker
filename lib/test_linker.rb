@@ -3,38 +3,12 @@ require_relative 'test_linker/version'
 require_relative 'test_linker/error'
 require_relative 'test_linker/helpers'
 
-=begin
-require 'roxml'
-class Param
-  include ROXML
-
-  xml_reader :string
-end
-
-class MethodResponse
-  include ROXML
-
-  xml_reader :params, :as => [Param]
-end
-require 'happymapper'
-class Param
-  include HappyMapper
-
-  element :string, String, :deep => true
-end
-class MethodResponse
-  include HappyMapper
-
-  tag 'methodResponse'
-  #has_many :params, Param
-  element :value
-end
-
-=end
-
-require 'xmlrpc/client'
-require_relative 'core_ext/xmlrpc_client_patch'
 require 'logger'
+require 'uri'
+require 'net/http'
+
+require 'xml/libxml/xmlrpc/client'
+require 'xml/libxml/xmlrpc/parser'
 require 'versionomy'
 
 class TestLinker
@@ -115,8 +89,13 @@ class TestLinker
     api_path   = options[:api_path] || DEFAULT_API_PATH
     timeout    = options[:timeout] || DEFAULT_TIMEOUT
     @dev_key   = dev_key
-    server_url = server_url + api_path
-    @server    = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
+
+    uri        = URI.parse(server_url)
+    http       = Net::HTTP.new(uri.host, uri.port)
+    http.open_timeout = timeout
+    http.read_timeout = timeout
+    @server    = XML::XMLRPC::Client.new(http, api_path)
+
     @version   = Versionomy.parse(options[:version] || api_version)
   end
 
@@ -139,7 +118,7 @@ class TestLinker
     TestLinker.log "Calling method: '#{method_name}' with args '#{arguments}'"
     response = @server.call(method_name, arguments)
     TestLinker.log "Received response:"
-    TestLinker.log response
+    response.params.each { |p| TestLinker.log p}
 
     if @version.nil?
       return response
@@ -147,7 +126,7 @@ class TestLinker
       raise TestLinker::Error, "#{response.first['code']}: #{response.first['message']}"
     end
 
-    response
+    response.params
   end
 
   private

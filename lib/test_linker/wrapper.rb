@@ -258,7 +258,7 @@ class TestLinker
     #
     # @return [String] Info about TestLink API version
     def about
-      make_call("tl.about", "", "1.0b5")
+      make_call("tl.about", "", "1.0b5").first
     end
 
     # Gets a list of all projects.
