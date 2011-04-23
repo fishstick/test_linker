@@ -4,6 +4,7 @@ source :rubygems
 gem 'versionomy', '~> 0.4.0'
 gem 'roxml', '~> 3.1.6'
 gem 'happymapper', '~> 0.3.2'
+gem 'libxml-xmlrpc', '~> 0.1.5', require: 'xml/libxml/xmlrpc'
 
 group :development do
   gem 'cucumber', '~> 0.10.0'

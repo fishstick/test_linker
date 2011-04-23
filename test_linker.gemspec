@@ -36,10 +36,12 @@ Gem::Specification.new do |s|
     "lib/test_linker.rb",
     "lib/test_linker/error.rb",
     "lib/test_linker/helpers.rb",
+    "lib/test_linker/mapper.rb",
     "lib/test_linker/version.rb",
     "lib/test_linker/wrapper.rb",
     "spec/core_ext/xmlrpc_client_patch_spec.rb",
     "spec/spec_helper.rb",
+    "spec/test_linker/mapper_spec.rb",
     "spec/test_linker_spec.rb",
     "test_linker.gemspec"
   ]
@@ -51,6 +53,7 @@ Gem::Specification.new do |s|
   s.summary = %q{An interface to the TestLink XMLRPC API}
   s.test_files = [
     "spec/core_ext/xmlrpc_client_patch_spec.rb",
+    "spec/test_linker/mapper_spec.rb",
     "spec/test_linker_spec.rb"
   ]
 

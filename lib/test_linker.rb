@@ -3,39 +3,11 @@ require_relative 'test_linker/version'
 require_relative 'test_linker/error'
 require_relative 'test_linker/helpers'
 
-=begin
-require 'roxml'
-class Param
-  include ROXML
-
-  xml_reader :string
-end
-
-class MethodResponse
-  include ROXML
-
-  xml_reader :params, :as => [Param]
-end
-require 'happymapper'
-class Param
-  include HappyMapper
-
-  element :string, String, :deep => true
-end
-class MethodResponse
-  include HappyMapper
-
-  tag 'methodResponse'
-  #has_many :params, Param
-  element :value
-end
-
-=end
-
 require 'xmlrpc/client'
 require_relative 'core_ext/xmlrpc_client_patch'
 require 'logger'
 require 'versionomy'
+require 'xml/libxml/xmlrpc/client'
 
 class TestLinker
   include TestLinker::Wrapper
@@ -115,8 +87,11 @@ class TestLinker
     api_path   = options[:api_path] || DEFAULT_API_PATH
     timeout    = options[:timeout] || DEFAULT_TIMEOUT
     @dev_key   = dev_key
-    server_url = server_url + api_path
-    @server    = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
+    #server_url = server_url + api_path
+    #@server    = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
+    #@server.set_parser(XMLRPC::XMLParser::NokogiriStreamParser)
+
+    @server    = XML::XMLRPC::Client.new(http, api_path)
     @version   = Versionomy.parse(options[:version] || api_version)
   end
 
