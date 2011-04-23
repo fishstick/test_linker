@@ -126,7 +126,7 @@ class TestLinker
       raise TestLinker::Error, "#{response.first['code']}: #{response.first['message']}"
     end
 
-    response.params
+    response.params.first
   end
 
   private
