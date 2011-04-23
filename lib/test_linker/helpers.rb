@@ -5,12 +5,19 @@ require_relative 'error'
 module TestLinker::Helpers
 
   # @return [String] The version of TestLink's API.
+  # @raise [TestLinker::Error] If version couldn't be extracted.
   def api_version
     if @api_version
       @api_version
     else
-      about =~ /Testlink API Version: (.+) initially/
-      @api_version = $1
+      about_message = about
+      about_message =~ /Testlink API Version: (.+) initially/
+
+      if $1.nil?
+        raise TestLinker::Error, "Unable to extract version from #{about_message}"
+      else
+        @api_version = $1
+      end
     end
   end
 
