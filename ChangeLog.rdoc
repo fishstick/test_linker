@@ -1,3 +1,14 @@
+==- 0.2.0 / 2011-05-05
+
+* Added Ruby 1.8.x support!
+* Added ability to log XMLRPC calls that go through Net::HTTP.
+* Development stuff:
+  * Stopped using ore for gem bundling; just use Jeweler now.
+
+=== 0.1.1 / 2011-03-24
+
+* Fixed dumb dependency on self to install.
+
 === 0.1.0 / 2011-03-24
 
 * Initial release:
