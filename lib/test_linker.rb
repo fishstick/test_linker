@@ -88,9 +88,7 @@ class TestLinker
     @dev_key   = dev_key
     server_url = server_url + api_path
     @server    = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
-    #@server.set_parser(XMLRPC::XMLParser::NokogiriStreamParser)
-
-    @server    = XML::XMLRPC::Client.new(http, api_path)
+    @server.set_debug
     @version   = Versionomy.parse(options[:version] || api_version)
   end
 
