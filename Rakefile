@@ -1,48 +1,59 @@
+require 'rubygems'
+require 'bundler'
+
+begin
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
+end
+
 require 'rake'
 
-begin
-  gem 'ore-tasks', '~> 0.4'
-  require 'ore/tasks'
-
-  Ore::Tasks.new
-rescue LoadError => e
-  STDERR.puts e.message
-  STDERR.puts "Run `gem install ore-tasks` to install 'ore/tasks'."
-end
-begin
-  require 'bundler'
-rescue LoadError => e
-  STDERR.puts e.message
-  STDERR.puts "Run `gem install bundler` to install Bundler."
-  exit e.status_code
-end
-
-begin
-  Bundler.setup(:development)
-rescue Bundler::BundlerError => e
-  STDERR.puts e.message
-  STDERR.puts "Run `bundle install` to install missing gems."
-  exit e.status_code
-end
-
-begin
-  gem 'rspec', '~> 2.5'
-  require 'rspec/core/rake_task'
-
-  RSpec::Core::RakeTask.new
-  task :test => :spec
-  task :default => :spec
-rescue LoadError => e
-  task :spec do
-    abort "Please run `gem install rspec` to install RSpec."
-  end
-end
-
-require 'ore/specification'
+$:.unshift Dir.pwd + "/lib"
+require 'test_linker'
 require 'jeweler'
-Jeweler::Tasks.new(Ore::Specification.new)
+Jeweler::Tasks.new do |gem|
+  gem.name = "test_linker"
+  gem.version = TestLinker::VERSION
+  gem.homepage = "http://github.com/turboladen/test_linker"
+  gem.license = "MIT"
+  gem.summary = %Q{An interface to the TestLink XMLRPC API}
+  gem.description = %Q{This is a Ruby wrapper around the TestLink XMLRPC API, thus allowing access to
+  your TestLink test projects, plans, cases, and results using Ruby.  We've added
+  a few helper methods as well to allow for getting at more of your data a little
+  easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
+  (from TestLink 1.9.x)..}
+  gem.email = "steve.loveless@gmail.com"
+  gem.authors = ["turboladen"]
+  gem.add_runtime_dependency 'versionomy', '~> 0.4.0'
+  gem.add_development_dependency 'bundler', '~> 1.0.0'
+  gem.add_development_dependency 'cucumber', '~> 0.10.0'
+  gem.add_development_dependency 'fakeweb', '~> 1.3.0'
+  gem.add_development_dependency 'jeweler', '~> 1.5.0'
+  gem.add_development_dependency 'rspec', '~> 2.5'
+  gem.add_development_dependency 'simplecov', '>= 0.4.0'
+  gem.add_development_dependency 'test_xml', '~> 0.1.1'
+  gem.add_development_dependency 'yard', '~> 0.6.0'
+end
+Jeweler::RubygemsDotOrgTasks.new
+
+require 'rspec/core'
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.pattern = FileList['spec/**/*_spec.rb']
+end
+
+RSpec::Core::RakeTask.new(:rcov) do |spec|
+  spec.pattern = 'spec/**/*_spec.rb'
+  spec.rcov = true
+end
+
+require 'cucumber/rake/task'
+Cucumber::Rake::Task.new(:features)
+
+task :default => :spec
 
 require 'yard'
 YARD::Rake::YardocTask.new
-task :doc => :yard
-
