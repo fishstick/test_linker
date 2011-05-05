@@ -3,8 +3,7 @@ require_relative 'test_linker/version'
 require_relative 'test_linker/error'
 require_relative 'test_linker/helpers'
 
-require 'xmlrpc/client'
-require_relative 'core_ext/xmlrpc_client_patch'
+require File.expand_path(File.dirname(__FILE__) + '/core_ext/xmlrpc_client_patch')
 require 'logger'
 require 'versionomy'
 
@@ -23,18 +22,6 @@ class TestLinker
     #   back on.
     def log=(do_logging)
       @log = do_logging
-    end
-
-    # @return [Boolean] Returns if logging of XMLRPC requests/responses is
-    #   enabled or not.
-    def log_xml?
-      @log_xml ||= false
-    end
-
-    # @param [Boolean] do_logging false to turn XMLRPC logging off; true to
-    #   turn it back on.
-    def log_xml=(do_logging)
-      @log_xml = do_logging
     end
 
     # @return [Logger,?] Returns a Logger unless you use a different type of
@@ -88,8 +75,26 @@ class TestLinker
     @dev_key   = dev_key
     server_url = server_url + api_path
     @server    = XMLRPC::Client.new_from_uri(server_url, nil, timeout)
-    @server.set_debug
     @version   = Versionomy.parse(options[:version] || api_version)
+  end
+
+  # @return [Boolean] Returns if logging of XMLRPC requests/responses is
+  #   enabled or not.
+  def log_xml?
+    @log_xml ||= false
+  end
+
+  # @param [Boolean] do_logging false to turn XMLRPC logging off; true to
+  #   turn it back on.
+  def log_xml=(do_logging)
+    if do_logging == true
+      puts "WARNING: Net::HTTP warns against using this in production, so you probably shouldn't!!"
+      @server.set_debug(TestLinker.logger)
+    elsif do_logging == false
+      @server.set_debug(nil)
+    end
+
+    @log_xml = do_logging
   end
 
   # Makes the call to the server with the given arguments.  Note that this also
