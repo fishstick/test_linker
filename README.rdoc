@@ -27,12 +27,11 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
   server = 'http://testlink.pelco.org'
   dev_key = "90b7941411928ae0a84d19f365a01a63"
   tl_project = "!SSW Auto-Smoke Testing"
+  tl = TestLinker.new(server, dev_key)
 
   csv_file_name = "mtrx_report.csv"
   csv_file = File.new(csv_file_name, "w")
   csv_file.write "Build,Passed,Failed,Blocked,Skipped,TOTAL,Overall %,Overall % (+B)\n"
-
-  tl = TestLinker.new(server, dev_key)
 
   project_id = tl.test_project_id tl_project
   test_plans = tl.find_test_plans(project_id, /NSM5200.+ISC West/)
