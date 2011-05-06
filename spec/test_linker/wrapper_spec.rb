@@ -1,10 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require 'fakeweb'
-
-def register_body(body)
-  FakeWeb.register_uri(:post, 'http://testing/lib/api/xmlrpc.php',
-      :content_type => 'text/xml', :body => body )
-end
 
 describe TestLinker::Wrapper do
   before do
