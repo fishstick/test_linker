@@ -13,8 +13,7 @@ rescue Bundler::BundlerError => e
 end
 
 require 'rspec'
-require_relative '../lib/test_linker'
-require_relative '../lib/test_linker/version'
+require File.expand_path(File.dirname(__FILE__) + '/../lib/test_linker')
 
 REQUEST = Hash.new
 REQUEST[:test_cases_for_test_plan] = <<-XML_REQUEST

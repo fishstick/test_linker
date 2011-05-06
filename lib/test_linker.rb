@@ -1,11 +1,12 @@
-require_relative 'test_linker/wrapper'
-require_relative 'test_linker/version'
-require_relative 'test_linker/error'
-require_relative 'test_linker/helpers'
-
-require File.expand_path(File.dirname(__FILE__) + '/core_ext/xmlrpc_client_patch')
 require 'logger'
+require 'rubygems'
 require 'versionomy'
+
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/wrapper')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/version')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/error')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/helpers')
+require File.expand_path(File.dirname(__FILE__) + '/core_ext/xmlrpc_client_patch')
 
 class TestLinker
   include TestLinker::Wrapper

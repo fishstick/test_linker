@@ -1,4 +1,4 @@
-require_relative 'error'
+require File.expand_path(File.dirname(__FILE__) + '/error')
 
 # This module contains methods that aren't a part of the TestLink API.  They
 # intend to make accessing TestLink database info easier.
