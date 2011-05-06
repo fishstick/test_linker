@@ -251,7 +251,7 @@ class TestLinker
     # @param [String] message The message to get the server to repeat back.
     # @return [String] The message sent to the server.
     def repeat message
-      make_call("tl.repeat", { str: message }, "1.0b5")
+      make_call("tl.repeat", { :str => message }, "1.0b5")
     end
 
     # Returns info about the server's TestLink API.
@@ -266,7 +266,7 @@ class TestLinker
     # @return [Array<Hash>] List of all projects in TestLink and
     # their associated info.
     def projects
-      make_call("tl.getProjects", { devKey: @dev_key }, "1.0b5" )
+      make_call("tl.getProjects", { :devKey => @dev_key }, "1.0b5" )
     end
     alias_method :getProjects, :projects
 
@@ -277,7 +277,7 @@ class TestLinker
     #   info.
     # @raise [TestLinker::Error] If a project by the given ID doesn't exist.
     def project_test_plans project_id
-      args = { devKey: @dev_key, testprojectid: project_id }
+      args = { :devKey => @dev_key, :testprojectid => project_id }
       response = make_call("tl.getProjectTestPlans", args, "1.0b5")
       response == "" ? [{}] : response
     end
@@ -289,7 +289,7 @@ class TestLinker
     # @param [String] project_name Name of the project to search for.
     # @return [Array<Hash>] Info on matching project.
     def test_project_by_name project_name
-      args = { devKey: @dev_key, testprojectname: project_name }
+      args = { :devKey => @dev_key, :testprojectname => project_name }
       make_call('tl.getTestProjectByName', args, "1.0")
     end
     alias_method :getTestProjectByName, :test_project_by_name
@@ -301,8 +301,8 @@ class TestLinker
     # @param [String] project_name Name of the project the plan is in.
     # @return [Array<Hash>] Info on matching plan.
     def test_plan_by_name(plan_name, project_name)
-      args = { devKey: @dev_key, testplanname: plan_name,
-          testprojectname: project_name }
+      args = { :devKey => @dev_key, :testplanname => plan_name,
+          :testprojectname => project_name }
       make_call('tl.getTestPlanByName', args, "1.0")
     end
     alias_method :getTestPlanByName, :test_plan_by_name
@@ -312,7 +312,7 @@ class TestLinker
     # @param [Fixnum,String] plan_id ID of the plan to get suites for.
     # @return [Array<Hash>] List of all suites in plan and their associated info.
     def test_suites_for_test_plan plan_id
-      args = { devKey: @dev_key, testplanid: plan_id }
+      args = { :devKey => @dev_key, :testplanid => plan_id }
       make_call("tl.getTestSuitesForTestPlan", args, "1.0b5")
     end
     alias_method :getTestSuitesForTestPlan, :test_suites_for_test_plan
@@ -323,7 +323,7 @@ class TestLinker
     # @param [Fixnum,String] plan_id ID of the plan to get suites for.
     # @return [Array<Hash>] List of all suites in plan and their associated info.
     def test_plan_platforms plan_id
-      args = { devKey: @dev_key, testplanid: plan_id }
+      args = { :devKey => @dev_key, :testplanid => plan_id }
       make_call("tl.getTestPlanPlatforms", args, "1.0")
     end
     alias_method :getTestPlanPlatforms, :test_plan_platforms
@@ -334,7 +334,7 @@ class TestLinker
     # @param [Fixnum,String] suite_id ID of the suite to get suites for.
     # @return [Array<Hash>] List of all suites in plan and their associated info.
     def test_suites_for_test_suite suite_id
-      args = { devKey: @dev_key, testsuiteid: suite_id }
+      args = { :devKey => @dev_key, :testsuiteid => suite_id }
       make_call("tl.getTestSuitesForTestSuite", args, "1.0")
     end
     alias_method :getTestSuitesForTestSuite, :test_suites_for_test_suite
@@ -345,7 +345,7 @@ class TestLinker
     # @return [Array<Hash>] List of first level suites in project and their
     #   associated info.
     def first_level_test_suites_for_test_project project_id
-      args = { devKey: @dev_key, testprojectid: project_id }
+      args = { :devKey => @dev_key, :testprojectid => project_id }
       make_call("tl.getFirstLevelTestSuitesForTestProject", args, "1.0b5")
     end
     alias_method :getFirstLevelTestSuitesForTestProject,
@@ -368,7 +368,7 @@ class TestLinker
     # @return [Hash] List of all test cases in the plan and their
     #   associated info.
     def test_cases_for_test_plan(plan_id, options={})
-      args = { devKey: @dev_key, testplanid: plan_id }
+      args = { :devKey => @dev_key, :testplanid => plan_id }
       args.merge! options
       make_call("tl.getTestCasesForTestPlan", args, "1.0b5")
     end
@@ -383,8 +383,8 @@ class TestLinker
     # @return [Array<Hash>] List of test cases in the given suite and their
     #   associated info.
     def test_cases_for_test_suite(suite_id, project_id, deep=true, details="")
-      args = { devKey: @dev_key, testsuiteid: suite_id,
-          projectid: project_id, deep: deep, details: details }
+      args = { :devKey => @dev_key, :testsuiteid => suite_id,
+          :projectid => project_id, :deep => deep, :details => details }
       make_call("tl.getTestCasesForTestSuite", args, "1.0b5")
     end
     alias_method :getTestCasesForTestSuite, :test_cases_for_test_suite
@@ -396,7 +396,7 @@ class TestLinker
     # @return [Hash] Contains "type" => platform, "total_tc" => X, "details =>
     #   Array of counts.
     def totals_for_test_plan plan_id
-      args = { devKey: @dev_key, testplanid: plan_id }
+      args = { :devKey => @dev_key, :testplanid => plan_id }
       make_call("tl.getTotalsForTestPlan", args, "1.0")
     end
     alias_method :getTotalsForTestPlan, :totals_for_test_plan
@@ -408,7 +408,7 @@ class TestLinker
     # @param [Fixnum,String] testcaseexternalid If not present, testcaseid must be called.
     # @return [String]
     def test_case_attachments options
-      args = { devKey: @dev_key }
+      args = { :devKey => @dev_key }
       args.merge! options
       make_call("tl.getTestCaseAttachments", args, "1.0b5")
     end
@@ -425,9 +425,9 @@ class TestLinker
     # @return [Array<Hash>]
     def test_case_custom_field_design_value(custom_field_name,
         test_case_external_id, project_id, options={})
-      args = { devKey: @dev_key, testprojectid: project_id,
-          testcaseexternalid: test_case_external_id,
-          customfieldname: custom_field_name }
+      args = { :devKey => @dev_key, :testprojectid => project_id,
+          :testcaseexternalid => test_case_external_id,
+          :customfieldname => custom_field_name }
       args.merge! options
       make_call("tl.getTestCaseCustomFieldDesignValue", args, "1.0b5")
     end
@@ -445,7 +445,7 @@ class TestLinker
     # @return [Array<Hash>] List of all test cases in the DB matching
     #   test_case_name and their associated info.
     def test_case_id_by_name(test_case_name, options={})
-      args   = { devKey: @dev_key, testcasename: test_case_name }
+      args   = { :devKey => @dev_key, :testcasename => test_case_name }
       args.merge! options
       make_call("tl.getTestCaseIDByName", args, "1.0b5")
     end
@@ -456,8 +456,8 @@ class TestLinker
     # @param [Fixnum,String] plan_id
     # @return [Array<Hash>] Single element Array containing the result Hash.
     def last_execution_result(test_case_id, build_id, plan_id)
-      args = { devKey: @dev_key, testplanid: plan_id,
-          testcaseid: test_case_id, buildid: build_id }
+      args = { :devKey => @dev_key, :testplanid => plan_id,
+          :testcaseid => test_case_id, :buildid => build_id }
       make_call("tl.getLastExecutionResult", args, "1.0b5")
     end
     alias_method :getLastExecutionResult, :last_execution_result
@@ -468,7 +468,7 @@ class TestLinker
     # @return [Array<Hash>] List of all builds for the plan and their associated
     #   info.
     def builds_for_test_plan plan_id
-      args = { devKey: @dev_key, testplanid: plan_id }
+      args = { :devKey => @dev_key, :testplanid => plan_id }
       make_call("tl.getBuildsForTestPlan", args, "1.0b5")
     end
     alias_method :getBuildsForTestPlan, :builds_for_test_plan
@@ -476,7 +476,7 @@ class TestLinker
     # @param [Fixnum,String] plan_id ID of the plan to get build for.
     # @return [Hash] Info for the latest build for the given test plan.
     def latest_build_for_test_plan plan_id
-      args = { devKey: @dev_key, testplanid: plan_id }
+      args = { :devKey => @dev_key, :testplanid => plan_id }
       make_call("tl.getLatestBuildForTestPlan", args, "1.0b5")
     end
     alias_method :getLatestBuildForTestPlan, :latest_build_for_test_plan
@@ -492,8 +492,8 @@ class TestLinker
     # @option options [Fixnum] public
     # @return
     def create_test_project(project_name, test_case_prefix, options={})
-      args = { devKey: @dev_key, testprojectname: project_name,
-          testcaseprefix: test_case_prefix }
+      args = { :devKey => @dev_key, :testprojectname => project_name,
+          :testcaseprefix => test_case_prefix }
       args.merge! options
       make_call("tl.createTestProject", args, "1.0b5")
     end
@@ -508,8 +508,8 @@ class TestLinker
     # @option options [String] public Defaults to 1.
     # @return
     def create_test_plan(plan_name, project_name, options={})
-      args = { devKey: @dev_key, testplanname: plan_name,
-          testprojectname: project_name }
+      args = { :devKey => @dev_key, :testplanname => plan_name,
+          :testprojectname => project_name }
       args.merge! options
       make_call('tl.createTestPlan', args, "1.0")
     end
@@ -527,8 +527,8 @@ class TestLinker
     #   checkduplicatedname = true.
     # @return [Array<Hash>] Info about results of test suite creation.
     def create_test_suite(suite_name, details, project_id, options={})
-      args = { devKey: @dev_key, testprojectid: project_id,
-          testsuitename: suite_name, details: details }
+      args = { :devKey => @dev_key, :testprojectid => project_id,
+          :testsuitename => suite_name, :details => details }
       args.merge! options
       make_call('tl.createTestSuite', args, "1.0b5")
     end
@@ -541,8 +541,8 @@ class TestLinker
     # @param [Fixnum,String] plan_id
     # @return
     def create_build(build_name, build_notes, plan_id)
-      args = { devKey: @dev_key, testplanid: plan_id,
-         buildname: build_name, buildnotes: build_notes }
+      args = { :devKey => @dev_key, :testplanid => plan_id,
+         :buildname => build_name, :buildnotes => build_notes }
       make_call("tl.createBuild", args, "1.0b5")
     end
     alias_method :createBuild, :create_build
@@ -565,14 +565,14 @@ class TestLinker
     # @return
     def create_test_case(test_case_name, test_case_summary, test_case_steps,
          test_case_expected_results, suite_id, project_id, login, options={})
-      args = { devKey: @dev_key,
-          testcasename: test_case_name,
-          testsuiteid: suite_id,
-          testprojectid: project_id,
-          authorlogin: login,
-          summary: test_case_summary,
-          steps: test_case_steps,
-          expectedresults: test_case_expected_results }
+      args = { :devKey => @dev_key,
+          :testcasename => test_case_name,
+          :testsuiteid => suite_id,
+          :testprojectid => project_id,
+          :authorlogin => login,
+          :summary => test_case_summary,
+          :steps => test_case_steps,
+          :expectedresults => test_case_expected_results }
       args.merge! options
       make_call("tl.createTestCase", args, "1.0b5")
     end
@@ -592,9 +592,9 @@ class TestLinker
     # @return
     def add_test_case_to_test_plan(test_case_external_id, test_case_version,
          plan_id, project_id, options={})
-      args = { devKey: @dev_key, testprojectid: project_id,
-          testplanid: plan_id, testcaseexternalid: test_case_external_id,
-          version: test_case_version }
+      args = { :devKey => @dev_key, :testprojectid => project_id,
+          :testplanid => plan_id, :testcaseexternalid => test_case_external_id,
+          :version => test_case_version }
       args.merge! options
       make_call("tl.addTestCaseToTestPlan", args, "1.0b5")
     end
@@ -630,8 +630,8 @@ class TestLinker
         raise TestLinker::Error, message
       end
 
-      args = { devKey: @dev_key, testcaseid: test_case_id,
-          testplanid: plan_id, status: status, guess: true }
+      args = { :devKey => @dev_key, :testcaseid => test_case_id,
+          :testplanid => plan_id, :status => status, :guess => true }
       args.merge! options
       result = @server.call("tl.reportTCResult", args).first
 
@@ -671,8 +671,8 @@ class TestLinker
         raise TestLinker::Error, message
       end
 
-      args = { devKey: @dev_key, testcaseid: test_case_id,
-          testplanid: plan_id, status: status, guess: true }
+      args = { :devKey => @dev_key, :testcaseid => test_case_id,
+          :testplanid => plan_id, :status => status, :guess => true }
       args.merge! options
       result = @server.call("tl.setTestCaseExecutionResult", args).first
 
