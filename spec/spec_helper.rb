@@ -1,7 +1,9 @@
-require 'simplecov'
+if RUBY_VERSION > '1.9'
+  require 'simplecov'
 
-SimpleCov.start do
-  add_group "Library", "lib/"
+  SimpleCov.start do
+    add_group "Library", "lib/"
+  end
 end
 
 begin
