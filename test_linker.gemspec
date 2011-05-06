@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["turboladen"]
-  s.date = %q{2011-05-05}
+  s.date = %q{2011-05-06}
   s.description = %q{This is a Ruby wrapper around the TestLink XMLRPC API, thus allowing access to
   your TestLink test projects, plans, cases, and results using Ruby.  We've added
   a few helper methods as well to allow for getting at more of your data a little
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     ".gemtest",
+    ".infinity_test",
     ".rspec",
     ".yardopts",
     "ChangeLog.rdoc",
@@ -39,12 +40,11 @@ Gem::Specification.new do |s|
     "lib/test_linker.rb",
     "lib/test_linker/error.rb",
     "lib/test_linker/helpers.rb",
-    "lib/test_linker/mapper.rb",
     "lib/test_linker/version.rb",
     "lib/test_linker/wrapper.rb",
     "spec/core_ext/xmlrpc_client_patch_spec.rb",
     "spec/spec_helper.rb",
-    "spec/test_linker/mapper_spec.rb",
+    "spec/test_linker/wrapper_spec.rb",
     "spec/test_linker_spec.rb",
     "test_linker.gemspec"
   ]
@@ -56,7 +56,7 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/core_ext/xmlrpc_client_patch_spec.rb",
     "spec/spec_helper.rb",
-    "spec/test_linker/mapper_spec.rb",
+    "spec/test_linker/wrapper_spec.rb",
     "spec/test_linker_spec.rb"
   ]
 
@@ -72,7 +72,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
       s.add_development_dependency(%q<simplecov>, [">= 0.4.0"])
-      s.add_development_dependency(%q<test_xml>, ["~> 0.1.1"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_runtime_dependency(%q<versionomy>, ["~> 0.4.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -91,7 +90,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
       s.add_dependency(%q<rspec>, ["~> 2.5"])
       s.add_dependency(%q<simplecov>, [">= 0.4.0"])
-      s.add_dependency(%q<test_xml>, ["~> 0.1.1"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -111,7 +109,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
     s.add_dependency(%q<rspec>, ["~> 2.5"])
     s.add_dependency(%q<simplecov>, [">= 0.4.0"])
-    s.add_dependency(%q<test_xml>, ["~> 0.1.1"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
