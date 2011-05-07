@@ -97,7 +97,6 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
   * 1.8.7
   * 1.9.2
   * jruby 1.6.1
-  * rbx 1.2.3
   * ree 1.8.7
 * Gems
   * versionomy, ~> 0.4.0
