@@ -1,6 +1,9 @@
 ==- 0.2.0 / 2011-05-05
 
-* Added Ruby 1.8.x support!
+* Added support for new (old) Rubies:
+  * 1.8.7
+  * jruby 1.6.1
+  * ree 1.8.7
 * Added ability to log XMLRPC calls that go through Net::HTTP.
 * Development stuff:
   * Stopped using ore for gem bundling; just use Jeweler now.
