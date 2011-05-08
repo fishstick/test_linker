@@ -82,16 +82,11 @@ module TestLinker::Helpers
   # @param [Regexp] regex The expression to match test plan names on.
   # @return [Array] An array of test plans that match the Regexp.
   def find_test_plans(project_id, regex)
-    list = []
-    test_plan_list = project_test_plans(project_id).first
+    test_plan_list = project_test_plans(project_id)
 
-    test_plan_list.each_value do |test_plan_info|
-      if test_plan_info[:name] =~ regex
-        list << test_plan_info
-      end
+    test_plan_list.first.values.find_all do |project_test_plan|
+      project_test_plan[:name] =~ regex
     end
-
-    list
   end
 
   # @param [String] project_name
