@@ -36,4 +36,52 @@ XML
       @tl.say_hello.should == "Hello!"
     end
   end
+  
+  describe "#projects" do
+    it "gets a list of projects on the server" do
+      body = <<-XML
+<methodResponse>
+  <params>
+    <param>
+      <value>
+<array><data>
+  <value><struct>
+  <member><name>id</name><value><string>335241</string></value></member>
+  <member><name>notes</name><value><string></string></value></member>
+  <member><name>color</name><value><string></string></value></member>
+  <member><name>active</name><value><string>1</string></value></member>
+  <member><name>option_reqs</name><value><string>0</string></value></member>
+  <member><name>option_priority</name><value><string>0</string></value></member>
+  <member><name>prefix</name><value><string>W_UDI</string></value></member>
+  <member><name>tc_counter</name><value><string>0</string></value></member>
+  <member><name>option_automation</name><value><string>0</string></value></member>
+  <member><name>name</name><value><string>Warehouse - UDI5000</string></value></member>
+</struct></value>
+  <value><struct>
+  <member><name>id</name><value><string>465934</string></value></member>
+  <member><name>notes</name><value><string></string></value></member>
+  <member><name>color</name><value><string></string></value></member>
+  <member><name>active</name><value><string>1</string></value></member>
+  <member><name>option_reqs</name><value><string>1</string></value></member>
+  <member><name>option_priority</name><value><string>1</string></value></member>
+  <member><name>prefix</name><value><string>ztest</string></value></member>
+  <member><name>tc_counter</name><value><string>142</string></value></member>
+  <member><name>option_automation</name><value><string>1</string></value></member>
+  <member><name>name</name><value><string>z_test</string></value></member>
+</struct></value>
+</data></array>
+      </value>
+    </param>
+  </params>
+</methodResponse>
+
+      XML
+      
+      register_body(body)
+      @tl.projects.should == [
+          {"id"=>"335241", "notes"=>"", "color"=>"", "active"=>"1", "option_reqs"=>"0", "option_priority"=>"0", "prefix"=>"W_UDI", "tc_counter"=>"0", "option_automation"=>"0", "name"=>"Warehouse - UDI5000"}, 
+          {"id"=>"465934", "notes"=>"", "color"=>"", "active"=>"1", "option_reqs"=>"1", "option_priority"=>"1", "prefix"=>"ztest", "tc_counter"=>"142", "option_automation"=>"1", "name"=>"z_test"}
+        ]
+    end
+  end
 end
