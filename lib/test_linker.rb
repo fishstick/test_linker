@@ -125,7 +125,7 @@ class TestLinker
     TestLinker.log response
 
     if response.is_a?(Array) && response.first.is_a?(Hash)
-      response.each { |r| r.symbolize_keys! }
+      response.each { |r| r.recursive_symbolize_keys! }
     end
 
     if @version.nil?
