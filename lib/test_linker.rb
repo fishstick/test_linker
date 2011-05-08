@@ -115,23 +115,26 @@ class TestLinker
   def make_call(method_name, arguments, method_supported_in_version)
     ensure_version_is :greater_than_or_equal_to, method_supported_in_version
     
+    arguments.merge!({ :devKey => @dev_key }) unless arguments.has_key? :devKey
+    
     TestLinker.log "API Version: #{method_supported_in_version}"
     TestLinker.log "Calling method: '#{method_name}' with args '#{arguments}'"
-    
     response = @server.call(method_name, arguments)
     
     TestLinker.log "Received response:"
     TestLinker.log response
 
     if response.is_a?(Array) && response.first.is_a?(Hash)
-      response.symbolize_keys!
+      response.each { |r| r.symbolize_keys! }
     end
 
     if @version.nil?
-      response
+      return response
     elsif response.is_a?(Array) && response.first[:code]
       raise TestLinker::Error, "#{response.first[:code]}: #{response.first[:message]}"
     end
+    
+    response
   end
 
   private
