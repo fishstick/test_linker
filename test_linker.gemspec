@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["turboladen"]
-  s.date = %q{2011-05-06}
+  s.date = %q{2011-05-07}
   s.description = %q{This is a Ruby wrapper around the TestLink XMLRPC API, thus allowing access to
   your TestLink test projects, plans, cases, and results using Ruby.  We've added
   a few helper methods as well to allow for getting at more of your data a little

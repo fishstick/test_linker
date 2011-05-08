@@ -66,14 +66,16 @@ module TestLinker::Helpers
     plan_id = test_plan_id(project_name, plan_name)
     builds = builds_for_test_plan plan_id
 
-    builds.each do |build|
-      if build[:name] == build_name
-        return build[:id].to_i
-      end
+    build = builds.find do |build|
+      build[:name] == build_name
     end
 
-    raise TestLinker::Error,
-        "Unable to find build named #{build_name} for #{plan_name} in #{project_name}"
+    unless build
+      raise TestLinker::Error,
+          "Unable to find build named #{build_name} for #{plan_name} in #{project_name}"
+    end
+    
+    build[:id].to_i
   end
 
   # @param [Fixnum,String] project_id
