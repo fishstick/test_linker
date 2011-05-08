@@ -20,7 +20,7 @@ module TestLinker::Helpers
   # @return [Fixnum] ID of project matching project_name.
   # @raise [TestLinker::Error] When ID cannot be found for given
   #   project_name.
-  def test_project_id project_name
+  def project_id project_name
     if @version < "1.0"
       project = projects.find { |project| project[:name] == project_name }
     else
@@ -40,7 +40,7 @@ module TestLinker::Helpers
   # @raise [RuntimeError] When unable to find matching project and plan names.
   def test_plan_id(project_name, plan_name)
     if @version < "1.0"
-      project_id = test_project_id project_name
+      project_id = project_id project_name
       test_plans = project_test_plans(project_id)
 
       test_plan = test_plans.first.values.find do |project_test_plan|
@@ -99,7 +99,7 @@ module TestLinker::Helpers
   # @return [Fixnum] ID of the requested test suite.
   # @raise [TestLinker::Error] If no test suite was found by the given name.
   def first_level_test_suite_id(project_name, suite_name)
-    test_suites = first_level_test_suites_for_test_project(test_project_id(project_name))
+    test_suites = first_level_test_suites_for_test_project(project_id(project_name))
 
     test_suites.each do |test_suite|
       if test_suite[:name] == suite_name
@@ -170,7 +170,7 @@ module TestLinker::Helpers
   rescue RuntimeError
 
     # Create suite if it doesn't exist.
-    project_id = test_project_id(project_name)
+    project_id = project_id(project_name)
 
     create_test_suite(project_id, suite_name).first[:id]
   end
@@ -184,7 +184,7 @@ module TestLinker::Helpers
   # @raise [TestLinker::Error] When unable to find matching
   #   project/plan/test case names.
   def create_suite(suite_name, project_name, parent_id)
-    project_id = test_project_id(project_name)
+    project_id = project_id(project_name)
     response = test_suites_for_test_suite(parent_id)
 
     if response.class == Array
@@ -214,7 +214,7 @@ module TestLinker::Helpers
   def create_test_case_by_name(test_case_name, suite_name, project_name, login,
       summary, steps, expected_results)
 
-    test_project_id = self.test_project_id(project_name)
+    test_project_id = self.project_id(project_name)
     test_suite_id = self.suite_info(project_name, plan_name, suite_name)
 
     result = create_test_case(login, test_project_id, test_suite_id, test_case_name,
@@ -249,7 +249,7 @@ module TestLinker::Helpers
   # @todo Need to update for having more than one of same test name inside testplan
   def add_test_case_to_test_plan_by_name(project_name, plan_name, test_case_id,
       test_case_version)
-    test_project_id = test_project_id(project_name)
+    test_project_id = project_id(project_name)
     test_plan_id =  test_plan_id(project_name, plan_name)
 
     result = add_test_case_to_test_plan(test_project_id, test_plan_id,
