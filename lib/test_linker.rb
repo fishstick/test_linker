@@ -2,6 +2,7 @@ require 'logger'
 require 'rubygems'
 require 'versionomy'
 
+require File.expand_path(File.dirname(__FILE__) + '/core_ext/hash_patch')
 require File.expand_path(File.dirname(__FILE__) + '/test_linker/wrapper')
 require File.expand_path(File.dirname(__FILE__) + '/test_linker/version')
 require File.expand_path(File.dirname(__FILE__) + '/test_linker/error')
@@ -113,19 +114,24 @@ class TestLinker
   # @return The return type depends on the method call.
   def make_call(method_name, arguments, method_supported_in_version)
     ensure_version_is :greater_than_or_equal_to, method_supported_in_version
+    
     TestLinker.log "API Version: #{method_supported_in_version}"
     TestLinker.log "Calling method: '#{method_name}' with args '#{arguments}'"
+    
     response = @server.call(method_name, arguments)
+    
     TestLinker.log "Received response:"
     TestLinker.log response
 
-    if @version.nil?
-      return response
-    elsif response.is_a?(Array) && response.first['code']
-      raise TestLinker::Error, "#{response.first['code']}: #{response.first['message']}"
+    if response.is_a?(Array) && response.first.is_a?(Hash)
+      response.symbolize_keys!
     end
 
-    response
+    if @version.nil?
+      response
+    elsif response.is_a?(Array) && response.first[:code]
+      raise TestLinker::Error, "#{response.first[:code]}: #{response.first[:message]}"
+    end
   end
 
   private
