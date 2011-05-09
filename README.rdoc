@@ -22,24 +22,27 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
 
 == Examples
 
+Get results to a CSV file:
+
   require 'test_linker'
+  require 'pp'
 
   server = 'http://testlink'
   dev_key = "90b7941411928ae0a84d19f365a01a63"
-  tl_project = "Widget 1.0"
+  tl_project = "My nifty project"
   tl = TestLinker.new(server, dev_key)
 
   csv_file_name = "report.csv"
   csv_file = File.new(csv_file_name, "w")
-  csv_file.write "Build,Passed,Failed,Blocked,Skipped,TOTAL,Overall %,Overall % (+B)\n"
+  csv_file.write "Build,Passed,Failed,Blocked,TOTAL,Overall %,Overall % (+B)\n"
 
-  project_id = tl.test_project_id tl_project
-  test_plans = tl.find_test_plans(project_id, /User Interface/)
+  project_id = tl.project_id tl_project
+  test_plans = tl.find_test_plans(project_id, /^Component.+1.0/)
   puts "All test plans for project #{project_id}"
-  puts test_plans
+  pp test_plans
 
   builds = test_plans.collect do |test_plan|
-    tl.builds_for_test_plan(test_plan["id"])
+    tl.builds_for_test_plan(test_plan[:id])
   end
   builds.flatten!
 
@@ -47,7 +50,6 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
   overall[:pass] = 0
   overall[:failed] = 0
   overall[:blocked] = 0
-  overall[:pass_rates] =
   results = {}
 
   builds.each do |build|
@@ -55,11 +57,11 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
     results[:failed] = 0
     results[:blocked] = 0
 
-    test_cases = tl.test_cases_for_test_plan(build["testplan_id"],
-      { "buildid" => build["id"] })
+    test_cases = tl.test_cases_for_test_plan(build[:testplan_id],
+      { :buildid => build[:id] })
 
     test_cases.each_value do |test_case|
-      case test_case["exec_status"]
+      case test_case[:exec_status]
       when "p"
         results[:pass] += 1
       when "f"
@@ -72,24 +74,20 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
     overall[:pass] += results[:pass]
     overall[:failed] += results[:failed]
     overall[:blocked] += results[:blocked]
-    build_total = results[:pass] + results[:failed] + results[:blocked] +
-        results[:skipped]
+    build_total = results[:pass] + results[:failed] + results[:blocked]
+        
     overall_rate = "%2.2f" % (overall[:pass] * 100 / (overall[:pass] +
         overall[:failed]).to_f)
-    overall[:pass_rates] << overall_rate.to_f
     overall_rate_plus_blocked = "%2.2f" % (overall[:pass] * 100 / (overall[:pass] +
         overall[:failed] + overall[:blocked]).to_f)
 
-    result_array = [
-      ['Passed', 'Failed', 'Blocked', 'Skipped', 'TOTAL', 'Overall %', 'Overall % (+B)'],
-      [results[:pass], results[:failed], results[:blocked], results[:skipped],
-        build_total, overall_rate, overall_rate_plus_blocked]
-    ]
-
-    csv_line = "#{build["name"]},#{results[:pass]},#{results[:failed]},#{results[:blocked]},"
-    csv_line << "#{results[:skipped]},#{build_total},#{overall_rate},#{overall_rate_plus_blocked}\n"
+    csv_line = "#{build[:name]},#{results[:pass]},#{results[:failed]},#{results[:blocked]},"
+    csv_line << "#{build_total},#{overall_rate},#{overall_rate_plus_blocked}\n"
     csv_file.write csv_line
   end
+  
+  csv_file.close
+
 
 == Requirements
 
