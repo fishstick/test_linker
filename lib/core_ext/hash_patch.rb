@@ -3,15 +3,13 @@ class Hash
     inject({ }) do |options, (key, value)|
       new_key = case key
       when String
-        if key.to_i.eql? 0
-          key.to_sym
-        else
-          key.to_i
-        end
+        Integer(key) rescue key.to_sym
       end
       
       new_value = case value
       when Hash then value.symbolize_keys
+      when String
+        Integer(value) rescue value
       else value
       end
       
