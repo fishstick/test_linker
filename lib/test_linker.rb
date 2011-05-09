@@ -121,12 +121,12 @@ class TestLinker
     TestLinker.log "Calling method: '#{method_name}' with args '#{arguments.inspect}'"
     response = @server.call(method_name, arguments)
     
-    TestLinker.log "Received response:"
-    TestLinker.log response
-
     if response.is_a?(Array) && response.first.is_a?(Hash)
       response.each { |r| r.recursive_symbolize_keys! }
     end
+
+    TestLinker.log "Received response:"
+    TestLinker.log response
 
     if @version.nil?
       return response
