@@ -5,6 +5,7 @@
   * jruby 1.6.1
   * ree 1.8.7
 * Hash keys are all now symbols.  
+* Renamed Helpers#test_project_id to Helpers#project_id.
 * Added ability to log XMLRPC calls that go through Net::HTTP.
 * Development stuff:
   * Stopped using ore for gem bundling; just use Jeweler now.
