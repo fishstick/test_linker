@@ -196,23 +196,24 @@ module TestLinker::Helpers
 
   # Creates test in test suite within a test plan within a project.
   #
-  # @param [String] test_case_name
-  # @param [String] suite_name
   # @param [String] project_name
+  # @param [String] plan_name
+  # @param [String] suite_name
+  # @param [String] test_case_name
   # @param [String] login
   # @param [String] summary
   # @param [String] steps
   # @param [String] expected_results
   # @return [Array] array->  array[0]=test case id, array[1]=test case version
   # @todo Need to update for having more than one of same test name inside test plan.
-  def create_test_case_by_name(test_case_name, suite_name, project_name, login,
-      summary, steps, expected_results)
+  def create_test_case_by_name(project_name, plan_name, suite_name,
+      test_case_name, login, summary, steps, expected_results)
 
     test_project_id = self.project_id(project_name)
     test_suite_id = self.suite_info(project_name, plan_name, suite_name)
 
-    result = create_test_case(login, test_project_id, test_suite_id, test_case_name,
-      summary, steps, expected_results)
+    result = create_test_case(test_project_id, test_suite_id, test_case_name,
+      summary, steps, expected_results, login)
 
     if result.any?
       result.each do |result_ptr|
