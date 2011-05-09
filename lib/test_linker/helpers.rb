@@ -66,26 +66,35 @@ module TestLinker::Helpers
     build.nil? ? nil : build[:id].to_i
   end
 
-  # @param [Regexp] regex The expression to match test plan names on.
-  # @return [Array] An array of test plans that match the Regexp.
-  def find_projects(regex)
+  # Finds a list of projects whose attribute (given via the +match_attribute+
+  # parameter) matches +regex+.
+  #
+  # @param [Regexp] regex The expression to match project names on.
+  # @param [Symbol] match_attribute Attribute of the projects to match on.
+  # @return [Array] An array of projects that match the Regexp.
+  def find_projects(regex, match_attribute=:name)
     project_list = projects
 
     project_list.find_all do |project|
-      project[:name] =~ regex
+      project[match_attribute] =~ regex
     end
   end
 
-  # @param [Fixnum,String] project_id
+  # Finds a list of test plans whose attribute (given via the +match_attribute+
+  # parameter) matches +regex+.
+  #
+  # @param [Fixnum,String] project_id ID of the project that the test plans
+  #   belong to.
   # @param [Regexp] regex The expression to match test plan names on.
   # @return [Array] An array of test plans that match the Regexp.
-  def find_test_plans(project_id, regex)
+  def find_test_plans(project_id, regex, match_attribute=:name)
     test_plan_list = test_plans(project_id)
 
     test_plan_list.first.values.find_all do |project_test_plan|
-      project_test_plan[:name] =~ regex
+      project_test_plan[match_attribute] =~ regex
     end
   end
+  
   # @param [String] project_name
   # @param [String] suite_name
   # @return [Fixnum] ID of the requested test suite.  nil if not found.
