@@ -111,26 +111,19 @@ module TestLinker::Helpers
   # @param [String] project_name
   # @param [String] plan_name
   # @param [String] suite_name
-  # @return [Fixnum,String] SuiteID
-  # @raise [TestLinker::Error] When unable to find matching
-  #   project/plan/test case names.
+  # @return [Hash] The name and ID of the test suite.
   # @todo Need to update for having more than one of same test name inside test plan.
   def suite_info(project_name, plan_name, suite_name)
     test_plan_id = test_plan_id(project_name, plan_name)
     test_suites = test_suites_for_test_plan(test_plan_id)
 
     if test_suites.empty?
-      return "Unable to find test suites in test plan #{plan_name} in #{project_name}"
+      return nil
     end
 
-    test_suites.each do |suite|
-      if suite[:name].include? suite_name
-        return suite
-      end
+    test_suites.find do |test_suite|
+      test_suite[:name].include? suite_name
     end
-
-    raise TestLinker::Error,
-        "Unable to find suite named #{suite_name} for #{plan_name} in #{project_name}"
   end
 
   # Get the ID of a first level suite, creating it if it does not exist.
