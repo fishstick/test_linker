@@ -273,12 +273,12 @@ class TestLinker
     # @return [Array<Hash>] Array of all plans in a project and their associated
     #   info.
     # @raise [TestLinker::Error] If a project by the given ID doesn't exist.
-    def project_test_plans project_id
+    def test_plans project_id
       args = { :testprojectid => project_id }
       response = make_call("tl.getProjectTestPlans", args, "1.0b5")
       response == "" ? [{}] : response
     end
-    alias_method :getProjectTestPlans, :project_test_plans
+    alias_method :getProjectTestPlans, :test_plans
 
     # Info about a test project with a given name.
     #

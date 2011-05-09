@@ -25,7 +25,6 @@ module TestLinker::Helpers
       project = projects.find { |project| project[:name] == project_name }
     else
       project = test_project_by_name(project_name).first
-      raise TestLinker::Error, project[:message] if project[:code]
     end
 
     project.nil? ? nil : project[:id].to_i
@@ -41,7 +40,7 @@ module TestLinker::Helpers
   def test_plan_id(project_name, plan_name)
     if @version < "1.0"
       project_id = project_id project_name
-      test_plans = project_test_plans(project_id)
+      test_plans = test_plans(project_id)
 
       test_plan = test_plans.first.values.find do |project_test_plan|
         project_test_plan[:name] == plan_name
@@ -82,7 +81,7 @@ module TestLinker::Helpers
   # @param [Regexp] regex The expression to match test plan names on.
   # @return [Array] An array of test plans that match the Regexp.
   def find_test_plans(project_id, regex)
-    test_plan_list = project_test_plans(project_id)
+    test_plan_list = test_plans(project_id)
 
     test_plan_list.first.values.find_all do |project_test_plan|
       project_test_plan[:name] =~ regex

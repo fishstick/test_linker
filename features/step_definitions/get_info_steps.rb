@@ -15,7 +15,7 @@ end
 
 Given /^I have a list of test plans$/ do
   #When "I ask for the list of test plans"
-  @test_plans = @server.project_test_plans(@project_list.last["id"])
+  @test_plans = @server.test_plans(@project_list.last["id"])
 end
 
 When /^I ask for the list of projects$/ do
@@ -23,7 +23,7 @@ When /^I ask for the list of projects$/ do
 end
 
 When /^I ask for the list of test plans$/ do
-  @test_plans = @server.project_test_plans(@project_list.last["id"])
+  @test_plans = @server.test_plans(@project_list.last["id"])
 end
 
 When /^I ask for that project by name$/ do
