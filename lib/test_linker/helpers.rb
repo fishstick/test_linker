@@ -18,8 +18,6 @@ module TestLinker::Helpers
   #
   # @param [String] project_name Name of the project to search for.
   # @return [Fixnum] ID of project matching project_name.
-  # @raise [TestLinker::Error] When ID cannot be found for given
-  #   project_name.
   def project_id project_name
     if @version < "1.0"
       project = projects.find { |project| project[:name] == project_name }
@@ -36,7 +34,6 @@ module TestLinker::Helpers
   # @param [String] plan_name Name of the plan to search for.
   # @return [Fixnum] ID of plan matching project_name and plan_name. 0 if the
   #   test plan wasn't found.
-  # @raise [RuntimeError] When unable to find matching project and plan names.
   def test_plan_id(project_name, plan_name)
     if @version < "1.0"
       project_id = project_id project_name
@@ -47,7 +44,6 @@ module TestLinker::Helpers
       end
     else
       test_plan = test_plan_by_name(project_name, plan_name).first
-      raise TestLinker::Error, test_plan[:message] if test_plan[:code]
     end
 
     test_plan.nil? ? nil : test_plan[:id].to_i
@@ -59,8 +55,6 @@ module TestLinker::Helpers
   # @param [String] plan_name Name of the plan to search for.
   # @param [String] build_name Name of the build to search for.
   # @return [Fixnum] ID of plan matching project_name and plan_name
-  # @raise [TestLinker::Error] When unable to find matching
-  #   project/plan/build names.
   def build_id(project_name, plan_name, build_name)
     plan_id = test_plan_id(project_name, plan_name)
     builds = builds_for_test_plan plan_id
@@ -69,12 +63,7 @@ module TestLinker::Helpers
       build[:name] == build_name
     end
 
-    unless build
-      raise TestLinker::Error,
-          "Unable to find build named #{build_name} for #{plan_name} in #{project_name}"
-    end
-    
-    build[:id].to_i
+    build.nil? ? nil : build[:id].to_i
   end
 
   # @param [Fixnum,String] project_id
@@ -90,18 +79,15 @@ module TestLinker::Helpers
 
   # @param [String] project_name
   # @param [String] suite_name
-  # @return [Fixnum] ID of the requested test suite.
-  # @raise [TestLinker::Error] If no test suite was found by the given name.
+  # @return [Fixnum] ID of the requested test suite.  nil if not found.
   def first_level_test_suite_id(project_name, suite_name)
     test_suites = first_level_test_suites_for_test_project(project_id(project_name))
 
-    test_suites.each do |test_suite|
-      if test_suite[:name] == suite_name
-        return test_suite[:id].to_i
-      end
+    test_suite = test_suites.find do |test_suite|
+      test_suite[:name] == suite_name
     end
 
-    raise TestLinker::Error, "Suite #{suite_name} not found."
+    test_suite.nil? ? nil : test_suite[:id].to_i
   end
 
   # Gets info about test case within a test plan within a project.
