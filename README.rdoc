@@ -15,10 +15,10 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
 == Features
 
 * Basic wrapper around existing XMLRPC functions.
-* Allow for calling methods via Ruby style (#projects) or XMLRPC style (#getProjects)
-* Support for TestLink API versions 1.0 Beta 5 and 1.0
-* Only one error/exception type: TestLinker::Error
-* Limited set of helper methods, attempting to fill in gaps from the API
+* Allow for calling methods via Ruby style (#projects) or XMLRPC style (#getProjects).
+* Support for TestLink API versions 1.0 Beta 5 and 1.0.
+* Only one error/exception type: TestLinker::Error.
+* Limited set of helper methods, attempting to fill in gaps from the API.
 
 == Examples
 
