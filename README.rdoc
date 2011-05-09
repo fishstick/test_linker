@@ -32,15 +32,18 @@ Get results to a CSV file:
   tl_project = "My nifty project"
   tl = TestLinker.new(server, dev_key)
 
+  # Write out the CSV headers
   csv_file_name = "report.csv"
   csv_file = File.new(csv_file_name, "w")
   csv_file.write "Build,Passed,Failed,Blocked,TOTAL,Overall %,Overall % (+B)\n"
 
+  # Get the list of test plans that I want to report on
   project_id = tl.project_id tl_project
   test_plans = tl.find_test_plans(project_id, /^Component.+1.0/)
   puts "All test plans for project #{project_id}"
   pp test_plans
 
+  # Get a list of all builds from those test plans
   builds = test_plans.collect do |test_plan|
     tl.builds_for_test_plan(test_plan[:id])
   end
@@ -52,6 +55,7 @@ Get results to a CSV file:
   overall[:blocked] = 0
   results = {}
 
+  # Total up results for each build and write to the CSV file
   builds.each do |build|
     results[:pass] = 0
     results[:failed] = 0
