@@ -15,7 +15,7 @@
 * New Helper method:
   * #find_projects
 * Helper#find_projects and Helper#find_test_plans take a trailing parameter that
-let's you specify which attribute to match on--that defaults to :name.
+  let's you specify which attribute to match on--that defaults to :name.
 * Added ability to log XMLRPC calls that go through Net::HTTP.
 * Development stuff:
   * Stopped using ore for gem bundling; just use Jeweler now.
