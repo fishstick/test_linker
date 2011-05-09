@@ -27,15 +27,7 @@ Jeweler::Tasks.new do |gem|
   (from TestLink 1.9.x)..}
   gem.email = "steve.loveless@gmail.com"
   gem.authors = ["turboladen"]
-  gem.add_runtime_dependency 'versionomy', '~> 0.4.0'
-  gem.add_development_dependency 'bundler', '~> 1.0.0'
-  gem.add_development_dependency 'cucumber', '~> 0.10.0'
-  gem.add_development_dependency 'fakeweb', '~> 1.3.0'
-  gem.add_development_dependency 'jeweler', '~> 1.5.0'
-  gem.add_development_dependency 'rspec', '~> 2.5'
-  gem.add_development_dependency 'simplecov', '>= 0.4.0'
-  gem.add_development_dependency 'test_xml', '~> 0.1.1'
-  gem.add_development_dependency 'yard', '~> 0.6.0'
+  gem.add_bundler_dependencies
 end
 Jeweler::RubygemsDotOrgTasks.new
 
