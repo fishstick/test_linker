@@ -4,10 +4,14 @@
   * 1.8.7
   * jruby 1.6.1
   * ree 1.8.7
-* Hash keys are all now symbols.  
+* Hash keys are all now symbols.
 * Renamed methods:
   * Wrapper#project_test_plans to Wrapper#test_plans.
   * Helpers#test_project_id to Helpers#project_id.
+* New Helper method:
+  * #find_projects
+* Helper#find_projects and Helper#find_test_plans take a trailing parameter that
+let's you specify which attribute to match on--that defaults to :name.
 * Added ability to log XMLRPC calls that go through Net::HTTP.
 * Development stuff:
   * Stopped using ore for gem bundling; just use Jeweler now.
