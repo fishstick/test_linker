@@ -7,7 +7,11 @@
 * Hash keys are all now symbols.
 * Renamed methods:
   * Wrapper#project_test_plans to Wrapper#test_plans.
+  * Wrapper#create_test_project to Wrapper#create_project.
+  * Wrapper#upload_test_project_attachment to Wrapper#upload_project_attachment.
+  * Wrapper#first_level_test_suites_for_test_project to Wrapper#first_level_test_suites_for_project.
   * Helpers#test_project_id to Helpers#project_id.
+  * Helpers#test_project_by_name to Helpers#project_by_name.
 * New Helper method:
   * #find_projects
 * Helper#find_projects and Helper#find_test_plans take a trailing parameter that

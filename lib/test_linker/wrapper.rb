@@ -159,14 +159,14 @@ class TestLinker
     # @option options [String] title
     # @option options [String] description
     # @return
-    def upload_test_project_attachment(project_id, file_name, mime_type, content,
+    def upload_project_attachment(project_id, file_name, mime_type, content,
         options={})
       args = { :testprojectid => project_id, :filename => file_name,
           :filetype => mime_type, :content => content }
       args.merge! options
       make_call("tl.uploadTestProjectAttachment", args, "1.0")
     end
-    alias_method :uploadTestProjectAttachment, :upload_test_project_attachment
+    alias_method :uploadTestProjectAttachment, :upload_project_attachment
 
     # Uploads an attachment for a Test Suite. The attachment must be Base64
     # encoded by the client before sending it.
@@ -285,11 +285,11 @@ class TestLinker
     # @api TestLink API version 1.0
     # @param [String] project_name Name of the project to search for.
     # @return [Array<Hash>] Info on matching project.
-    def test_project_by_name project_name
+    def project_by_name project_name
       args = { :testprojectname => project_name }
       make_call('tl.getTestProjectByName', args, "1.0")
     end
-    alias_method :getTestProjectByName, :test_project_by_name
+    alias_method :getTestProjectByName, :project_by_name
 
     # Gets the test plan with the given name.
     #
@@ -340,12 +340,12 @@ class TestLinker
     # @param [Fixnum,String] project_id ID of the project to get suites for.
     # @return [Array<Hash>] List of first level suites in project and their
     #   associated info.
-    def first_level_test_suites_for_test_project project_id
+    def first_level_test_suites_for_project project_id
       args = { :testprojectid => project_id }
       make_call("tl.getFirstLevelTestSuitesForTestProject", args, "1.0b5")
     end
     alias_method :getFirstLevelTestSuitesForTestProject,
-        :first_level_test_suites_for_test_project
+        :first_level_test_suites_for_project
 
     # Info about test cases within a test plan.
     #
@@ -483,12 +483,12 @@ class TestLinker
     # @option options [Fixnum] active
     # @option options [Fixnum] public
     # @return
-    def create_test_project(project_name, test_case_prefix, options={})
+    def create_project(project_name, test_case_prefix, options={})
       args = { :testprojectname => project_name, :testcaseprefix => test_case_prefix }
       args.merge! options
       make_call("tl.createTestProject", args, "1.0b5")
     end
-    alias_method :createTestProject, :create_test_project
+    alias_method :createTestProject, :create_project
 
     # @api TestLink API version 1.0
     # @param [String] project_name

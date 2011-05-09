@@ -22,7 +22,7 @@ module TestLinker::Helpers
     if @version < "1.0"
       project = projects.find { |project| project[:name] == project_name }
     else
-      project = test_project_by_name(project_name).first
+      project = project_by_name(project_name).first
     end
 
     project.nil? ? nil : project[:id].to_i
@@ -99,7 +99,7 @@ module TestLinker::Helpers
   # @param [String] suite_name
   # @return [Fixnum] ID of the requested test suite.  nil if not found.
   def first_level_test_suite_id(project_name, suite_name)
-    test_suites = first_level_test_suites_for_test_project(project_id(project_name))
+    test_suites = first_level_test_suites_for_project(project_id(project_name))
 
     test_suite = test_suites.find do |test_suite|
       test_suite[:name] == suite_name

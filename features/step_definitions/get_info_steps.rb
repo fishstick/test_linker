@@ -27,7 +27,7 @@ When /^I ask for the list of test plans$/ do
 end
 
 When /^I ask for that project by name$/ do
-  @requested_test_project_name = @server.test_project_by_name(@test_project_name)
+  @requested_test_project_name = @server.project_by_name(@test_project_name)
 end
 
 When /^I ask for that test plan by name$/ do
