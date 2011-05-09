@@ -238,7 +238,7 @@ class TestLinker
     #
     # @return [String] "Hello!"
     def say_hello
-      make_call("tl.sayHello", "", "1.0b5")
+      make_call("tl.sayHello", {}, "1.0b5")
     end
     alias_method :sayHello, :say_hello
     alias_method :ping, :say_hello
