@@ -118,7 +118,7 @@ class TestLinker
     arguments.merge!({ :devKey => @dev_key }) unless arguments.has_key? :devKey
     
     TestLinker.log "API Version: #{method_supported_in_version}"
-    TestLinker.log "Calling method: '#{method_name}' with args '#{arguments}'"
+    TestLinker.log "Calling method: '#{method_name}' with args '#{arguments.inspect}'"
     response = @server.call(method_name, arguments)
     
     TestLinker.log "Received response:"
