@@ -1,21 +1,26 @@
 class Hash
   def symbolize_keys
     inject({ }) do |options, (key, value)|
-      options[(key.to_sym rescue key) || key] = value
+      new_key = case key
+      when String
+        if key.to_i.eql? 0
+          key.to_sym
+        else
+          key.to_i
+        end
+      end
+      
+      new_value = case value
+      when Hash then value.symbolize_keys
+      else value
+      end
+      
+      options[new_key] = new_value
       options
     end
   end
 
   def symbolize_keys!
     self.replace(self.symbolize_keys)
-  end
-
-  def recursive_symbolize_keys!
-    symbolize_keys!
-    # symbolize each hash in .values
-    values.each { |h| h.recursive_symbolize_keys! if h.is_a?(Hash) }
-    # symbolize each hash inside an array in .values
-    values.select { |v| v.is_a?(Array) }.flatten.each { |h| h.recursive_symbolize_keys! if h.is_a?(Hash) }
-    self
   end
 end
