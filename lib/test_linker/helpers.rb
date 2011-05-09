@@ -96,21 +96,14 @@ module TestLinker::Helpers
   # @param [String] plan_name Name of the plan to search for.
   # @param [String] test_case_name Name of the test case to search for.
   # @return [Hash] Info on the first matching test case.
-  # @raise [TestLinker::Error] When unable to find matching
-  #   project/plan/test case names.
   # @todo Need to update for having more than one of same test name inside test plan.
   def test_info(project_name, plan_name, test_case_name)
     test_plan_id = test_plan_id(project_name, plan_name)
     test_cases = test_cases_for_test_plan(test_plan_id)
 
-    test_cases.each_value do |test_case_info|
-      if test_case_info[:name] == test_case_name
-        return test_case_info
-      end
+    test_cases.values.find do |test_case|
+      test_case[:name] == test_case_name
     end
-
-    raise TestLinker::Error,
-        "Unable to find test named #{test_case_name} for #{plan_name} in #{project_name}"
   end
 
   # Gets info about test suite within a test plan within a project.
