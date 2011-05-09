@@ -6,6 +6,9 @@ if RUBY_VERSION > '1.9'
   end
 end
 
+require 'rubygems'
+require 'bundler'
+
 begin
   Bundler.setup
 rescue Bundler::BundlerError => e
