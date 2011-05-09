@@ -54,12 +54,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.7.2}
   s.summary = %q{An interface to the TestLink XMLRPC API}
-  s.test_files = [
-    "spec/core_ext/xmlrpc_client_patch_spec.rb",
-    "spec/spec_helper.rb",
-    "spec/test_linker/wrapper_spec.rb",
-    "spec/test_linker_spec.rb"
-  ]
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
@@ -69,14 +63,14 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
       s.add_development_dependency(%q<fakeweb>, ["~> 1.3.0"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.6.0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_runtime_dependency(%q<versionomy>, ["~> 0.4.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
       s.add_development_dependency(%q<fakeweb>, ["~> 1.3.0"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.6.0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.5"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
     else
@@ -84,14 +78,14 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
       s.add_dependency(%q<fakeweb>, ["~> 1.3.0"])
-      s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.6.0"])
       s.add_dependency(%q<rspec>, ["~> 2.5"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
       s.add_dependency(%q<fakeweb>, ["~> 1.3.0"])
-      s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.6.0"])
       s.add_dependency(%q<rspec>, ["~> 2.5"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
     end
@@ -100,14 +94,14 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
     s.add_dependency(%q<fakeweb>, ["~> 1.3.0"])
-    s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.6.0"])
     s.add_dependency(%q<rspec>, ["~> 2.5"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<versionomy>, ["~> 0.4.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<cucumber>, ["~> 0.10.0"])
     s.add_dependency(%q<fakeweb>, ["~> 1.3.0"])
-    s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.6.0"])
     s.add_dependency(%q<rspec>, ["~> 2.5"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
   end
