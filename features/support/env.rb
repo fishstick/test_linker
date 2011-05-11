@@ -6,4 +6,4 @@ if RUBY_VERSION > '1.9'
   end
 end
 
-require File.expand_path(File.dirname(__FILE__) + '/../../lib/vatf_test_linker')
+require File.expand_path(File.dirname(__FILE__) + '/../../lib/test_linker')

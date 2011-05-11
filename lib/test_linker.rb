@@ -3,10 +3,10 @@ require 'rubygems'
 require 'versionomy'
 
 require File.expand_path(File.dirname(__FILE__) + '/core_ext/hash_patch')
-require File.expand_path(File.dirname(__FILE__) + '/vatf_test_linker/wrapper')
-require File.expand_path(File.dirname(__FILE__) + '/vatf_test_linker/version')
-require File.expand_path(File.dirname(__FILE__) + '/vatf_test_linker/error')
-require File.expand_path(File.dirname(__FILE__) + '/vatf_test_linker/helpers')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/wrapper')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/version')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/error')
+require File.expand_path(File.dirname(__FILE__) + '/test_linker/helpers')
 require File.expand_path(File.dirname(__FILE__) + '/core_ext/xmlrpc_client_patch')
 
 class TestLinker

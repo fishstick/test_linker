@@ -12,12 +12,12 @@ end
 require 'rake'
 
 $:.unshift Dir.pwd + "/lib"
-require 'vatf_test_linker'
+require 'test_linker'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
-  gem.name = "vatf_test_linker"
+  gem.name = "test_linker"
   gem.version = TestLinker::VERSION
-  gem.homepage = "https://github.com/fishstick/vatf_test_linker"
+  gem.homepage = "https://github.com/fishstick/test_linker"
   gem.license = "MIT"
   gem.summary = %Q{An interface to the TestLink XMLRPC API}
   gem.description = %Q{This is a Ruby wrapper around the TestLink XMLRPC API, thus allowing access to
