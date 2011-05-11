@@ -15,7 +15,7 @@ $:.unshift Dir.pwd + "/lib"
 require 'test_linker'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
-  gem.name = "vatf_test_linker"
+  gem.name = "test_linker"
   gem.version = TestLinker::VERSION
   gem.homepage = "https://github.com/fishstick/test_linker"
   gem.license = "MIT"
