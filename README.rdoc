@@ -1,7 +1,7 @@
-= test_linker
+= vatf_test_linker
 
-* {Homepage}[http://rubygems.org/gems/test_linker]
-* {Documentation}[http://rubydoc.info/gems/test_linker/frames]
+* {Homepage}[http://rubygems.org/gems/vatf_test_linker]
+* {Documentation}[http://rubydoc.info/gems/vatf_test_linker/frames]
 * {TestLink API Documentation}[http://testlink.org/api/phpdoc_generated/TestlinkAPI/TestlinkXMLRPCServer.html]
 
 == Description
@@ -24,7 +24,7 @@ easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
 
 Get results to a CSV file:
 
-  require 'test_linker'
+  require 'vatf_test_linker'
   require 'pp'
 
   server = 'http://testlink'
@@ -120,7 +120,7 @@ in to TestLink and going to "Personal -> API Key -> Generate a new key".
 
 == Install
 
-  $ gem install test_linker
+  $ gem install vatf_test_linker
 
 == Copyright
 

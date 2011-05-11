@@ -19,7 +19,7 @@ end
 
 require 'rspec'
 require 'fakeweb'
-require File.expand_path(File.dirname(__FILE__) + '/../lib/test_linker')
+require File.expand_path(File.dirname(__FILE__) + '/../lib/vatf_test_linker')
 
 def register_body(body)
   FakeWeb.register_uri(:post, 'http://testing/lib/api/xmlrpc.php',

@@ -4,7 +4,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{test_linker}
+  s.name = %q{vatf_test_linker}
   s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -38,18 +38,18 @@ Gem::Specification.new do |s|
     "features/support/env.rb",
     "lib/core_ext/hash_patch.rb",
     "lib/core_ext/xmlrpc_client_patch.rb",
-    "lib/test_linker.rb",
-    "lib/test_linker/error.rb",
-    "lib/test_linker/helpers.rb",
-    "lib/test_linker/version.rb",
-    "lib/test_linker/wrapper.rb",
+    "lib/vatf_test_linker.rb",
+    "lib/vatf_test_linker/error.rb",
+    "lib/vatf_test_linker/helpers.rb",
+    "lib/vatf_test_linker/version.rb",
+    "lib/vatf_test_linker/wrapper.rb",
     "spec/core_ext/xmlrpc_client_patch_spec.rb",
     "spec/spec_helper.rb",
-    "spec/test_linker/wrapper_spec.rb",
+    "spec/vatf_test_linker/wrapper_spec.rb",
     "spec/test_linker_spec.rb",
-    "test_linker.gemspec"
+    "vatf_test_linker.gemspec"
   ]
-  s.homepage = %q{http://github.com/turboladen/test_linker}
+  s.homepage = %q{http://github.com/turboladen/vatf_test_linker}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.7.2}
