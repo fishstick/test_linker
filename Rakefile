@@ -15,9 +15,9 @@ $:.unshift Dir.pwd + "/lib"
 require 'test_linker'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
-  gem.name = "test_linker"
+  gem.name = "vatf_test_linker"
   gem.version = TestLinker::VERSION
-  gem.homepage = "http://github.com/turboladen/test_linker"
+  gem.homepage = "https://github.com/fishstick/test_linker"
   gem.license = "MIT"
   gem.summary = %Q{An interface to the TestLink XMLRPC API}
   gem.description = %Q{This is a Ruby wrapper around the TestLink XMLRPC API, thus allowing access to
@@ -25,8 +25,8 @@ Jeweler::Tasks.new do |gem|
   a few helper methods as well to allow for getting at more of your data a little
   easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
   (from TestLink 1.9.x)..}
-  gem.email = "steve.loveless@gmail.com"
-  gem.authors = ["turboladen"]
+  gem.email = "bme@gmail.com"
+  gem.authors = ["turboladen","fishstick"]
   gem.add_bundler_dependencies
 end
 Jeweler::RubygemsDotOrgTasks.new
