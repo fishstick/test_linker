@@ -8,14 +8,14 @@ Gem::Specification.new do |s|
   s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["turboladen"]
-  s.date = %q{2011-05-09}
+  s.authors = ["turboladen", "fishstick"]
+  s.date = %q{2011-05-11}
   s.description = %q{This is a Ruby wrapper around the TestLink XMLRPC API, thus allowing access to
   your TestLink test projects, plans, cases, and results using Ruby.  We've added
   a few helper methods as well to allow for getting at more of your data a little
   easier.  This supports TestLink APIs 1.0 Beta 5 (from TestLink 1.8.x) and 1.0
   (from TestLink 1.9.x)..}
-  s.email = %q{steve.loveless@gmail.com}
+  s.email = %q{waffleface@gmail.com}
   s.extra_rdoc_files = [
     "ChangeLog.rdoc",
     "LICENSE.rdoc",
@@ -49,13 +49,14 @@ Gem::Specification.new do |s|
     "spec/test_linker_spec.rb",
     "test_linker.gemspec"
   ]
-  s.homepage = %q{http://github.com/turboladen/test_linker}
+  s.homepage = %q{https://github.com/fishstick/test_linker}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.7.2}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{An interface to the TestLink XMLRPC API}
 
   if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
