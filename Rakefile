@@ -16,7 +16,7 @@ require 'test_linker'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   gem.name = "test_linker"
-  gem.version = "1.0.1"
+  gem.version = "1.1.1"
   gem.homepage = "https://github.com/fishstick/test_linker"
   gem.license = "MIT"
   gem.summary = %Q{An interface to the TestLink XMLRPC API}
