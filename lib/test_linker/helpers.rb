@@ -155,6 +155,7 @@ module TestLinker::Helpers
   # @param [String] project_name
   # @param [String] suite_name
   # @return [String] ID of the created or existing suite.
+  # TODO: This should rescue TestLinker::Error
   def create_first_level_suite(project_name, suite_name)
     return first_level_test_suite_id(project_name, suite_name)
   rescue RuntimeError
@@ -165,12 +166,15 @@ module TestLinker::Helpers
     create_test_suite(project_id, suite_name).first[:id]
   end
 
-  # Accepts testcase hash (AKA 'testcase info')'
+  # Checks if the test case has been executed.
+  #
   # Todo:
   # * versioning support (make_call = :exec_status vs 'exec_status')'
   # * Also accept TC_ID instead?
-  def test_not_run?(testcase)
-    return true if testcase['exec_status'] == 'n'
+  # @param [Hash] test_case A testcase Hash (AKA 'testcase info')
+  # @return [Boolean] true if the test hasn't yet been executed.
+  def test_not_run?(test_case)
+    true if test_case['exec_status'] == 'n'
   end
 
   # Returns all open (not-run) testcases for a given plan within project
