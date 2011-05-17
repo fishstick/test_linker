@@ -89,6 +89,7 @@ module TestLinker::Helpers
   # @return [Array] An array of test plans that match the Regexp.
   def find_test_plans(project_id, regex, match_attribute=:name)
     test_plan_list = test_plans(project_id)
+    
     if @version > "1.0"
       test_plan_list.first.values.find_all do |project_test_plan|
         project_test_plan[match_attribute] =~ regex
